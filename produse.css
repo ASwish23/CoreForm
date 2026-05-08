@@ -1,0 +1,318 @@
+/* ============================================================
+   CoreForm Prints — Focus Carousel Styles (produse.html)
+   Colors: #2C4A3B (bg-section) · #FADADA (text/icons) · #FFFFFF #FADADA (card)
+   ============================================================ */
+
+/* ── CAROUSEL SECTION ───────────────────────────────────── */
+.carousel-section {
+  padding: 3.5rem 0 2rem;
+  background-color: #2C4A3B;
+  border-bottom: 2px solid #FADADA;
+}
+
+.carousel-section:last-of-type {
+  border-bottom: none;
+}
+
+/* Override container's default 2rem padding so headings hug the left */
+.carousel-section .container {
+  padding-left: 0;
+}
+
+.carousel-section .category-heading {
+  color: #FADADA;
+  text-align: left;
+}
+
+.carousel-section .category-desc {
+  color: #FADADA;
+  opacity: 0.72;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .carousel-section .container {
+    padding-left: 8px;
+  }
+}
+
+/* ── STAGE (holds track + buttons) ─────────────────────── */
+.carousel-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 1.5rem 0 1rem;
+}
+
+/* ── TRACK WRAPPER (clips overflow so off-stage cards are hidden) */
+.carousel-track-wrapper {
+  flex: 1;
+  overflow: hidden;
+  padding: 2.5rem 0;
+  /* Establish the stacking context for absolutely-positioned cards */
+  position: relative;
+}
+
+/* ── TRACK ───────────────────────────────────────────────── */
+.carousel-track {
+  /* Height is driven by the tallest card; cards are positioned
+     relative to this element via JS-set translateX values. */
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* min-height matches the card — avoids zero-height collapse */
+  min-height: 420px;
+}
+
+/* ── CARD BASE ───────────────────────────────────────────── */
+.carousel-card {
+  /* All cards share the same position; translateX moves them
+     to their slot. The browser animates between translateX values. */
+  position: absolute;
+  top: 0;
+  /* JS sets left: 50% + translateX so cards are centered */
+  left: 50%;
+  width: 420px;
+  background-color: #FADADA;
+  border: 1.5px solid #FADADA;
+  overflow: hidden;
+  /* Off-stage default */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) scale(0.85);
+  pointer-events: none;
+  transition:
+    transform   0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity     0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow  0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility  0s   linear 0.6s;
+  z-index: 1;
+}
+
+/* ── SLOT STATES ─────────────────────────────────────────── */
+
+/* Left peek card  — slides in from / out to the left */
+.carousel-card.card-left {
+  opacity: 0.5;
+  visibility: visible;
+  transform: translateX(calc(-50% - 120%)) scale(0.9);
+  pointer-events: auto;
+  cursor: pointer;
+  box-shadow: none;
+  z-index: 2;
+  transition:
+    transform   0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity     0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow  0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility  0s   linear 0s;
+}
+
+/* Center (active) card — always at translateX(-50%) = centered */
+.carousel-card.card-center {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+  cursor: default;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+  z-index: 10;
+  transition:
+    transform   0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity     0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow  0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility  0s   linear 0s;
+}
+
+/* Right peek card — slides in from / out to the right */
+.carousel-card.card-right {
+  opacity: 0.5;
+  visibility: visible;
+  transform: translateX(calc(-50% + 120%)) scale(0.9);
+  pointer-events: auto;
+  cursor: pointer;
+  box-shadow: none;
+  z-index: 2;
+  transition:
+    transform   0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity     0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow  0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility  0s   linear 0s;
+}
+
+/* ── CARD IMAGE AREA ─────────────────────────────────────── */
+.carousel-card-image {
+  aspect-ratio: 16 / 9;
+  background-color: #2C4A3B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1.5px solid #FADADA;
+}
+
+.carousel-card-image svg {
+  width: 56px;
+  height: 56px;
+  stroke: #FADADA;
+  fill: none;
+  stroke-width: 1;
+  opacity: 0.35;
+}
+
+/* ── CARD BODY ───────────────────────────────────────────── */
+.carousel-card-body {
+  padding: 1.5rem;
+  background-color: #FADADA;
+}
+
+.carousel-card-tag {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #2C4A3B;
+  opacity: 0.55;
+  margin-bottom: 0.4rem;
+}
+
+.carousel-card-body h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  color: #2C4A3B;
+  margin-bottom: 0.55rem;
+  line-height: 1.25;
+}
+
+.carousel-card-body p {
+  font-size: 0.85rem;
+  color: #2C4A3B;
+  opacity: 0.72;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── NAV BUTTONS ─────────────────────────────────────────── */
+.carousel-btn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: 2px solid #FADADA;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  z-index: 2;
+  position: relative;
+}
+
+.carousel-btn--prev { margin-left: 2rem; }
+.carousel-btn--next { margin-right: 2rem; }
+
+.carousel-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: #FADADA;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.3s ease;
+  pointer-events: none;
+}
+
+.carousel-btn:hover {
+  background-color: #FADADA;
+}
+
+.carousel-btn:hover svg {
+  stroke: #2C4A3B;
+}
+
+/* Buttons are never disabled (loop mode) */
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── DOT INDICATORS ──────────────────────────────────────── */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  padding-bottom: 2rem;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #FADADA;
+  opacity: 0.25;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-dot.is-active {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .carousel-card {
+    width: 340px;
+  }
+
+  .carousel-track {
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-card {
+    width: 280px;
+  }
+
+  .carousel-track {
+    min-height: 360px;
+  }
+
+  /* On mobile: hide peek cards, show only center */
+  .carousel-card.card-left,
+  .carousel-card.card-right {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .carousel-btn--prev { margin-left: 0.75rem; }
+  .carousel-btn--next { margin-right: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+  .carousel-card {
+    width: calc(100vw - 6rem);
+  }
+
+  .carousel-track {
+    min-height: 340px;
+  }
+
+  .carousel-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .carousel-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}

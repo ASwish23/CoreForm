@@ -1,0 +1,262 @@
+/* ===== Reset & Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* ===== Top Navigation ===== */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+}
+
+.top-nav-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: opacity 0.3s ease;
+}
+
+.nav-brand:hover {
+    opacity: 0.8;
+}
+
+.nav-contact-btn {
+    background: #F3E5E5;
+    color: #2C4A3B;
+    padding: 0.6rem 1.8rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.nav-contact-btn:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Main Container ===== */
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+/* ===== Split Sections ===== */
+.split {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    transition: width 0.6s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Left Section - Marketing */
+.split.left {
+    background-color: #2C4A3B;
+    color: #FADADA;
+}
+
+/* Right Section - Prints */
+.split.right {
+    background-color: #ffe0e0;
+    color: #2C4A3B;
+}
+
+/* ===== Hover Effects ===== */
+.split.left:hover {
+    width: 65%;
+}
+
+.split.right:hover {
+    width: 65%;
+}
+
+.split.left:hover ~ .split.right {
+    width: 35%;
+}
+
+.split:hover ~ .split.left {
+    width: 35%;
+}
+
+/* ===== Content Styling ===== */
+.content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 500px;
+    z-index: 2;
+    position: relative;
+}
+
+.content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.content p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* ===== CTA Buttons ===== */
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.left .cta-button {
+    background-color: #FADADA;
+    color: #2C4A3B;
+}
+
+.left .cta-button:hover {
+    background-color: #FADADA;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.right .cta-button {
+    background-color: #2C4A3B;
+    color: #FADADA;
+}
+
+.right .cta-button:hover {
+    background-color: #2C4A3B;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Central Logo ===== */
+.logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Logo follows section expansion */
+.split.left:hover ~ .logo-container {
+    transform: translate(-60%, -50%);
+}
+
+.split.right:hover ~ .logo-container {
+    transform: translate(-40%, -50%);
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    background-color: white;
+    border-radius: 50%;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Responsive Design - Mobile ===== */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .split {
+        width: 100% !important;
+        height: 50vh;
+    }
+
+    /* Disable hover effects on mobile */
+    .split:hover {
+        width: 100% !important;
+    }
+
+    .split.left:hover ~ .split.right,
+    .split:hover ~ .split.left {
+        width: 100% !important;
+        height: 50vh;
+    }
+
+    .content h1 {
+        font-size: 2rem;
+    }
+
+    .content p {
+        font-size: 1rem;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+        padding: 15px;
+    }
+
+    .cta-button {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .content p {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        padding: 12px;
+    }
+}

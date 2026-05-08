@@ -1,0 +1,460 @@
+/* ===== Variables & Reset ===== */
+:root {
+    --deep-forest: #2C4A3B;
+    --pale-pink: #FADADA;
+    --white: #FFFFFF;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans-serif: 'Inter', system-ui, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--sans-serif);
+    background-color: var(--deep-forest);
+    color: var(--pale-pink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Navigation ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(44, 74, 59, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(250, 218, 218, 0.1);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--pale-pink);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.nav-logo:hover {
+    opacity: 0.8;
+}
+
+.nav-logo-img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 3rem;
+    align-items: center;
+}
+
+.nav-menu a {
+    color: var(--pale-pink);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s ease;
+    opacity: 0.8;
+}
+
+.nav-menu a:hover,
+.nav-menu a.nav-active {
+    opacity: 1;
+}
+
+/* ===== Contact Wrapper ===== */
+.contact-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 2rem 4rem;
+    min-height: 100vh;
+}
+
+.contact-container {
+    max-width: 800px;
+    width: 100%;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* ===== Form Title ===== */
+.form-title {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--pale-pink);
+    margin-bottom: 3rem;
+    letter-spacing: -0.5px;
+}
+
+/* ===== Form Styles ===== */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.form-group.half {
+    flex: 1;
+}
+
+.form-group.full {
+    flex: 1;
+    width: 100%;
+}
+
+.form-group.focused {
+    transform: translateY(-2px);
+}
+
+/* ===== Labels ===== */
+label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--pale-pink);
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-group.focused label {
+    color: var(--white);
+}
+
+/* ===== Inputs & Textarea ===== */
+input,
+textarea {
+    background: transparent;
+    border: 2px solid var(--pale-pink);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-family: var(--sans-serif);
+    color: var(--pale-pink);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--pale-pink);
+    opacity: 0.5;
+}
+
+input:hover,
+textarea:hover {
+    border-color: var(--white);
+    box-shadow: 0 0 0 1px rgba(250, 218, 218, 0.2);
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(250, 218, 218, 0.1);
+    background: rgba(250, 218, 218, 0.02);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 150px;
+    font-family: var(--sans-serif);
+    line-height: 1.6;
+}
+
+/* ===== Services Section ===== */
+.services-section {
+    margin-top: 1rem;
+}
+
+.section-title {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--pale-pink);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.3px;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.checkbox-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ===== Checkbox Styles ===== */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.checkbox-group:hover {
+    transform: translateX(5px);
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--pale-pink);
+    border-radius: 6px;
+    cursor: pointer;
+    appearance: none;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.checkbox-group input[type="checkbox"]:hover {
+    border-color: var(--white);
+    box-shadow: 0 0 0 2px rgba(250, 218, 218, 0.1);
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+    background-color: var(--pale-pink);
+    border-color: var(--pale-pink);
+}
+
+.checkbox-group input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--deep-forest);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.checkbox-group label {
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 400;
+    user-select: none;
+}
+
+/* ===== Form Actions ===== */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.submit-btn {
+    background: var(--pale-pink);
+    color: var(--deep-forest);
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 3rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-family: var(--sans-serif);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 10px 30px rgba(250, 218, 218, 0.2);
+}
+
+.submit-btn:hover {
+    background: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(250, 218, 218, 0.3);
+}
+
+.submit-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 20px rgba(250, 218, 218, 0.2);
+}
+
+/* ===== Footer ===== */
+.footer {
+    padding: 2rem 0;
+    background: rgba(26, 45, 36, 0.5);
+    border-top: 1px solid rgba(250, 218, 218, 0.1);
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.footer-content p {
+    color: var(--pale-pink);
+    opacity: 0.6;
+    font-size: 0.9rem;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .contact-wrapper {
+        padding: 100px 1.5rem 3rem;
+    }
+
+    .form-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .form-group.half {
+        width: 100%;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .nav-menu {
+        gap: 1.5rem;
+    }
+
+    .nav-menu a {
+        font-size: 0.85rem;
+    }
+
+    .nav-logo {
+        font-size: 1.4rem;
+    }
+
+    .nav-logo-img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 1.2rem 2rem;
+    }
+
+    .form-actions {
+        justify-content: stretch;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-logo {
+        font-size: 1.2rem;
+        gap: 0.6rem;
+    }
+
+    .nav-logo-img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .form-title {
+        font-size: 1.6rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    input,
+    textarea {
+        padding: 0.9rem 1.2rem;
+        font-size: 0.95rem;
+    }
+
+    .checkbox-group label {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== Focus Visible for Accessibility ===== */
+*:focus-visible {
+    outline: 2px solid var(--pale-pink);
+    outline-offset: 2px;
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--deep-forest);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--pale-pink);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--white);
+}

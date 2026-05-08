@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicită Ofertă — CoreForm Prints</title>
+  <meta name="description" content="Solicită o ofertă gratuită pentru serviciile de printare 3D CoreForm. Răspuns în maxim 24 de ore.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="prints.css">
+</head>
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════ -->
+  <header class="prints-header">
+    <nav class="prints-nav" aria-label="Navigație principală">
+      <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Acasă
+      </a>
+      <a href="prints.html" class="nav-brand"><img src="logopink.png" class="nav-brand-logo" alt="">CoreForm Prints</a>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="prints.html">Prezentare</a></li>
+        <li><a href="produse.html">Produse</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="oferta.html" class="nav-cta active" aria-current="page">Solicită Ofertă</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ══ PAGE HERO ═══════════════════════════════════════ -->
+    <section class="page-hero">
+      <div class="page-hero-inner">
+        <span class="section-label">Ofertă Personalizată</span>
+        <h1 class="section-title">Solicită o Ofertă Gratuită</h1>
+        <div class="divider"></div>
+        <p class="section-desc">Completează formularul de mai jos și te contactăm în maxim 24 de ore cu o ofertă detaliată și personalizată pentru proiectul tău.</p>
+      </div>
+    </section>
+
+    <!-- ══ FORM SECTION ═════════════════════════════════════ -->
+    <section class="section" aria-labelledby="form-heading">
+      <div class="container">
+
+        <!-- Process steps strip -->
+        <div class="quote-form-wrapper">
+          <div style="display:flex; gap:0; border:1px solid var(--primary); margin-bottom: 3rem; overflow: hidden;">
+            <div style="flex:1; padding:1.1rem 1.25rem; border-right:1px solid var(--primary); text-align:center;">
+              <div style="font-family:var(--font-serif); font-size:1.4rem; font-weight:700; line-height:1;">1</div>
+              <div style="font-size:0.72rem; opacity:0.55; margin-top:0.3rem; letter-spacing:0.5px;">Trimiți formularul</div>
+            </div>
+            <div style="flex:1; padding:1.1rem 1.25rem; border-right:1px solid var(--primary); text-align:center;">
+              <div style="font-family:var(--font-serif); font-size:1.4rem; font-weight:700; line-height:1;">2</div>
+              <div style="font-size:0.72rem; opacity:0.55; margin-top:0.3rem; letter-spacing:0.5px;">Analizăm cererea</div>
+            </div>
+            <div style="flex:1; padding:1.1rem 1.25rem; border-right:1px solid var(--primary); text-align:center;">
+              <div style="font-family:var(--font-serif); font-size:1.4rem; font-weight:700; line-height:1;">3</div>
+              <div style="font-size:0.72rem; opacity:0.55; margin-top:0.3rem; letter-spacing:0.5px;">Ofertă în 24h</div>
+            </div>
+            <div style="flex:1; padding:1.1rem 1.25rem; text-align:center;">
+              <div style="font-family:var(--font-serif); font-size:1.4rem; font-weight:700; line-height:1;">4</div>
+              <div style="font-size:0.72rem; opacity:0.55; margin-top:0.3rem; letter-spacing:0.5px;">Confirmăm și printăm</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-form-wrapper">
+          <h2 class="section-title" id="form-heading" style="margin-bottom:2rem;">Detalii Proiect</h2>
+
+          <form id="quoteForm" novalidate aria-label="Formular de solicitare ofertă">
+            <div class="form-grid">
+
+              <!-- Nume -->
+              <div class="form-group">
+                <label for="nume">
+                  Nume Complet
+                  <span aria-hidden="true" style="opacity:0.45"> *</span>
+                </label>
+                <input
+                  type="text"
+                  id="nume"
+                  name="nume"
+                  placeholder="Ion Popescu"
+                  required
+                  autocomplete="name"
+                  aria-required="true"
+                >
+              </div>
+
+              <!-- Firmă -->
+              <div class="form-group">
+                <label for="firma">Firmă / Organizație</label>
+                <input
+                  type="text"
+                  id="firma"
+                  name="firma"
+                  placeholder="SC Example SRL (opțional)"
+                  autocomplete="organization"
+                >
+              </div>
+
+              <!-- Telefon -->
+              <div class="form-group">
+                <label for="telefon">
+                  Telefon
+                  <span aria-hidden="true" style="opacity:0.45"> *</span>
+                </label>
+                <input
+                  type="tel"
+                  id="telefon"
+                  name="telefon"
+                  placeholder="0722 000 000"
+                  required
+                  autocomplete="tel"
+                  aria-required="true"
+                  pattern="[0-9\s\+\-\(\)]{7,20}"
+                >
+              </div>
+
+              <!-- Email -->
+              <div class="form-group">
+                <label for="email">
+                  Adresă Email
+                  <span aria-hidden="true" style="opacity:0.45"> *</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="ion@example.ro"
+                  required
+                  autocomplete="email"
+                  aria-required="true"
+                >
+              </div>
+
+              <!-- Serviciul dorit -->
+              <div class="form-group full-width">
+                <label for="serviciu">
+                  Tipul Serviciului Dorit
+                  <span aria-hidden="true" style="opacity:0.45"> *</span>
+                </label>
+                <div class="select-wrapper">
+                  <select id="serviciu" name="serviciu" required aria-required="true">
+                    <option value="" disabled selected>— Selectează tipul de serviciu —</option>
+                    <option value="b2b-industrial">B2B — Soluții Industriale</option>
+                    <option value="b2b-serie">B2B — Producție Serie Mică</option>
+                    <option value="b2c-personal">B2C — Proiect Personal</option>
+                    <option value="prototipare">Prototipare Rapidă</option>
+                    <option value="piesa-schimb">Piesă de Schimb</option>
+                    <option value="design">Obiect de Design</option>
+                    <option value="altele">Altele / Nu știu încă</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Descriere proiect -->
+              <div class="form-group full-width">
+                <label for="descriere">
+                  Descriere Proiect
+                  <span aria-hidden="true" style="opacity:0.45"> *</span>
+                </label>
+                <textarea
+                  id="descriere"
+                  name="descriere"
+                  placeholder="Descrie ce dorești să printezi: material preferat, dimensiuni aproximative, cantitate, utilizare finală, dacă ai fișier 3D disponibil (da/nu), cerințe speciale..."
+                  required
+                  aria-required="true"
+                ></textarea>
+              </div>
+
+              <!-- Termen livrare dorit -->
+              <div class="form-group full-width">
+                <label for="termen">Termen de Livrare Dorit</label>
+                <div class="select-wrapper">
+                  <select id="termen" name="termen">
+                    <option value="" disabled selected>— Selectează termenul preferat (opțional) —</option>
+                    <option value="urgent">Urgent (24–48 ore) — supliment 30%</option>
+                    <option value="standard">Standard (3–5 zile lucrătoare)</option>
+                    <option value="extins">Extins (7–14 zile lucrătoare)</option>
+                    <option value="flexibil">Flexibil / Nu este urgent</option>
+                  </select>
+                </div>
+              </div>
+
+            </div><!-- /.form-grid -->
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary">
+                Trimite Solicitarea
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+            </div>
+            <p class="form-note">* Câmpuri obligatorii. Datele tale sunt confidențiale și nu vor fi transmise unor terți.</p>
+
+          </form>
+
+          <!-- ── Success state ──────────────────────────── -->
+          <div
+            id="formSuccess"
+            style="display:none; padding: 2.5rem; border: 1.5px solid var(--primary); background: var(--white); text-align: center;"
+            role="alert"
+            aria-live="polite"
+          >
+            <div style="width:52px; height:52px; border:1.5px solid var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.75rem;">Mulțumim pentru solicitare!</h3>
+            <p style="opacity: 0.72; font-size: 0.95rem; max-width: 440px; margin: 0 auto 1.5rem; line-height: 1.7;">Am primit mesajul tău și îți vom trimite o ofertă detaliată în maxim <strong>24 de ore</strong> pe adresa de email indicată.</p>
+            <a href="prints.html" class="btn btn-outline" style="display:inline-flex;">
+              Înapoi la Prezentare
+            </a>
+          </div>
+
+        </div><!-- /.quote-form-wrapper -->
+      </div>
+    </section>
+
+    <!-- ══ INFO STRIP ════════════════════════════════════════ -->
+    <section style="border-top: 1px solid var(--primary); padding: 3rem 0;">
+      <div class="container">
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:0; border:1px solid var(--primary);">
+
+          <div style="padding: 2rem; border-right: 1px solid var(--primary);">
+            <div style="width:36px; height:36px; border:1px solid var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h4 style="font-family:var(--font-serif); font-size:1rem; margin-bottom:0.4rem;">Răspuns Rapid</h4>
+            <p style="font-size:0.85rem; opacity:0.65; line-height:1.65;">Ofertă trimisă în maxim 24 de ore de la primirea solicitării tale.</p>
+          </div>
+
+          <div style="padding: 2rem; border-right: 1px solid var(--primary);">
+            <div style="width:36px; height:36px; border:1px solid var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h4 style="font-family:var(--font-serif); font-size:1rem; margin-bottom:0.4rem;">Date Confidențiale</h4>
+            <p style="font-size:0.85rem; opacity:0.65; line-height:1.65;">Informațiile despre proiectul tău sunt tratate cu strictă confidențialitate.</p>
+          </div>
+
+          <div style="padding: 2rem;">
+            <div style="width:36px; height:36px; border:1px solid var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" aria-hidden="true">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+            </div>
+            <h4 style="font-family:var(--font-serif); font-size:1rem; margin-bottom:0.4rem;">Ofertă Fără Angajament</h4>
+            <p style="font-size:0.85rem; opacity:0.65; line-height:1.65;">Consultanța și oferta de preț sunt complet gratuite, fără obligații.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════ -->
+  <footer class="prints-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">CoreForm Prints</div>
+        <p class="footer-copy">&copy; 2026 CoreForm. Toate drepturile rezervate.</p>
+      </div>
+      <nav class="footer-links" aria-label="Linkuri footer">
+        <a href="prints.html">Prezentare</a>
+        <a href="produse.html">Produse</a>
+        <a href="faq.html">FAQ</a>
+        <a href="oferta.html">Ofertă</a>
+        <a href="index.html">Acasă</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // ── Mobile nav toggle ──────────────────────────────────
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+      navToggle.setAttribute('aria-label', isOpen ? 'Închide meniu' : 'Deschide meniu');
+    });
+
+    // ── Form submission ────────────────────────────────────
+    document.getElementById('quoteForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (this.checkValidity()) {
+        this.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+        window.scrollTo({ top: document.getElementById('formSuccess').offsetTop - 100, behavior: 'smooth' });
+      } else {
+        this.reportValidity();
+      }
+    });
+
+    // ── Responsive info strip ──────────────────────────────
+    function adjustInfoStrip() {
+      const strip = document.querySelector('.info-strip-grid');
+      if (strip && window.innerWidth < 600) {
+        strip.style.gridTemplateColumns = '1fr';
+      }
+    }
+
+    // Make the info strip cards responsive via inline grid on small screens
+    const infoStrip = document.querySelector('[style*="repeat(3, 1fr)"]');
+    if (infoStrip) {
+      const mediaQuery = window.matchMedia('(max-width: 600px)');
+      const handleChange = (mq) => {
+        if (mq.matches) {
+          infoStrip.style.gridTemplateColumns = '1fr';
+        } else {
+          infoStrip.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        }
+        // Fix borders when stacked
+        infoStrip.querySelectorAll(':scope > div').forEach((el, i, arr) => {
+          if (mq.matches) {
+            el.style.borderRight = 'none';
+            if (i < arr.length - 1) el.style.borderBottom = '1px solid var(--primary)';
+          } else {
+            el.style.borderBottom = '';
+            el.style.borderRight = i < arr.length - 1 ? '1px solid var(--primary)' : 'none';
+          }
+        });
+      };
+      mediaQuery.addEventListener('change', handleChange);
+      handleChange(mediaQuery);
+    }
+  </script>
+
+</body>
+</html>

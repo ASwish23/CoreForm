@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | CoreForm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <!-- Navigare -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="logo.png" alt="CoreForm Logo" class="nav-logo-img">
+                <span>CoreForm</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Acasă</a></li>
+                <li><a href="marketing.html">Marketing</a></li>
+                <li><a href="despre-noi.html">Despre Noi</a></li>
+                <li><a href="contact.html" class="nav-active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Container Principal -->
+    <div class="contact-wrapper">
+        <div class="contact-container">
+            <h1 class="form-title">Detalii tale:</h1>
+            
+            <form id="contactForm" class="contact-form">
+                <!-- Rând 1: Numele companiei + Număr telefon -->
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="companyName">Numele companiei*</label>
+                        <input 
+                            type="text" 
+                            id="companyName" 
+                            name="companyName" 
+                            placeholder="Numele companiei tale"
+                            required
+                        >
+                    </div>
+                    <div class="form-group half">
+                        <label for="phoneNumber">Numărul de telefon*</label>
+                        <input 
+                            type="tel" 
+                            id="phoneNumber" 
+                            name="phoneNumber" 
+                            placeholder="+40 XXX XXX XXX"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Rând 2: Email -->
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label for="email">Email*</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="email@companie.ro"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Rând 3: Buget estimat -->
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label for="budget">Buget estimat</label>
+                        <input 
+                            type="text" 
+                            id="budget" 
+                            name="budget" 
+                            placeholder="Ex: 5000 - 10000 EUR"
+                        >
+                    </div>
+                </div>
+
+                <!-- Secțiunea Servicii -->
+                <div class="services-section">
+                    <h2 class="section-title">Ce servicii te interesează?</h2>
+                    
+                    <div class="checkbox-grid">
+                        <!-- Coloana 1 -->
+                        <div class="checkbox-column">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="contentCreation" name="services" value="content-creation">
+                                <label for="contentCreation">Creare de conținut foto/video</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="webDesign" name="services" value="web-design">
+                                <label for="webDesign">Web design</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="copywriting" name="services" value="copywriting">
+                                <label for="copywriting">Copywriting</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="consultanta" name="services" value="consultanta">
+                                <label for="consultanta">Consultanță</label>
+                            </div>
+                        </div>
+
+                        <!-- Coloana 2 -->
+                        <div class="checkbox-column">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="socialMedia" name="services" value="social-media">
+                                <label for="socialMedia">Social media management</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="ads" name="services" value="ads">
+                                <label for="ads">Ads</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="branding" name="services" value="branding">
+                                <label for="branding">Branding</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secțiunea Marketing -->
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label for="marketingPerspective">Perspectiva de marketing</label>
+                        <input 
+                            type="text" 
+                            id="marketingPerspective" 
+                            name="marketingPerspective" 
+                            placeholder="Descrie viziunea ta de marketing"
+                        >
+                    </div>
+                </div>
+
+                <!-- Mesaj / Detalii Proiect -->
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label for="projectDetails">Detalii proiect</label>
+                        <textarea 
+                            id="projectDetails" 
+                            name="projectDetails" 
+                            rows="6"
+                            placeholder="Spune-ne mai multe despre proiectul tău..."
+                        ></textarea>
+                    </div>
+                </div>
+
+                <!-- Buton Submit -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Trimite Propunerea</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Minimal -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 CoreForm. Toate drepturile rezervate.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Get selected services
+            const services = Array.from(document.querySelectorAll('input[name="services"]:checked'))
+                .map(cb => cb.value);
+            data.services = services;
+            
+            // Log data (în producție, aici ar merge un API call)
+            console.log('Form Data:', data);
+            
+            // Success message
+            alert('Mulțumim! Propunerea ta a fost trimisă cu succes. Te vom contacta în curând.');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Add focus effects
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+    </script>
+</body>
+</html>
