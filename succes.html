@@ -302,5 +302,87 @@
 
   </article>
 
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () { emailjs.init({ publicKey: 'O153E-J7Jeem1qSvi' }); })();
+  </script>
+
+  <!-- Supabase client (needed to fetch order details) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="database.js"></script>
+
+  <script>
+    (function () {
+      var CART_KEY = 'cart';
+
+      /* ── Currency formatter (mirrors checkout.js fmt()) ──────── */
+      function fmt(amount) {
+        return new Intl.NumberFormat('ro-RO', { style: 'currency', currency: 'RON' }).format(amount);
+      }
+
+      /* ── Format stored produse JSON into a readable email body ── */
+      function formatOrderForEmail(produseJson, total) {
+        var items;
+        try { items = JSON.parse(produseJson); } catch (e) { items = []; }
+        var lines = items.map(function (item) {
+          return item.name +
+            ' (Culoare: ' + item.color + ')' +
+            ' x' + item.quantity +
+            ' — ' + fmt(item.price * item.quantity);
+        });
+        lines.push('');
+        lines.push('TOTAL: ' + fmt(total));
+        return lines.join('\n');
+      }
+
+      /* ── Main handler ─────────────────────────────────────────── */
+      async function handleSuccessPage() {
+        var params  = new URLSearchParams(window.location.search);
+        var orderId = params.get('orderId');
+
+        // Belt-and-suspenders: clear cart regardless of payment method.
+        // For ramburs this is a no-op (already cleared in checkout.js).
+        localStorage.removeItem(CART_KEY);
+
+        if (!orderId) {
+          // Ramburs flow — email was already sent in checkout.js. Nothing to do.
+          return;
+        }
+
+        // Card / Netopia flow — fetch order from Supabase and send notification email.
+        try {
+          var result = await _supabase
+            .from('comenzi')
+            .select('nume_client, email, telefon, produse, total')
+            .eq('id', orderId)
+            .single();
+
+          if (result.error || !result.data) {
+            console.error('[succes] Nu s-a putut prelua comanda:', result.error);
+            return;
+          }
+
+          var order   = result.data;
+          var detalii = formatOrderForEmail(order.produse, order.total);
+
+          await emailjs.send('service_6dsjm16', 'template_v1dpcx2', {
+            nr_comanda:      orderId,
+            nume_client:     order.nume_client,
+            telefon_client:  order.telefon,
+            email_client:    order.email,
+            detalii_comanda: detalii,
+            total_plata:     '0 lei (Achitat online)'
+          });
+          console.log('[succes] Email notificare trimis pentru comanda #' + orderId);
+        } catch (err) {
+          console.error('[succes] Email notificare eșuat (comanda a fost salvată):', err);
+        }
+      }
+
+      handleSuccessPage();
+    })();
+  </script>
+
 </body>
 </html>

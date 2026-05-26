@@ -232,7 +232,7 @@ async function handler(req: Request): Promise<Response> {
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ||
       "https://your-supabase-project.supabase.co";
     const confirmUrl = `${SUPABASE_URL}/functions/v1/netopia-webhook`;
-    const returnUrl = "https://coreform.vercel.app/succes.html";
+    const returnUrl = "http://127.0.0.1:5500/succes.html";
 
     // Generate XML payload
     const xmlPayload = generateXmlPayload(

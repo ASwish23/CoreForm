@@ -468,9 +468,6 @@
             throw new Error('Răspuns invalid de la server: date de plată incomplete.');
           }
 
-          // NOTE: trimiteNotificareEmail() is called in succes.html AFTER
-          // Netopia confirms the payment via webhook — not here, because the
-          // user may still abandon or fail payment on Netopia's page.
           redirectToNetopia(body.paymentUrl, body.env_key, body.data);
         } catch (err) {
           console.error('[checkout] Netopia redirect error:', err);
@@ -493,7 +490,7 @@
             formData.phone,
             formData.email,
             detalii,
-            fmt(total)
+            Math.round(total) + ' lei'
           );
           console.log('[checkout] Email notificare trimis cu succes.');
         } catch (emailErr) {
