@@ -33,7 +33,7 @@ const observerOptions = {
     rootMargin: '0px 0px -50px 0px'
 };
 
-const fadeInElements = document.querySelectorAll('.case-card, .pricing-card');
+const fadeInElements = document.querySelectorAll('.case-card');
 
 const fadeInObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
@@ -75,26 +75,33 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== Pricing Card Enhanced Hover Effect =====
-const pricingCards = document.querySelectorAll('.pricing-card');
+// ===== Package Card 3D Hover Effect (transferred from old pricing cards) =====
+const allPackageCards = document.querySelectorAll('.package-card');
 
-pricingCards.forEach(card => {
+allPackageCards.forEach(card => {
+    // On enter: suppress transform transition so JS can drive each frame instantly
+    card.addEventListener('mouseenter', () => {
+        card.style.transition = 'box-shadow 0.35s ease, border-color 0.35s ease';
+    });
+
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        
+
         const rotateX = (y - centerY) / 20;
         const rotateY = (centerX - x) / 20;
-        
+
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
     });
-    
+
     card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        // Re-enable transform transition only for the smooth snap-back
+        card.style.transition = 'transform 0.4s ease-out, box-shadow 0.35s ease, border-color 0.35s ease';
+        card.style.transform = '';
     });
 });
 
@@ -151,7 +158,7 @@ function createRipple(event) {
     }, 600);
 }
 
-document.querySelectorAll('.btn-primary, .btn-secondary, .pricing-btn, .btn-primary-large').forEach(button => {
+document.querySelectorAll('.btn-primary, .btn-secondary, .package-cta, .btn-primary-large').forEach(button => {
     button.addEventListener('click', createRipple);
 });
 
@@ -190,3 +197,53 @@ window.addEventListener('load', () => {
 console.log('%c🚀 CoreForm Marketing', 'font-size: 24px; font-weight: bold; color: #F3E5E5;');
 console.log('%cInteresați de marketing bazat pe performanță? Hai să vorbim.', 'font-size: 14px; color: #2C4A3B;');
 console.log('%c📧 contact@coreform.marketing', 'font-size: 12px; color: #F3E5E5;');
+
+// ===== Package Selection — Navigate to Contact with Pre-fill =====
+function selectPackageAndNavigate(packageName) {
+    const encoded = encodeURIComponent(packageName);
+    window.location.href = 'contact.html?pachet=' + encoded;
+}
+
+// Main package CTA buttons
+document.querySelectorAll('.package-cta').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        selectPackageAndNavigate(this.dataset.package);
+    });
+});
+
+// Individual sub-package rows
+document.querySelectorAll('.sub-package').forEach(function(row) {
+    row.addEventListener('click', function() {
+        selectPackageAndNavigate(this.dataset.package);
+    });
+});
+
+// ===== Scroll Animation for Package Cards =====
+const packageCards = document.querySelectorAll('.package-card');
+
+if (packageCards.length > 0) {
+    const packageObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry, index) {
+            if (entry.isIntersecting) {
+                setTimeout(function() {
+                    entry.target.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    // Clear inline styles after animation so CSS hover & JS 3D effect take over cleanly
+                    setTimeout(function() {
+                        entry.target.style.transition = '';
+                        entry.target.style.transform = '';
+                        entry.target.style.opacity = '';
+                    }, 700);
+                }, index * 120);
+                packageObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    packageCards.forEach(function(card) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        packageObserver.observe(card);
+    });
+}

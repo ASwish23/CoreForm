@@ -460,141 +460,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* ===== Services Section ===== */
-.services {
-    padding: 8rem 2rem;
-    background: linear-gradient(180deg, var(--deep-forest) 0%, var(--dark-forest) 100%);
-}
-
-.pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    margin-top: 4rem;
-}
-
-.pricing-card {
-    background: rgba(245, 245, 245, 0.03);
-    border: 2px solid rgba(243, 229, 229, 0.15);
-    border-radius: 25px;
-    padding: 3rem 2.5rem;
-    transition: all 0.4s ease;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.pricing-card.featured {
-    background: linear-gradient(135deg, rgba(243, 229, 229, 0.08) 0%, rgba(243, 229, 229, 0.03) 100%);
-    border-color: var(--pale-pink);
-    transform: scale(1.05);
-    box-shadow: 0 30px 60px rgba(243, 229, 229, 0.2);
-}
-
-.pricing-card:hover {
-    border-color: var(--pale-pink);
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(243, 229, 229, 0.25);
-}
-
-.pricing-card.featured:hover {
-    transform: scale(1.05) translateY(-10px);
-}
-
-.badge-featured {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--pale-pink);
-    color: var(--dark-text);
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.pricing-header {
-    margin-bottom: 2rem;
-}
-
-.pricing-title {
-    font-family: var(--serif);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--pale-pink);
-    margin-bottom: 0.5rem;
-}
-
-.pricing-subtitle {
-    font-size: 1rem;
-    color: rgba(245, 245, 245, 0.7);
-    font-weight: 500;
-}
-
-.pricing-features {
-    flex-grow: 1;
-    margin-bottom: 2rem;
-}
-
-.pricing-features ul {
-    list-style: none;
-}
-
-.pricing-features li {
-    padding: 0.8rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    color: rgba(245, 245, 245, 0.85);
-    line-height: 1.6;
-    border-bottom: 1px solid rgba(243, 229, 229, 0.1);
-}
-
-.pricing-features li:last-child {
-    border-bottom: none;
-}
-
-.pricing-features li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--pale-pink);
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-
-.pricing-btn {
-    display: block;
-    text-align: center;
-    padding: 1rem 2rem;
-    background: transparent;
-    color: var(--pale-pink);
-    border: 2px solid var(--pale-pink);
-    border-radius: 50px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-}
-
-.pricing-btn:hover {
-    background: var(--pale-pink);
-    color: var(--dark-text);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(243, 229, 229, 0.3);
-}
-
-.pricing-card.featured .pricing-btn {
-    background: var(--pale-pink);
-    color: var(--dark-text);
-}
-
-.pricing-card.featured .pricing-btn:hover {
-    background: var(--light-pink);
-}
-
 /* ===== Contact Section ===== */
 .contact {
     padding: 8rem 2rem;
@@ -757,10 +622,6 @@ body {
     .case-studies-grid {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
-
-    .pricing-card.featured {
-        transform: scale(1);
-    }
 }
 
 @media (max-width: 768px) {
@@ -825,10 +686,6 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .pricing-grid {
-        grid-template-columns: 1fr;
-    }
-
     .contact-title {
         font-size: 2.5rem;
     }
@@ -862,8 +719,337 @@ body {
     .case-title {
         font-size: 1.5rem;
     }
+}
 
-    .pricing-title {
-        font-size: 1.6rem;
+/* ===== Pricing & Packages Section ===== */
+.pricing-packages {
+    padding: 8rem 2rem;
+    background: linear-gradient(180deg, var(--deep-forest) 0%, var(--dark-forest) 100%);
+}
+
+.packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.package-card {
+    background: rgba(245, 245, 245, 0.03);
+    border: 1px solid rgba(250, 218, 218, 0.15);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    will-change: transform;
+    transform-style: preserve-3d;
+    /* transform intentionally excluded — JS mousemove drives it frame-by-frame */
+    transition: box-shadow 0.35s ease, border-color 0.35s ease;
+    position: relative;
+}
+
+.package-card:hover {
+    box-shadow: 0 25px 50px rgba(250, 218, 218, 0.2);
+    border-color: var(--pale-pink);
+    /* transform: JS handles this — no CSS override */
+}
+
+.package-card--featured {
+    background: linear-gradient(160deg, rgba(250, 218, 218, 0.08) 0%, rgba(250, 218, 218, 0.02) 100%);
+    border-color: rgba(250, 218, 218, 0.4);
+    box-shadow: 0 0 40px rgba(250, 218, 218, 0.07);
+}
+
+.package-card--featured:hover {
+    box-shadow: 0 30px 60px rgba(250, 218, 218, 0.28);
+    border-color: var(--pale-pink);
+    /* transform: JS handles this — no CSS override */
+}
+
+.package-badge-top {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--pale-pink);
+    color: var(--dark-text);
+    padding: 0.4rem 1.4rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.package-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.package-title {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--pale-pink);
+    line-height: 1.2;
+}
+
+.package-subtitle {
+    font-size: 0.95rem;
+    color: rgba(245, 245, 245, 0.65);
+    line-height: 1.65;
+}
+
+.package-price-tag {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-top: 0.25rem;
+}
+
+.price-from {
+    font-size: 0.78rem;
+    color: rgba(245, 245, 245, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.price-amount {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--off-white);
+}
+
+.price-custom {
+    letter-spacing: 3px;
+    color: var(--pale-pink);
+}
+
+.package-description {
+    font-size: 0.95rem;
+    color: rgba(245, 245, 245, 0.72);
+    line-height: 1.78;
+    flex-grow: 1;
+}
+
+/* Sub-packages inside Card 2 */
+.sub-packages {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.sub-package {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(250, 218, 218, 0.12);
+    background: rgba(245, 245, 245, 0.02);
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.sub-package:hover {
+    background: rgba(250, 218, 218, 0.07);
+    border-color: rgba(250, 218, 218, 0.35);
+    transform: translateX(4px);
+}
+
+.sub-pkg-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.sub-pkg-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--off-white);
+    letter-spacing: 0.3px;
+}
+
+.sub-pkg-price {
+    font-size: 0.82rem;
+    color: var(--pale-pink);
+    font-weight: 500;
+}
+
+.sub-pkg-arrow {
+    color: rgba(250, 218, 218, 0.45);
+    font-size: 1.1rem;
+    transition: color 0.25s ease, transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.sub-package:hover .sub-pkg-arrow {
+    color: var(--pale-pink);
+    transform: translateX(3px);
+}
+
+/* Package CTA Buttons */
+.package-cta {
+    display: block;
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    background: transparent;
+    color: var(--pale-pink);
+    border: 2px solid rgba(250, 218, 218, 0.4);
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: var(--sans-serif);
+    margin-top: auto;
+    text-align: center;
+}
+
+.package-cta:hover {
+    background: var(--pale-pink);
+    color: var(--dark-text);
+    border-color: var(--pale-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(250, 218, 218, 0.25);
+}
+
+.package-cta--featured {
+    background: var(--pale-pink);
+    color: var(--dark-text);
+    border-color: var(--pale-pink);
+}
+
+.package-cta--featured:hover {
+    background: var(--light-pink);
+    border-color: var(--light-pink);
+    box-shadow: 0 8px 30px rgba(250, 218, 218, 0.35);
+}
+
+/* Packages Section Responsive */
+@media (max-width: 1100px) {
+    .packages-grid {
+        grid-template-columns: 1fr;
+        max-width: 560px;
+        margin: 0 auto;
     }
+
+    .package-card--featured {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-packages {
+        padding: 4rem 1.5rem;
+    }
+
+    .package-title {
+        font-size: 1.5rem;
+    }
+
+    .price-amount {
+        font-size: 1.65rem;
+    }
+
+    .packages-grid {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .package-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .package-title {
+        font-size: 1.35rem;
+    }
+}
+
+/* ===== Typography & Accent Enhancements ===== */
+
+/* Price Badge — Card 1 */
+.price-badge {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    background: rgba(250, 218, 218, 0.08);
+    border: 1px solid rgba(250, 218, 218, 0.2);
+    border-radius: 10px;
+    padding: 0.45rem 0.9rem;
+}
+
+.price-value {
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--pale-pink);
+    line-height: 1;
+}
+
+.price-currency {
+    font-family: var(--sans-serif);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgba(250, 218, 218, 0.7);
+    letter-spacing: 1px;
+    padding-bottom: 0.25rem;
+}
+
+/* Custom Badge — Card 3 */
+.custom-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(250, 218, 218, 0.08);
+    border: 1px solid rgba(250, 218, 218, 0.2);
+    border-radius: 10px;
+    padding: 0.45rem 1.1rem;
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--pale-pink);
+    letter-spacing: 2.5px;
+}
+
+/* Inline service type tags — Card 1 description */
+.svc-tag {
+    color: var(--pale-pink);
+    font-weight: 600;
+}
+
+/* Inline text accent — e.g. "100%" */
+.text-accent {
+    color: var(--pale-pink);
+    font-weight: 700;
+}
+
+/* Sub-package price breakdown — Card 2 */
+.sub-pkg-from {
+    font-size: 0.75rem;
+    color: rgba(250, 218, 218, 0.5);
+    font-weight: 400;
+}
+
+.sub-pkg-amount {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--pale-pink);
+}
+
+.sub-pkg-per {
+    font-size: 0.78rem;
+    color: rgba(250, 218, 218, 0.5);
 }

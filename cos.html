@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coș — CoreForm Prints</title>
+  <meta name="description" content="Coșul tău de cumpărături CoreForm Prints.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="prints.css">
+  <style>
+    /* ── Cart page ─────────────────────────────────────── */
+    .cart-page {
+      flex: 1;
+      padding: 3.5rem 0 6rem;
+    }
+
+    .cart-page-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .cart-page-header .section-label {
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-page-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--primary);
+      line-height: 1.2;
+      margin: 0 0 1rem 0;
+    }
+
+    .cart-divider {
+      width: 48px;
+      height: 3px;
+      background-color: var(--primary);
+      opacity: 0.35;
+      border-radius: 2px;
+    }
+
+    /* ── Cart nav link (same as produse.html) ──────────── */
+    .cart-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .cart-link:hover { opacity: 1; }
+
+    .cart-link svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .cart-link .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -6px;
+      background-color: #FADADA;
+      color: #2C4A3B;
+      font-size: 0.58rem;
+      font-weight: 800;
+      min-width: 15px;
+      height: 15px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .cart-link .cart-badge.visible { display: flex; }
+
+    /* ── Empty state ───────────────────────────────────── */
+    .cart-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 1rem;
+      text-align: center;
+      gap: 1.25rem;
+    }
+
+    .cart-empty-icon {
+      opacity: 0.25;
+    }
+
+    .cart-empty-icon svg {
+      width: 64px;
+      height: 64px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .cart-empty h2 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+
+    .cart-empty p {
+      color: rgba(250,218,218,0.55);
+      font-size: 0.95rem;
+      max-width: 360px;
+    }
+
+    .cart-empty .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--primary);
+      color: #2C4A3B;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+      margin-top: 0.5rem;
+    }
+
+    .cart-empty .btn-back:hover {
+      background-color: #f5c0c0;
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+
+    /* ── Cart table ────────────────────────────────────── */
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .cart-table thead th {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(250,218,218,0.5);
+      padding: 0 0 1rem 0;
+      text-align: left;
+      border-bottom: 1px solid rgba(250,218,218,0.12);
+    }
+
+    .cart-table thead th:last-child { text-align: right; }
+
+    .cart-table tbody tr {
+      border-bottom: 1px solid rgba(250,218,218,0.08);
+    }
+
+    .cart-table tbody td {
+      padding: 1.25rem 0;
+      vertical-align: middle;
+      color: var(--primary);
+    }
+
+    .cart-table tbody td:last-child { text-align: right; }
+
+    .cart-item-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cart-item-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background-color: rgba(255,255,255,0.06);
+    }
+
+    .cart-item-thumb-placeholder {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      background-color: rgba(255,255,255,0.06);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(250,218,218,0.2);
+      font-size: 0.65rem;
+    }
+
+    .cart-item-name {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 0 0 4px 0;
+    }
+
+    .cart-item-color {
+      font-size: 0.78rem;
+      color: rgba(250,218,218,0.5);
+    }
+
+    .cart-qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 4px 8px;
+    }
+
+    .cart-qty-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 4px;
+      transition: opacity 0.15s ease;
+    }
+
+    .cart-qty-btn:hover { opacity: 0.6; }
+
+    .cart-qty-value {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .cart-remove-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(250,218,218,0.3);
+      font-size: 1.1rem;
+      padding: 4px;
+      transition: color 0.15s ease;
+      line-height: 1;
+    }
+
+    .cart-remove-btn:hover { color: #e57373; }
+
+    /* ── Summary panel ─────────────────────────────────── */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .cart-layout { grid-template-columns: 1fr; }
+    }
+
+    .cart-summary {
+      background-color: rgba(255,255,255,0.04);
+      border: 1px solid rgba(250,218,218,0.12);
+      border-radius: 14px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cart-summary-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin: 0 0 0.25rem 0;
+    }
+
+    .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: rgba(250,218,218,0.65);
+    }
+
+    .cart-summary-row.total {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1rem;
+      border-top: 1px solid rgba(250,218,218,0.12);
+      padding-top: 0.75rem;
+    }
+
+    .btn-checkout {
+      display: block;
+      width: 100%;
+      background-color: var(--primary);
+      color: #2C4A3B;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.9rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+      margin-top: 0.25rem;
+    }
+
+    .btn-checkout:hover {
+      background-color: #f5c0c0;
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+
+    .cart-continue {
+      display: block;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(250,218,218,0.45);
+      text-decoration: none;
+      margin-top: 0.25rem;
+      transition: color 0.15s ease;
+    }
+
+    .cart-continue:hover { color: var(--primary); opacity: 1; }
+
+    /* ── Items column ──────────────────────────────────── */
+    .cart-items-col {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── Price / subtotal columns ──────────────────────── */
+    .col-price,
+    .col-subtotal {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .cart-table thead th.col-price,
+    .cart-table thead th.col-subtotal { text-align: right; }
+
+    /* ── Remove button (trash icon) ────────────────────── */
+    .cart-remove-btn svg {
+      display: block;
+      pointer-events: none;
+    }
+
+    /* ── Shipping note ──────────────────────────────────── */
+    .shipping-note {
+      font-size: 0.78rem;
+      color: rgba(250,218,218,0.55);
+      background-color: rgba(255,255,255,0.04);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      margin: -0.25rem 0;
+      line-height: 1.45;
+    }
+
+    .shipping-note.is-free { color: #7ed4a4; background-color: rgba(126,212,164,0.08); }
+    .shipping-note strong  { color: var(--primary); }
+
+    /* ── Free shipping badge ────────────────────────────── */
+    .free-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #7ed4a4;
+      background-color: rgba(126,212,164,0.12);
+      border: 1px solid rgba(126,212,164,0.3);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    /* ── Discount row ───────────────────────────────────── */
+    .cart-summary-row.is-discount { color: #7ed4a4; }
+
+    /* ── Promo box ──────────────────────────────────────── */
+    .promo-box {
+      display: flex;
+      gap: 8px;
+    }
+
+    .promo-input {
+      flex: 1;
+      background-color: rgba(255,255,255,0.06);
+      border: 1px solid rgba(250,218,218,0.18);
+      border-radius: 7px;
+      padding: 0.55rem 0.85rem;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: var(--primary);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .promo-input::placeholder { color: rgba(250,218,218,0.3); }
+    .promo-input:focus        { border-color: rgba(250,218,218,0.45); }
+    .promo-input[readonly]    { opacity: 0.6; cursor: default; }
+
+    .promo-btn {
+      background-color: rgba(250,218,218,0.10);
+      border: 1px solid rgba(250,218,218,0.2);
+      border-radius: 7px;
+      padding: 0.55rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+    }
+
+    .promo-btn:hover:not(:disabled) { background-color: rgba(250,218,218,0.22); }
+    .promo-btn:disabled             { opacity: 0.5; cursor: default; }
+
+    .promo-applied {
+      font-size: 0.78rem;
+      color: #7ed4a4;
+      padding: 0.25rem 0;
+    }
+
+    .promo-error {
+      font-size: 0.78rem;
+      color: #e57373;
+      padding: 0.25rem 0;
+    }
+
+    /* ── Responsive: hide unit price on small screens ───── */
+    @media (max-width: 560px) {
+      .col-price,
+      .cart-table thead th.col-price { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════ -->
+  <header class="prints-header">
+    <nav class="prints-nav" aria-label="Navigație principală">
+      <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Acasă
+      </a>
+      <a href="prints.html" class="nav-brand">
+        <img src="logopink.png" class="nav-brand-logo" alt="">CoreForm Prints
+      </a>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="prints.html">Prezentare</a></li>
+        <li><a href="produse.html">Produse</a></li>
+        <li><a href="consultanta.html">Consultant AI</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="oferta.html" class="nav-cta">Solicită Ofertă</a></li>
+      </ul>
+      <a href="cos.html" class="cart-link active" id="navCartBtn" aria-label="Coș de cumpărături" aria-current="page">
+        Coș de cumpărături
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge" aria-live="polite"></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="cart-page">
+    <div class="container">
+
+      <div class="cart-page-header">
+        <span class="section-label">Cumpărăturile mele</span>
+        <h1 class="cart-page-title">Coșul tău de cumpărături</h1>
+        <div class="cart-divider"></div>
+      </div>
+
+      <!-- Populated by cos.js -->
+      <div id="cart-container"></div>
+
+    </div>
+  </main>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════ -->
+  <footer class="prints-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">CoreForm Prints</div>
+        <p class="footer-copy">&copy; 2026 CoreForm. Toate drepturile rezervate.</p>
+      </div>
+      <nav class="footer-links" aria-label="Linkuri footer">
+        <a href="prints.html">Prezentare</a>
+        <a href="produse.html">Produse</a>
+        <a href="faq.html">FAQ</a>
+        <a href="oferta.html">Ofertă</a>
+        <a href="index.html">Acasă</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // ── Mobile nav ────────────────────────────────────────
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', function () {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+      navToggle.setAttribute('aria-label', isOpen ? 'Închide meniu' : 'Deschide meniu');
+    });
+  </script>
+  <script src="cos.js"></script>
+</body>
+</html>

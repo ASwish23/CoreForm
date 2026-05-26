@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="prints.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
 
@@ -23,6 +24,7 @@
       <ul class="nav-links" id="navLinks" role="list">
         <li><a href="prints.html" class="active" aria-current="page">Prezentare</a></li>
         <li><a href="produse.html">Produse</a></li>
+        <li><a href="consultanta.html">Consultant AI</a></li>
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="oferta.html" class="nav-cta">Solicită Ofertă</a></li>
       </ul>
@@ -38,7 +40,7 @@
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-inner">
         <span class="hero-tag">Printare 3D Profesională · România</span>
-        <h1 id="hero-heading">CoreForm Prints: Soluții de&nbsp;Printare&nbsp;3D de la Concept la&nbsp;Realitate</h1>
+        <h1 id="hero-heading" data-aos="fade-down">CoreForm Prints: Soluții de&nbsp;Printare&nbsp;3D de la Concept la&nbsp;Realitate</h1>
         <p class="hero-sub">Transformăm fișiere digitale în piese fizice cu precizie industrială — de la prototipuri funcționale la serii mici de producție.</p>
         <div class="hero-actions">
           <a href="oferta.html" class="btn btn-primary">
@@ -73,7 +75,7 @@
     </section>
 
     <!-- ══ SERVICII ═════════════════════════════════════════ -->
-    <section class="section" aria-labelledby="services-heading">
+    <section class="section scroll-animate" aria-labelledby="services-heading">
       <div class="container">
         <span class="section-label">Servicii</span>
         <h2 class="section-title" id="services-heading">Soluții pentru Orice Nevoie</h2>
@@ -113,7 +115,7 @@
     </section>
 
     <!-- ══ PROCES (4 PAȘI) ══════════════════════════════════ -->
-    <section class="section process-section" aria-labelledby="process-heading">
+    <section class="section process-section scroll-animate" aria-labelledby="process-heading">
       <div class="container">
         <span class="section-label">Cum Lucrăm</span>
         <h2 class="section-title" id="process-heading">Procesul Nostru în 4 Pași</h2>
@@ -179,7 +181,7 @@
     <div class="section-divider"></div>
 
     <!-- ══ MATERIALE (flip cards) ════════════════════════════ -->
-    <section class="section" aria-labelledby="materials-heading">
+    <section class="section scroll-animate" aria-labelledby="materials-heading">
       <div class="container">
         <span class="section-label">Materiale</span>
         <h2 class="section-title" id="materials-heading">Materiale Disponibile</h2>
@@ -189,7 +191,7 @@
         <div class="materials-grid" role="list">
 
           <!-- PLA -->
-          <div class="material-card" role="listitem" tabindex="0" aria-label="Material PLA – click pentru specificații">
+          <div class="material-card" role="listitem" tabindex="0" aria-label="Material PLA – click pentru specificații" data-aos="zoom-in-up">
             <div class="card-inner">
               <div class="card-front">
                 <span class="card-front-label"></span>
@@ -213,7 +215,7 @@
           </div>
 
           <!-- PETG -->
-          <div class="material-card" role="listitem" tabindex="0" aria-label="Material PETG – click pentru specificații">
+          <div class="material-card" role="listitem" tabindex="0" aria-label="Material PETG – click pentru specificații" data-aos="zoom-in-up" data-aos-delay="100">
             <div class="card-inner">
               <div class="card-front">
                 <span class="card-front-label"></span>
@@ -237,7 +239,7 @@
           </div>
 
           <!-- ABS -->
-          <div class="material-card" role="listitem" tabindex="0" aria-label="Material ABS – click pentru specificații">
+          <div class="material-card" role="listitem" tabindex="0" aria-label="Material ABS – click pentru specificații" data-aos="zoom-in-up" data-aos-delay="200">
             <div class="card-inner">
               <div class="card-front">
                 <span class="card-front-label"></span>
@@ -261,7 +263,7 @@
           </div>
 
           <!-- TPU -->
-          <div class="material-card" role="listitem" tabindex="0" aria-label="Material TPU – click pentru specificații">
+          <div class="material-card" role="listitem" tabindex="0" aria-label="Material TPU – click pentru specificații" data-aos="zoom-in-up" data-aos-delay="300">
             <div class="card-inner">
               <div class="card-front">
                 <span class="card-front-label"></span>
@@ -339,7 +341,16 @@
         }
       });
     });
-  </script>
 
+    // ── Scroll-triggered animations handled by prints.js ─────
+  </script>
+<script src="prints.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800,
+    once: true,
+  });
+</script>
 </body>
 </html>

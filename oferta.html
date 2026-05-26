@@ -9,6 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="prints.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "O153E-J7Jeem1qSvi",
+      });
+   })();
+</script>
 </head>
 <body>
 
@@ -23,6 +31,7 @@
       <ul class="nav-links" id="navLinks" role="list">
         <li><a href="prints.html">Prezentare</a></li>
         <li><a href="produse.html">Produse</a></li>
+        <li><a href="consultanta.html">Consultant AI</a></li>
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="oferta.html" class="nav-cta active" aria-current="page">Solicită Ofertă</a></li>
       </ul>
@@ -298,10 +307,48 @@
       navToggle.setAttribute('aria-label', isOpen ? 'Închide meniu' : 'Deschide meniu');
     });
 
+    // ── EmailJS: send quote notification ────────────────────
+    function trimiteNotificareEmail(nume, telefon, email, detalii, total) {
+      var templateParams = {
+        nume_client:     nume,
+        telefon_client:  telefon,
+        email_client:    email,
+        detalii_comanda: detalii,
+        total_plata:     total
+      };
+
+      emailjs.send('service_6dsjm16', 'template_v1dpcx2', templateParams)
+        .then(function (response) {
+          console.log('[EmailJS] Email trimis cu succes:', response.status, response.text);
+        })
+        .catch(function (err) {
+          console.error('[EmailJS] Eroare la trimiterea emailului:', err);
+        });
+    }
+
     // ── Form submission ────────────────────────────────────
     document.getElementById('quoteForm').addEventListener('submit', function (e) {
       e.preventDefault();
       if (this.checkValidity()) {
+        // ── Send quote notification email ──────────────────
+        var serviciu = document.getElementById('serviciu');
+        var termen   = document.getElementById('termen');
+        var detalii  = [
+          'Serviciu dorit: ' + (serviciu.options[serviciu.selectedIndex].text || serviciu.value),
+          'Termen preferat: ' + (termen.value ? termen.options[termen.selectedIndex].text : 'Nespecificat'),
+          '',
+          'Descriere proiect:',
+          document.getElementById('descriere').value.trim()
+        ].join('\n');
+
+        trimiteNotificareEmail(
+          document.getElementById('nume').value.trim(),
+          document.getElementById('telefon').value.trim(),
+          document.getElementById('email').value.trim(),
+          detalii,
+          'Ofertă personalizată'
+        );
+
         this.style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
         window.scrollTo({ top: document.getElementById('formSuccess').offsetTop - 100, behavior: 'smooth' });

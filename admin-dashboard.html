@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – CoreForm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+
+    /* ── Loading overlay shown while session check runs ── */
+    #auth-guard {
+      position: fixed;
+      inset: 0;
+      background: #0f0f0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #auth-guard.hidden { display: none; }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #333;
+      border-top-color: #e63946;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Top bar ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: #1a1a1a;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    header .brand {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    header .brand span { color: #e63946; }
+
+    #logout-btn {
+      padding: 0.5rem 1.2rem;
+      background: transparent;
+      border: 1px solid #e63946;
+      border-radius: 8px;
+      color: #e63946;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #logout-btn:hover {
+      background: #e63946;
+      color: #fff;
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .welcome-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .welcome-card h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-card p {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    #user-email {
+      color: #e63946;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Auth guard overlay — visible until session check completes -->
+  <div id="auth-guard" role="status" aria-label="Se verifică sesiunea...">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Page content — hidden until guard clears -->
+  <div id="page-content" style="display:none">
+    <header>
+      <span class="brand">Core<span>Form</span> Admin</span>
+      <button id="logout-btn">Delogare</button>
+    </header>
+
+    <main>
+      <div class="welcome-card">
+        <h2>Bun venit în panoul de administrare</h2>
+        <p>Ești autentificat ca <span id="user-email"></span></p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ── Supabase client ──────────────────────────────────────────────────────
+    const SUPABASE_URL      = 'https://gvqgmivhqfsdswrtaxyl.supabase.co';       // <-- replace
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWdtaXZocWZzZHN3cnRheHlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTU2MTYsImV4cCI6MjA5NDA3MTYxNn0.2EXNSTTaTbz1HCL7ynEbIj_OfgujhSps4gLK1U3mrNE';  // <-- replace
+
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ── Auth guard — runs immediately ────────────────────────────────────────
+    (async () => {
+      const { data, error } = await _supabase.auth.getSession();
+
+      if (error || !data.session) {
+        // No valid session → redirect to login immediately
+        window.location.replace('admin-login.html');
+        return;
+      }
+
+      // Valid session — reveal the page
+      const email = data.session.user?.email ?? '';
+      document.getElementById('user-email').textContent = email;
+      document.getElementById('auth-guard').classList.add('hidden');
+      document.getElementById('page-content').style.display = '';
+    })();
+
+    // ── Logout ───────────────────────────────────────────────────────────────
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('logout-btn');
+      btn.disabled = true;
+      btn.textContent = 'Se delogheazâ...';
+
+      await _supabase.auth.signOut();
+      window.location.replace('admin-login.html');
+    });
+  </script>
+
+</body>
+</html>

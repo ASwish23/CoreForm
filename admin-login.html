@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login – CoreForm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f0f0f;
+      font-family: 'Poppins', system-ui, sans-serif;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-card h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+    }
+
+    .login-card p.subtitle {
+      font-size: 0.875rem;
+      color: #888;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #ccc;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .form-group input {
+      padding: 0.75rem 1rem;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #e63946;
+    }
+
+    .form-group input::placeholder {
+      color: #555;
+    }
+
+    .error-msg {
+      display: none;
+      background: rgba(230, 57, 70, 0.12);
+      border: 1px solid rgba(230, 57, 70, 0.4);
+      color: #ff6b6b;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      padding: 0.65rem 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .error-msg.visible { display: block; }
+
+    .btn-login {
+      width: 100%;
+      padding: 0.8rem;
+      background: #e63946;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    .btn-login:hover  { background: #c1121f; }
+    .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <div class="login-card" role="main">
+    <h1>CoreForm Admin</h1>
+    <p class="subtitle">Autentifică-te pentru a continua.</p>
+
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="admin@example.com"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Parolă</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+
+      <div class="error-msg" id="error-msg" role="alert" aria-live="polite"></div>
+
+      <button type="submit" class="btn-login" id="submit-btn">Autentificare</button>
+    </form>
+  </div>
+
+  <!-- Supabase JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ── Supabase client ────────────────────────────────────────────────────────
+    const SUPABASE_URL      = 'https://gvqgmivhqfsdswrtaxyl.supabase.co';       // <-- replace
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWdtaXZocWZzZHN3cnRheHlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTU2MTYsImV4cCI6MjA5NDA3MTYxNn0.2EXNSTTaTbz1HCL7ynEbIj_OfgujhSps4gLK1U3mrNE';  // <-- replace
+
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ── If already logged in, skip straight to dashboard ──────────────────────
+    (async () => {
+      const { data } = await _supabase.auth.getSession();
+      if (data.session) {
+        window.location.replace('admin-dashboard.html');
+      }
+    })();
+
+    // ── Login form ─────────────────────────────────────────────────────────────
+    const form      = document.getElementById('login-form');
+    const errorMsg  = document.getElementById('error-msg');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.classList.add('visible');
+    }
+
+    function clearError() {
+      errorMsg.textContent = '';
+      errorMsg.classList.remove('visible');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        showError('Completează toate câmpurile.');
+        return;
+      }
+
+      submitBtn.disabled   = true;
+      submitBtn.textContent = 'Se verifică...';
+
+      const { error } = await _supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        showError('Email sau parolă incorectă. Încearcă din nou.');
+        submitBtn.disabled   = false;
+        submitBtn.textContent = 'Autentificare';
+        return;
+      }
+
+      window.location.replace('admin-dashboard.html');
+    });
+  </script>
+
+</body>
+</html>

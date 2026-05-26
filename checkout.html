@@ -1,0 +1,607 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizează Comanda — CoreForm Prints</title>
+  <meta name="description" content="Finalizează comanda ta CoreForm Prints.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="prints.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    /* ── Checkout page ─────────────────────────────────────── */
+    .checkout-page {
+      flex: 1;
+      padding: 3.5rem 0 6rem;
+    }
+
+    .checkout-page-header { margin-bottom: 2.5rem; }
+    .checkout-page-header .section-label { margin-bottom: 0.5rem; }
+
+    .checkout-page-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--primary);
+      line-height: 1.2;
+      margin: 0 0 1rem 0;
+    }
+
+    .checkout-divider {
+      width: 48px;
+      height: 3px;
+      background-color: var(--primary);
+      opacity: 0.35;
+      border-radius: 2px;
+    }
+
+    /* ── Cart nav link ─────────────────────────────────────── */
+    .cart-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .cart-link:hover { opacity: 1; }
+
+    .cart-link svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .cart-link .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -6px;
+      background-color: #FADADA;
+      color: #2C4A3B;
+      font-size: 0.58rem;
+      font-weight: 800;
+      min-width: 15px;
+      height: 15px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .cart-link .cart-badge.visible { display: flex; }
+
+    /* ── Split layout ──────────────────────────────────────── */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ── Form column ───────────────────────────────────────── */
+    .checkout-form-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-section-title {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(250,218,218,0.5);
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(250,218,218,0.12);
+      margin-bottom: 0.25rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 560px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-label {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(250,218,218,0.75);
+      letter-spacing: 0.3px;
+    }
+
+    .form-input {
+      background-color: rgba(255,255,255,0.06);
+      border: 1px solid rgba(250,218,218,0.18);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--primary);
+      outline: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      width: 100%;
+    }
+
+    .form-input::placeholder { color: rgba(250,218,218,0.25); }
+    .form-input:focus {
+      border-color: rgba(250,218,218,0.5);
+      background-color: rgba(255,255,255,0.09);
+    }
+    .form-input.error { border-color: #e57373; }
+
+    .form-error-msg {
+      font-size: 0.73rem;
+      color: #e57373;
+      display: none;
+    }
+    .form-error-msg.visible { display: block; }
+
+    /* ── Global error banner ───────────────────────────────── */
+    .global-error {
+      display: none;
+      background-color: rgba(229,115,115,0.12);
+      border: 1px solid rgba(229,115,115,0.35);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      font-size: 0.88rem;
+      color: #e57373;
+      margin-bottom: 0.5rem;
+    }
+    .global-error.visible { display: block; }
+
+    /* ── Payment section ───────────────────────────────────── */
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: rgba(255,255,255,0.04);
+      border: 1px solid rgba(250,218,218,0.14);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      position: relative;
+    }
+
+    .payment-option:has(input:checked) {
+      border-color: rgba(250,218,218,0.5);
+      background-color: rgba(250,218,218,0.06);
+    }
+
+    .payment-option input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(250,218,218,0.35);
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: border-color 0.2s ease;
+      position: relative;
+    }
+
+    .payment-option input[type="radio"]::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .payment-option input[type="radio"]:checked { border-color: var(--primary); }
+    .payment-option input[type="radio"]:checked::after { opacity: 1; }
+
+    .payment-option-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .payment-option-label {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .payment-option-desc {
+      font-size: 0.77rem;
+      color: rgba(250,218,218,0.45);
+    }
+
+    .payment-option-icon {
+      margin-left: auto;
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+
+    .payment-option-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    /* ── Place order button ────────────────────────────────── */
+    .btn-place-order {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background-color: var(--primary);
+      color: #2C4A3B;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 1.1rem 2rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 24px rgba(250,218,218,0.18);
+      margin-top: 0.5rem;
+    }
+
+    .btn-place-order:hover:not(:disabled) {
+      background-color: #f5c0c0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(250,218,218,0.28);
+    }
+
+    .btn-place-order:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-place-order svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      flex-shrink: 0;
+    }
+
+    .btn-back-cart {
+      display: block;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(250,218,218,0.45);
+      text-decoration: none;
+      margin-top: 0.75rem;
+      transition: color 0.15s ease;
+    }
+
+    .btn-back-cart:hover { color: var(--primary); opacity: 1; }
+
+    /* ── Summary column ────────────────────────────────────── */
+    .checkout-summary {
+      background-color: rgba(255,255,255,0.04);
+      border: 1px solid rgba(250,218,218,0.12);
+      border-radius: 14px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: sticky;
+      top: 1.5rem;
+    }
+
+    .checkout-summary-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin: 0 0 0.25rem 0;
+    }
+
+    .summary-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(250,218,218,0.1);
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .summary-item-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background-color: rgba(255,255,255,0.06);
+    }
+
+    .summary-item-thumb-placeholder {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      background-color: rgba(255,255,255,0.06);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(250,218,218,0.2);
+      font-size: 0.6rem;
+    }
+
+    .summary-item-info { flex: 1; min-width: 0; }
+
+    .summary-item-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .summary-item-meta {
+      font-size: 0.73rem;
+      color: rgba(250,218,218,0.45);
+    }
+
+    .summary-item-price {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--primary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      color: rgba(250,218,218,0.65);
+    }
+
+    .summary-row.total {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1rem;
+      border-top: 1px solid rgba(250,218,218,0.12);
+      padding-top: 0.75rem;
+    }
+
+    .free-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #7ed4a4;
+      background-color: rgba(126,212,164,0.12);
+      border: 1px solid rgba(126,212,164,0.3);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    /* ── Empty cart state ──────────────────────────────────── */
+    .checkout-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 1rem;
+      text-align: center;
+      gap: 1.25rem;
+    }
+
+    .checkout-empty h2 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+
+    .checkout-empty p { color: rgba(250,218,218,0.55); font-size: 0.95rem; }
+
+    .checkout-empty .btn-back,
+    .btn-go-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--primary);
+      color: #2C4A3B;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .checkout-empty .btn-back:hover,
+    .btn-go-home:hover {
+      background-color: #f5c0c0;
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+
+    /* ── Payment processing overlay ────────────────────────── */
+    .payment-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(44, 74, 59, 0.92);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .payment-overlay.visible { display: flex; }
+
+    .payment-overlay-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      background-color: rgba(255,255,255,0.06);
+      border: 1px solid rgba(250,218,218,0.2);
+      border-radius: 16px;
+      padding: 2.75rem 3.5rem;
+    }
+
+    .payment-overlay-spinner {
+      width: 46px;
+      height: 46px;
+      border: 3px solid rgba(250,218,218,0.18);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .payment-overlay-text {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 0.3px;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "O153E-J7Jeem1qSvi",
+      });
+   })();
+</script>
+</head>
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════════ -->
+  <header class="prints-header">
+    <nav class="prints-nav" aria-label="Navigație principală">
+      <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Acasă
+      </a>
+      <a href="prints.html" class="nav-brand">
+        <img src="logopink.png" class="nav-brand-logo" alt="">CoreForm Prints
+      </a>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="prints.html">Prezentare</a></li>
+        <li><a href="produse.html">Produse</a></li>
+        <li><a href="consultanta.html">Consultant AI</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="oferta.html" class="nav-cta">Solicită Ofertă</a></li>
+      </ul>
+      <a href="cos.html" class="cart-link" id="navCartBtn" aria-label="Coș de cumpărături">
+        Coș
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge" aria-live="polite"></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════ -->
+  <main class="checkout-page">
+    <div class="container">
+      <div class="checkout-page-header">
+        <span class="section-label">Ultimul pas</span>
+        <h1 class="checkout-page-title">Finalizează Comanda</h1>
+        <div class="checkout-divider"></div>
+      </div>
+      <!-- Populated by checkout.js -->
+      <div id="checkout-container"></div>
+    </div>
+  </main>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="prints-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">CoreForm Prints</div>
+        <p class="footer-copy">&copy; 2026 CoreForm. Toate drepturile rezervate.</p>
+      </div>
+      <nav class="footer-links" aria-label="Linkuri footer">
+        <a href="prints.html">Prezentare</a>
+        <a href="produse.html">Produse</a>
+        <a href="faq.html">FAQ</a>
+        <a href="oferta.html">Ofertă</a>
+        <a href="index.html">Acasă</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ══ PAYMENT PROCESSING OVERLAY ══════════════════════════ -->
+  <div id="paymentOverlay" class="payment-overlay" aria-hidden="true" role="status">
+    <div class="payment-overlay-card">
+      <div class="payment-overlay-spinner"></div>
+      <p class="payment-overlay-text">Se procesează plata&hellip;</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="database.js"></script>
+  <script src="checkout.js"></script>
+
+</body>
+</html>

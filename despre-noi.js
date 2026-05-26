@@ -1,14 +1,23 @@
-// ===== Navbar Scroll Effect =====
+// ===== Navbar Scroll Effect (hide on scroll down, show on scroll up) =====
 const navbar = document.querySelector('.navbar');
+let lastScrollY = window.scrollY;
 
 window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 100) {
-        navbar.style.background = 'rgba(26, 45, 36, 0.98)';
+    const currentScrollY = window.scrollY;
+
+    // Background tint
+    navbar.style.background = currentScrollY > 100
+        ? 'rgba(26, 45, 36, 0.98)'
+        : 'rgba(44, 74, 59, 0.95)';
+
+    // Hide / reveal
+    if (currentScrollY > 50 && currentScrollY > lastScrollY) {
+        navbar.classList.add('navbar-hidden');
     } else {
-        navbar.style.background = 'rgba(44, 74, 59, 0.95)';
+        navbar.classList.remove('navbar-hidden');
     }
+
+    lastScrollY = currentScrollY;
 });
 
 // ===== Fade-in Animation on Scroll =====

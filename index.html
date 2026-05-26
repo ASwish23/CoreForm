@@ -8,11 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
     <div class="container">
         <!-- Left Section: Marketing -->
-        <section class="split left" id="leftSection">
+        <section class="split left" id="leftSection" data-aos="fade-right">
             <div class="content">
                 <h1>CoreForm Marketing</h1>
                 <p>Elevate your brand with strategic marketing solutions that drive results and create lasting impact.</p>
@@ -21,7 +22,7 @@
         </section>
 
         <!-- Right Section: Prints -->
-        <section class="split right" id="rightSection">
+        <section class="split right" id="rightSection" data-aos="fade-left">
             <div class="content">
                 <h1>CoreForm Prints</h1>
                 <p>Premium printing services with attention to detail, delivering quality that speaks for your brand.</p>
@@ -36,5 +37,12 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800,
+    once: true,
+  });
+</script>
 </body>
 </html>

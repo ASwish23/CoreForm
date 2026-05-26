@@ -3,6 +3,55 @@
    Colors: #2C4A3B (bg-section) · #FADADA (text/icons) · #FFFFFF #FADADA (card)
    ============================================================ */
 
+/* ── CART NAV LINK ─────────────────────────────────────── */
+.cart-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.cart-link:hover { opacity: 1; }
+
+.cart-link svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.cart-link .cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background-color: #FADADA;
+  color: #2C4A3B;
+  font-size: 0.58rem;
+  font-weight: 800;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cart-link .cart-badge.visible { display: flex; }
+
 /* ── CAROUSEL SECTION ───────────────────────────────────── */
 .carousel-section {
   padding: 3.5rem 0 2rem;
@@ -161,6 +210,14 @@
   opacity: 0.35;
 }
 
+/* Dynamic product images from Supabase */
+.carousel-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* ── CARD BODY ───────────────────────────────────────────── */
 .carousel-card-body {
   padding: 1.5rem;
@@ -315,4 +372,16 @@
     width: 14px;
     height: 14px;
   }
+}
+
+/* ── Scroll-triggered section animations ────────────────── */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+}
+
+.scroll-animate.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }

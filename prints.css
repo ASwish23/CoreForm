@@ -850,19 +850,35 @@ ul { list-style: none; }
 }
 
 .faq-list {
-  border-top: 1px solid var(--primary);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.faq-item { border-bottom: 1px solid var(--primary); }
+.faq-item {
+  border-bottom: 1px solid rgba(44,74,59,0.15);
+  border-radius: 0;
+}
 
 .faq-question {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.35rem 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0;
   cursor: pointer;
   gap: 1rem;
   user-select: none;
+  background-color: #2C4A3B;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-question:hover {
+  background-color: #3a5e4d;
+  box-shadow: 0 4px 16px rgba(44,74,59,0.35);
 }
 
 .faq-question h3 {
@@ -870,36 +886,38 @@ ul { list-style: none; }
   font-size: 0.97rem;
   font-weight: 600;
   flex: 1;
+  color: #FADADA;
 }
 
 .faq-icon {
   width: 28px;
   height: 28px;
-  border: 1.5px solid var(--bg);
+  border: 1.5px solid rgba(250,218,218,0.5);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background var(--ease), transform var(--ease);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
 .faq-icon svg {
   width: 11px;
   height: 11px;
-  stroke: var(--bg);
+  stroke: #FADADA;
   fill: none;
   stroke-width: 2.5;
   stroke-linecap: round;
-  transition: stroke var(--ease);
+  transition: stroke 0.2s ease;
 }
 
 .faq-item.open .faq-icon {
-  background-color: var(--primary);
+  background-color: #FADADA;
+  border-color: #FADADA;
   transform: rotate(45deg);
 }
 
-.faq-item.open .faq-icon svg { stroke: var(--bg); }
+.faq-item.open .faq-icon svg { stroke: #2C4A3B; }
 
 .faq-answer {
   max-height: 0;
@@ -908,9 +926,10 @@ ul { list-style: none; }
 }
 
 .faq-answer-inner {
-  padding-bottom: 1.5rem;
+  padding: 1rem 1.25rem 1.25rem;
   font-size: 0.93rem;
-  opacity: 0.78;
+  color: var(--primary);
+  opacity: 0.85;
   line-height: 1.8;
 }
 
@@ -1127,4 +1146,16 @@ ul { list-style: none; }
   .hero-actions    { flex-direction: column; }
   .hero-actions .btn { justify-content: center; }
   .hero-stat { min-width: 100%; }
+}
+
+/* ── Scroll-triggered section animations ────────────────── */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+}
+
+.scroll-animate.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }

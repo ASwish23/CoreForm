@@ -24,9 +24,19 @@
       <ul class="nav-links" id="navLinks" role="list">
         <li><a href="prints.html">Prezentare</a></li>
         <li><a href="produse.html" class="active" aria-current="page">Produse</a></li>
+        <li><a href="consultanta.html">Consultant AI</a></li>
         <li><a href="faq.html">FAQ</a></li>
         <li><a href="oferta.html" class="nav-cta">Solicită Ofertă</a></li>
       </ul>
+      <a href="cos.html" class="cart-link" id="navCartBtn" aria-label="Coș de cumpărături">
+        Coș de cumpărături
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge" aria-live="polite"></span>
+      </a>
       <button class="nav-toggle" id="navToggle" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
@@ -45,246 +55,84 @@
       </div>
     </section>
 
-    <!-- ══ CATEGORIE: Piese tehnice ═════════════════════════ -->
-    <section class="carousel-section" aria-labelledby="cat-tehnice">
+    <!-- ══ CATEGORIE: Accesori personale ════════════════════ -->
+    <section class="carousel-section scroll-animate" aria-labelledby="cat-accesorii">
       <div class="container">
-        <h2 class="category-heading" id="cat-tehnice">Piese Tehnice</h2>
-        <p class="category-desc">Componente funcționale cu toleranțe strânse, adaptate pentru medii industriale sau mecanice solicitante.</p>
+        <h2 class="category-heading" id="cat-accesorii">Accesori Personale</h2>
+        <p class="category-desc">Accesorii personalizate printate 3D — de la bijuterii și portofele la carcase de telefon și clipuri, adaptate exact după preferințele tale.</p>
       </div>
-      <div class="carousel-stage" data-carousel="tehnice">
+      <div class="carousel-stage" data-carousel="accesorii">
         <button class="carousel-btn carousel-btn--prev" aria-label="Anterior">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div class="carousel-track-wrapper">
-          <ul class="carousel-track" role="list">
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Piese Tehnice</p>
-                <h3>Suport Rulmenți Personalizat</h3>
-                <p>Suport de rulment printat din PETG, proiectat pentru mașini de brodat industriale. Toleranță ±0.2 mm, compatibil cu rulmenți standard 608.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Piese Tehnice</p>
-                <h3>Gabarit de Asamblare</h3>
-                <p>Jig de asamblare pentru linie de producție, material ABS, reproductibil cu precizie înaltă în serii de până la 100 de bucăți.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Piese Tehnice</p>
-                <h3>Adaptor Conductă Industrială</h3>
-                <p>Adaptor de conductă cu filet metric M32, printat din ABS, rezistent la temperaturi de până la 100 °C și presiune de 3 bar.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Piese Tehnice</p>
-                <h3>Penă de Fixare Arbore</h3>
-                <p>Piesă de fixare pentru transmisii mecanice, PETG, printat cu umplere 80% pentru rezistență maximă la solicitări de forfecare.</p>
-              </div>
-            </li>
-
-          </ul>
+          <ul class="carousel-track" role="list"></ul>
         </div>
         <button class="carousel-btn carousel-btn--next" aria-label="Următor">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
-      <div class="carousel-dots" data-dots="tehnice" aria-hidden="true"></div>
+      <div class="carousel-dots" data-dots="accesorii" aria-hidden="true"></div>
     </section>
 
-    <!-- ══ CATEGORIE: Prototipuri ════════════════════════════ -->
-    <section class="carousel-section" aria-labelledby="cat-proto">
+    <!-- ══ CATEGORIE: Decoratiuni ════════════════════════════ -->
+    <section class="carousel-section scroll-animate" aria-labelledby="cat-decoratiuni">
       <div class="container">
-        <h2 class="category-heading" id="cat-proto">Prototipuri</h2>
-        <p class="category-desc">Prototipare rapidă pentru validarea formei, designului și funcționalității înainte de producția de serie sau investiția în scule.</p>
+        <h2 class="category-heading" id="cat-decoratiuni">Decorațiuni</h2>
+        <p class="category-desc">Obiecte decorative cu design unic, personalizabile după culoare și dimensiune — de la figurine și vaze la panouri ornamentale.</p>
       </div>
-      <div class="carousel-stage" data-carousel="proto">
+      <div class="carousel-stage" data-carousel="decoratiuni">
         <button class="carousel-btn carousel-btn--prev" aria-label="Anterior">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div class="carousel-track-wrapper">
-          <ul class="carousel-track" role="list">
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Prototipuri</p>
-                <h3>Carcasă Produs Electronic</h3>
-                <p>Prototip de carcasă pentru dispozitiv IoT, material PLA, cu decupaje precise pentru conectori USB-C, afișaj și difuzor.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Prototipuri</p>
-                <h3>Mâner Ergonomic — Iterație V3</h3>
-                <p>A treia iterație de prototip pentru un mâner de unealtă manuală, testare ergonomie și gripare cu TPU flexibil 95A.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Prototipuri</p>
-                <h3>Machetă Produs pentru Investitori</h3>
-                <p>Machetă funcțională de produs pentru prezentare investitori, finisaj vopsit manual post-printare, scală 1:1.</p>
-              </div>
-            </li>
-
-          </ul>
+          <ul class="carousel-track" role="list"></ul>
         </div>
         <button class="carousel-btn carousel-btn--next" aria-label="Următor">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
-      <div class="carousel-dots" data-dots="proto" aria-hidden="true"></div>
+      <div class="carousel-dots" data-dots="decoratiuni" aria-hidden="true"></div>
     </section>
 
-    <!-- ══ CATEGORIE: Obiecte de design ═════════════════════ -->
-    <section class="carousel-section" aria-labelledby="cat-design">
+    <!-- ══ CATEGORIE: Birotica ═══════════════════════════════ -->
+    <section class="carousel-section scroll-animate" aria-labelledby="cat-birotica">
       <div class="container">
-        <h2 class="category-heading" id="cat-design">Obiecte de Design</h2>
-        <p class="category-desc">Articole decorative și funcționale cu estetică rafinată, personalizabile după culoare, dimensiune și finisaj.</p>
+        <h2 class="category-heading" id="cat-birotica">Birotică</h2>
+        <p class="category-desc">Soluții de birou printate 3D — suporturi pentru monitoare, organizatoare de cabluri, port-pixuri și accesorii de desk personalizate.</p>
       </div>
-      <div class="carousel-stage" data-carousel="design">
+      <div class="carousel-stage" data-carousel="birotica">
         <button class="carousel-btn carousel-btn--prev" aria-label="Anterior">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div class="carousel-track-wrapper">
-          <ul class="carousel-track" role="list">
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Design</p>
-                <h3>Organizator Birou Modular</h3>
-                <p>Set modular de organizare birou, design minimalist, PLA mat în culori neutre. Configurabil după nevoie, personalizabil cu inițiale.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Design</p>
-                <h3>Abajur Geometric — 3 Dimensiuni</h3>
-                <p>Abajur geometric printat în PLA semi-transparent, efect de lumină pattern unic. Disponibil în diametrele S (18 cm), M (26 cm), L (35 cm).</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Design</p>
-                <h3>Trofeu Personalizat</h3>
-                <p>Trofee și premii cu logo și text la cerere, material PLA+, finisaj satin. Livrate ambalate individual în cutie cadou.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Design</p>
-                <h3>Inel Decorativ Personalizat</h3>
-                <p>Bijuterie/accesoriu decorativ cu design parametric unic, PLA sau PETG color, dimensionat după măsura clientului.</p>
-              </div>
-            </li>
-
-          </ul>
+          <ul class="carousel-track" role="list"></ul>
         </div>
         <button class="carousel-btn carousel-btn--next" aria-label="Următor">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
-      <div class="carousel-dots" data-dots="design" aria-hidden="true"></div>
+      <div class="carousel-dots" data-dots="birotica" aria-hidden="true"></div>
     </section>
 
-    <!-- ══ CATEGORIE: Piese de schimb ═══════════════════════ -->
-    <section class="carousel-section" aria-labelledby="cat-schimb">
+    <!-- ══ CATEGORIE: Organizarea casei ═════════════════════ -->
+    <section class="carousel-section scroll-animate" aria-labelledby="cat-organizare">
       <div class="container">
-        <h2 class="category-heading" id="cat-schimb">Piese de Schimb</h2>
-        <p class="category-desc">Înlocuiești o piesă ruptă sau discontinuă? O reproducem din fișierul tău, din desene tehnice sau din scanare 3D.</p>
+        <h2 class="category-heading" id="cat-organizare">Organizarea Casei</h2>
+        <p class="category-desc">Soluții practice pentru fiecare colț al casei — suporturi de perete, organizatoare de sertare, cuiere și accesorii de bucătărie imprimate la comandă.</p>
       </div>
-      <div class="carousel-stage" data-carousel="schimb">
+      <div class="carousel-stage" data-carousel="organizare">
         <button class="carousel-btn carousel-btn--prev" aria-label="Anterior">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
         <div class="carousel-track-wrapper">
-          <ul class="carousel-track" role="list">
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Piese de Schimb</p>
-                <h3>Clapetă Ventilație HVAC</h3>
-                <p>Înlocuitor de clapetă pentru sisteme HVAC rezidențiale, material PETG rezistent la temperatură, fit dimensional garantat.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Piese de Schimb</p>
-                <h3>Suport Oglindă Auto — Custom</h3>
-                <p>Suport de oglindă retrovizoare interioară printat din ABS, adaptat pentru modele auto cu piese greu de procurat din comerț.</p>
-              </div>
-            </li>
-
-            <li class="carousel-card">
-              <div class="carousel-card-image">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
-              </div>
-              <div class="carousel-card-body">
-                <p class="carousel-card-tag">Piese de Schimb</p>
-                <h3>Buton Aparat Electrocasnic</h3>
-                <p>Reproducere fidelă a butoanelor rupte pentru electrocasnice vintage sau discontinue, culori asortate, toleranță ±0.2 mm.</p>
-              </div>
-            </li>
-
-          </ul>
+          <ul class="carousel-track" role="list"></ul>
         </div>
         <button class="carousel-btn carousel-btn--next" aria-label="Următor">
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
-      <div class="carousel-dots" data-dots="schimb" aria-hidden="true"></div>
+      <div class="carousel-dots" data-dots="organizare" aria-hidden="true"></div>
     </section>
 
     <!-- ══ CTA ═══════════════════════════════════════════════ -->
@@ -325,8 +173,29 @@
       navToggle.setAttribute('aria-expanded', isOpen);
       navToggle.setAttribute('aria-label', isOpen ? 'Închide meniu' : 'Deschide meniu');
     });
+
+    // Sync cart badge from localStorage
+    (function () {
+      try {
+        var raw   = localStorage.getItem('cart');
+        console.log('Cart contents in Navbar:', raw);
+        var cart  = JSON.parse(raw);
+        if (!Array.isArray(cart)) cart = [];
+        var total = cart.reduce(function (s, i) { return s + (i.quantity || 0); }, 0);
+        if (total > 0) {
+          var badge = document.getElementById('cartBadge');
+          if (badge) {
+            badge.textContent = total > 99 ? '99+' : String(total);
+            badge.classList.add('visible');
+          }
+        }
+      } catch (e) {}
+    })();
   </script>
   <script src="prints.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="database.js"></script>
 </body>
 </html>

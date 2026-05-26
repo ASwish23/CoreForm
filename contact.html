@@ -14,7 +14,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="logo.png" alt="CoreForm Logo" class="nav-logo-img">
+                <img src="logopink.png" alt="CoreForm Logo" class="nav-logo-img">
                 <span>CoreForm</span>
             </a>
             <ul class="nav-menu">
@@ -168,6 +168,19 @@
     </footer>
 
     <script>
+        // Pre-fill marketingPerspective from package selection on marketing.html
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var selectedPackage = urlParams.get('pachet');
+            if (selectedPackage) {
+                var field = document.getElementById('marketingPerspective');
+                if (field) {
+                    field.value = 'Pachet selectat: ' + selectedPackage;
+                    field.closest('.form-group').classList.add('focused');
+                }
+            }
+        })();
+
         // Form submission handler
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();

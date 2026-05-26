@@ -121,10 +121,45 @@
   }
 
   /* ── Initialise all carousels on the page ──────────────── */
-  document.addEventListener('DOMContentLoaded', function () {
+  function initCarousels() {
     document.querySelectorAll('.carousel-stage').forEach(function (stage) {
       new Carousel(stage);
     });
-  });
+  }
+
+  // Expose globally so dynamic-render pages (e.g. produse.html) can call
+  // initCarousels() after appending cards from an async data source.
+  window.initCarousels = initCarousels;
+
+  document.addEventListener('DOMContentLoaded', initCarousels);
+
+  /* ── Scroll-triggered section animations ──────────────────
+     Uses a readyState guard: if DOMContentLoaded already fired
+     (possible when the script loads late / after the inline
+     scripts), we run immediately instead of waiting forever.   */
+  function initScrollAnimations() {
+    var elements = document.querySelectorAll('.scroll-animate');
+    console.log('Intersection Observer inițializat. Elemente găsite: ' + elements.length);
+
+    var observer = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    elements.forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+
+  // Run immediately if DOM is ready, otherwise wait for the event.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollAnimations);
+  } else {
+    initScrollAnimations();
+  }
 
 }());

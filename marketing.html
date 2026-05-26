@@ -8,19 +8,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="marketing.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
     <!-- Navigare -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="Logo monocrom alb.png" alt="CoreForm Logo" class="nav-logo-img">
+                <img src="logopink.png" alt="CoreForm Logo" class="nav-logo-img">
                 <span>CoreForm</span>
             </a>
             <ul class="nav-menu">
                 <li><a href="#hero">Acasă</a></li>
                 <li><a href="#performance">Performanță</a></li>
-                <li><a href="#services">Servicii</a></li>
+                <li><a href="#pricing-packages">Servicii</a></li>
                 <li><a href="despre-noi.html">Despre Noi</a></li>
                 <li><a href="contact.html" class="nav-cta">Contactează-ne</a></li>
             </ul>
@@ -34,9 +35,9 @@
                 <div class="hero-label">Excelență în Marketing</div>
                 <h1 class="hero-title">Marketingul nu este doar strategie<span class="accent-dot">;</span></h1>
                 <h1 class="hero-title-emphasis">este o performanță<span class="accent-dot">.</span></h1>
-                <p class="hero-description">Condusă de <strong>Mădălina Sorescu</strong>, o virtuoză a marketingului care a generat creștere virală la <strong>Nexus Gaming</strong> (300k+ vizualizări, 92k+ followers) și a ridicat performanța B2B la <strong>Bosch EMEA</strong> de la 1% la 4% engagement pe piețele de securitate tehnică.</p>
+                <p class="hero-description">Condusă de <strong>Mădălina Sorescu</strong>, o virtuoză a marketingului care a generat creștere virală la <strong>Nexus Gaming</strong> (300k+ vizualizări, 100k+ followers) și a ridicat performanța B2B la <strong>Bosch EMEA</strong> de la 1% la 4% engagement pe piețele de securitate tehnică.</p>
                 <div class="hero-cta-group">
-                    <a href="#services" class="btn-primary">Explorează Sistemele de Creștere</a>
+                    <a href="#pricing-packages" class="btn-primary">Explorează Sistemele de Creștere</a>
                     <a href="#performance" class="btn-secondary">Vezi Performanța</a>
                 </div>
             </div>
@@ -139,73 +140,121 @@
         </div>
     </section>
 
-    <!-- Secțiunea Pachete de Servicii -->
-    <section id="services" class="services">
+    <!-- Secțiunea Tarife & Pachete -->
+    <section id="pricing-packages" class="pricing-packages scroll-animate">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-label">Sisteme de Creștere</span>
-                <h2 class="section-title">Alege-ți Traiectoria</h2>
-                <p class="section-description">Soluții de marketing personalizate, proiectate să accelereze performanța brandului tău.</p>
+                <span class="section-label">Tarife & Pachete</span>
+                <h2 class="section-title">Investiție Transparentă</h2>
+                <p class="section-description">Soluții clare, proiectate să se potrivească exact cu nevoile și obiectivele afacerii tale.</p>
             </div>
 
-            <div class="pricing-grid">
-                <!-- Pachet 1: Digital Catalyst -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3 class="pricing-title">Digital Catalyst</h3>
-                        <p class="pricing-subtitle">Conținut & Social Media</p>
+            <div class="packages-grid">
+
+                <!-- Card 1: Servicii Punctuale -->
+                <div class="package-card" data-aos="fade-up">
+                    <div class="package-top">
+                        <h3 class="package-title">Servicii Punctuale</h3>
+                        <div class="package-price-tag">
+                            <span class="price-from">De la</span>
+                            <div class="price-badge">
+                                <span class="price-value">50</span>
+                                <span class="price-currency">RON</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pricing-features">
-                        <ul>
-                            <li>Strategie & Management Social Media</li>
-                            <li>Creare Conținut (Post-uri, Stories, Reels)</li>
-                            <li>Gestionarea Comunității</li>
-                            <li>Rapoarte de Analiză Lunare</li>
-                            <li>2 Platforme Incluse</li>
-                        </ul>
+                    <div class="sub-packages">
+                        <div class="sub-package" data-package="Creare de conținut — 500 RON">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Creare de conținut</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-amount">500 RON</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
+                        <div class="sub-package" data-package="Design grafic pentru social media — 50 RON / postare">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Design grafic social media</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-amount">50 RON</span><span class="sub-pkg-per"> / postare</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
+                        <div class="sub-package" data-package="Editare video — 100 RON / video">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Editare video</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-amount">100 RON</span><span class="sub-pkg-per"> / video</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
+                        <div class="sub-package" data-package="Strategie de brand — 2.500 RON">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Strategie de brand</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-amount">2.500 RON</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
+                        <div class="sub-package" data-package="Strategie de social media — 1.500 RON">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Strategie social media</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-amount">1.500 RON</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
                     </div>
-                    <a href="contact.html" class="pricing-btn">Pornește Creșterea</a>
+                    <button class="package-cta" data-package="Servicii Punctuale">Solicită Ofertă</button>
                 </div>
 
-                <!-- Pachet 2: Market Dominator (Cel mai popular) -->
-                <div class="pricing-card featured">
-                    <div class="badge-featured">Cel Mai Popular</div>
-                    <div class="pricing-header">
-                        <h3 class="pricing-title">Market Dominator</h3>
-                        <p class="pricing-subtitle">Strategii Virale & Reclame Plătite</p>
+                <!-- Card 2: Pachete Lunare (Featured) -->
+                <div class="package-card package-card--featured" data-aos="fade-up" data-aos-delay="150">
+                    <div class="package-badge-top">Recomandat</div>
+                    <div class="package-top">
+                        <h3 class="package-title">Pachete de Servicii Lunare</h3>
+                        <p class="package-subtitle">Soluții complete pentru o prezență constantă și profesională în mediul online.</p>
                     </div>
-                    <div class="pricing-features">
-                        <ul>
-                            <li>Tot ce este inclus în Digital Catalyst</li>
-                            <li>Strategie de Conținut Viral</li>
-                            <li>Campanii Publicitare Plătite (Meta, TikTok, Google)</li>
-                            <li>Testare A/B & Optimizare</li>
-                            <li>Analitică Avansată & Tracking ROI</li>
-                            <li>Strategie de Parteneriat cu Influențatori</li>
-                        </ul>
+                    <div class="sub-packages">
+                        <div class="sub-package" data-package="Essential Core — De la 2.000 RON / lună">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Essential Core</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">2.000 RON</span><span class="sub-pkg-per"> / lună</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
+                        <div class="sub-package" data-package="Core Growth — De la 3.000 RON / lună">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Core Growth</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">3.000 RON</span><span class="sub-pkg-per"> / lună</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
+                        <div class="sub-package" data-package="Premium Form — De la 4.000 RON / lună">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Premium Form</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">4.000 RON</span><span class="sub-pkg-per"> / lună</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
+                        <div class="sub-package" data-package="Total Form — De la 5.000 RON / lună">
+                            <div class="sub-pkg-info">
+                                <span class="sub-pkg-name">Total Form</span>
+                                <span class="sub-pkg-price"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">5.000 RON</span><span class="sub-pkg-per"> / lună</span></span>
+                            </div>
+                            <span class="sub-pkg-arrow">→</span>
+                        </div>
                     </div>
-                    <a href="contact.html" class="pricing-btn">Domină Piața</a>
+                    <button class="package-cta package-cta--featured" data-package="Pachete Lunare">Alege un Abonament</button>
                 </div>
 
-                <!-- Pachet 3: Elite Bespoke -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3 class="pricing-title">Elite Bespoke</h3>
-                        <p class="pricing-subtitle">Transformare Completă de Brand</p>
+                <!-- Card 3: Servicii Personalizate -->
+                <div class="package-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="package-top">
+                        <h3 class="package-title">Servicii Personalizate</h3>
+                        <div class="package-price-tag">
+                            <span class="custom-badge">✦ Custom</span>
+                        </div>
                     </div>
-                    <div class="pricing-features">
-                        <ul>
-                            <li>Tot ce este inclus în Market Dominator</li>
-                            <li>Renovare Completă a Strategiei de Brand</li>
-                            <li>Marketing B2B & Generare de Lead-uri</li>
-                            <li>Orchestrare Campanii Multi-Canal</li>
-                            <li>Consultare Executivă & Prezentări pentru Boarduri</li>
-                            <li>Account Manager Dedicat</li>
-                            <li>Sesiuni de Strategie Trimestriale</li>
-                        </ul>
-                    </div>
-                    <a href="contact.html" class="pricing-btn">Transformă Brandul</a>
+                    <p class="package-description">Ai nevoie de o structură diferită, un volum unic de postări sau o abordare specifică pentru nișa ta? CoreForm configurează împreună cu tine pachetul ideal, adaptat <span class="text-accent">100%</span> obiectivelor afacerii tale.</p>
+                    <button class="package-cta" data-package="Servicii Personalizate">Configurează Pachet</button>
                 </div>
+
             </div>
         </div>
     </section>
@@ -229,7 +278,7 @@
             <div class="footer-links">
                 <a href="index.html">Acasă</a>
                 <a href="#performance">Performanță</a>
-                <a href="#services">Servicii</a>
+                <a href="#pricing-packages">Servicii</a>
                 <a href="despre-noi.html">Despre Noi</a>
                 <a href="contact.html">Contact</a>
             </div>
@@ -237,5 +286,12 @@
     </footer>
 
     <script src="marketing.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800, // durata animației în milisecunde
+    once: true,    // animația se execută o singură dată (nu se repetă când urci înapoi)
+  });
+</script>
 </body>
 </html>
