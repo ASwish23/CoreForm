@@ -216,5 +216,18 @@
             });
         });
     </script>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const pachet = params.get('pachet');
+            if (pachet) {
+                const field = document.getElementById('marketingPerspective');
+                if (field) {
+                    field.value = pachet;
+                }
+            }
+        })();
+    </script>
 </body>
 </html>

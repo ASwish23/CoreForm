@@ -198,25 +198,47 @@ console.log('%c🚀 CoreForm Marketing', 'font-size: 24px; font-weight: bold; co
 console.log('%cInteresați de marketing bazat pe performanță? Hai să vorbim.', 'font-size: 14px; color: #2C4A3B;');
 console.log('%c📧 contact@coreform.marketing', 'font-size: 12px; color: #F3E5E5;');
 
-// ===== Package Selection — Navigate to Contact with Pre-fill =====
+// ===== Package Selection — Two-step: select first, then navigate =====
+let selectedPackage = null;
+
+// Step 1: arrow click — store selection and unlock the CTA button in the same card
+function selectPackage(packageName) {
+    selectedPackage = packageName;
+
+    // Clear previous selection highlight
+    document.querySelectorAll('.sub-package').forEach(function(row) {
+        row.classList.remove('sub-package--selected');
+    });
+
+    // Highlight the chosen row
+    document.querySelectorAll('.sub-package').forEach(function(row) {
+        if (row.dataset.package === packageName) {
+            row.classList.add('sub-package--selected');
+        }
+    });
+
+    // Enable every main CTA button (both cards become actionable once any package is chosen)
+    document.querySelectorAll('.package-cta').forEach(function(btn) {
+        btn.disabled = false;
+    });
+}
+
+// Step 2: CTA click — navigate to contact form with the stored package name
 function selectPackageAndNavigate(packageName) {
     const encoded = encodeURIComponent(packageName);
     window.location.href = 'contact.html?pachet=' + encoded;
 }
 
-// Main package CTA buttons
+// Main package CTA buttons — use selectedPackage if available, else fall back to data-package
 document.querySelectorAll('.package-cta').forEach(function(btn) {
     btn.addEventListener('click', function() {
-        selectPackageAndNavigate(this.dataset.package);
+        const pkg = selectedPackage || this.dataset.package;
+        selectPackageAndNavigate(pkg);
     });
 });
 
-// Individual sub-package rows
-document.querySelectorAll('.sub-package').forEach(function(row) {
-    row.addEventListener('click', function() {
-        selectPackageAndNavigate(this.dataset.package);
-    });
-});
+// Note: individual sub-package rows are handled via inline onclick on the arrow button
+// (with event.stopPropagation) to prevent conflict with the PDF open action on the info zone.
 
 // ===== Scroll Animation for Package Cards =====
 const packageCards = document.querySelectorAll('.package-card');

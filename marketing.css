@@ -753,6 +753,11 @@ body {
     position: relative;
 }
 
+.package-card::before,
+.package-card::after {
+    pointer-events: none;
+}
+
 .package-card:hover {
     box-shadow: 0 25px 50px rgba(250, 218, 218, 0.2);
     border-color: var(--pale-pink);
@@ -864,13 +869,16 @@ body {
 .sub-package:hover {
     background: rgba(250, 218, 218, 0.07);
     border-color: rgba(250, 218, 218, 0.35);
-    transform: translateX(4px);
+    /* translateX removed — shift between mousedown/mouseup cancels click events */
 }
 
 .sub-pkg-info {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
+    position: relative;
+    z-index: 50;
+    pointer-events: auto !important;
 }
 
 .sub-pkg-name {
@@ -891,6 +899,9 @@ body {
     font-size: 1.1rem;
     transition: color 0.25s ease, transform 0.25s ease;
     flex-shrink: 0;
+    position: relative;
+    z-index: 50;
+    pointer-events: auto !important;
 }
 
 .sub-package:hover .sub-pkg-arrow {
@@ -935,6 +946,15 @@ body {
     background: var(--light-pink);
     border-color: var(--light-pink);
     box-shadow: 0 8px 30px rgba(250, 218, 218, 0.35);
+}
+
+.package-cta:disabled,
+.package-cta--featured:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Packages Section Responsive */
@@ -1052,4 +1072,19 @@ body {
 .sub-pkg-per {
     font-size: 0.78rem;
     color: rgba(250, 218, 218, 0.5);
+}
+
+/* ===== Hover Glow — Interactive Package Row Elements ===== */
+.hover-glow {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 10px;
+}
+
+.hover-glow:hover {
+    background-color: rgba(255, 0, 127, 0.05) !important;
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.5) !important;
+    border-color: rgba(255, 0, 127, 0.5) !important;
+    transform: translateY(-1px);
 }
