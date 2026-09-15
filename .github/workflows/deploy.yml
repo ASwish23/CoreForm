@@ -40,7 +40,10 @@ jobs:
           protocol: ftps
           port: 21
           local-dir: ./
-          server-dir: /public_html/
+          # FTP_USERNAME's home directory is already public_html (a scoped
+          # FTP account, not the main cPanel login) — so the FTP root here
+          # already IS the deploy target.
+          server-dir: ./
           # Never wipe files on the server that aren't in this repo —
           # cPanel keeps things here (cgi-bin, .well-known, error logs, the
           # sync-state file itself) that must survive every deploy.
