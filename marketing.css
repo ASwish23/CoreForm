@@ -884,6 +884,21 @@ body {
         max-height: 380px;
     }
 
+    /* The logo asset has an off-center icon above a flush-left wordmark, so
+       flush-left positioning makes the caption look misaligned under it.
+       Centering the whole block reads as intentional instead. */
+    .image-frame--logo {
+        justify-content: center;
+    }
+
+    .image-frame--logo img {
+        max-width: 240px;
+    }
+
+    .hero-image-caption {
+        text-align: center;
+    }
+
     .section-title {
         font-size: 2rem;
     }
