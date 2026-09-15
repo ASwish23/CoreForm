@@ -1,38 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Form | Marketing & Prints</title>
+    <link rel="icon" type="image/png" href="PozeMarketing/favicon-32.png">
+    <link rel="apple-touch-icon" href="PozeMarketing/favicon-180.png">
+    <meta name="description" content="Marketing strategic și printare 3D profesională, cu livrare în toată România. Consultanță gratuită și ofertă în 24 de ore.">
+    <meta name="keywords" content="marketing România, printare 3D România, Cluj-Napoca, București, Timișoara, Iași, Brașov, Oradea, Arad, Târgu Mureș, Baia Mare, Deva, Hunedoara, consultant marketing, soluții print">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="CoreForm | Marketing & Printare 3D | România">
+    <meta property="og:description" content="Servicii de marketing strategic și printare 3D profesională, cu livrare în toată România: Cluj-Napoca, București, Timișoara, Iași, Brașov și alte orașe.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://coreform.ro/">
+    <meta property="og:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+    <link rel="canonical" href="https://coreform.ro/">
+    <title>CoreForm | Marketing & Printare 3D | România</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "CoreForm",
+      "url": "https://coreform.ro",
+      "logo": "https://coreform.ro/PozeMarketing/og-default.jpg",
+      "description": "Servicii de marketing strategic și printare 3D profesională",
+      "areaServed": [
+        { "@type": "City", "name": "Cluj-Napoca", "addressCountry": "RO" },
+        { "@type": "City", "name": "Deva", "addressCountry": "RO" },
+        { "@type": "City", "name": "Timișoara", "addressCountry": "RO" },
+        { "@type": "City", "name": "Arad", "addressCountry": "RO" },
+        { "@type": "City", "name": "Oradea", "addressCountry": "RO" },
+        { "@type": "City", "name": "Hunedoara", "addressCountry": "RO" },
+        { "@type": "City", "name": "Baia Mare", "addressCountry": "RO" },
+        { "@type": "City", "name": "Târgu Mureș", "addressCountry": "RO" },
+        { "@type": "City", "name": "Iași", "addressCountry": "RO" },
+        { "@type": "City", "name": "București", "addressCountry": "RO" },
+        { "@type": "City", "name": "Brașov", "addressCountry": "RO" },
+        { "@type": "Country", "name": "România" }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Cluj-Napoca",
+        "addressCountry": "RO"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+40731644613",
+        "contactType": "Customer Service",
+        "email": "contact@coreform.ro"
+      }
+    }
+    </script>
+    <!-- Social sharing -->
+    <meta property="og:site_name" content="CoreForm">
+    <meta property="og:locale" content="ro_RO">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="CoreForm — marketing și printare 3D în România">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CoreForm | Marketing & Printare 3D | România">
+    <meta name="twitter:description" content="Servicii de marketing strategic și printare 3D profesională, cu livrare în toată România: Cluj-Napoca, București, Timișoara, Iași, Brașov și alte orașe.">
+    <meta name="twitter:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+    <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
+    <script src="consent.js" defer></script>
 </head>
 <body>
-    <div class="container">
+  <a class="skip-link" href="#continut">Sari la conținut</a>
+    <h1 class="sr-only">CoreForm — Marketing strategic și printare 3D în toată România</h1>
+    <div class="container" id="continut">
         <!-- Left Section: Marketing -->
         <section class="split left" id="leftSection" data-aos="fade-right">
             <div class="content">
-                <h1>CoreForm Marketing</h1>
+                <h2>CoreForm Marketing</h2>
                 <p>Elevate your brand with strategic marketing solutions that drive results and create lasting impact.</p>
                 <a href="/marketing.html" class="cta-button">Explore Marketing</a>
             </div>
         </section>
 
         <!-- Right Section: Prints -->
-        <section class="split right" id="rightSection" data-aos="fade-left">
+        <section class="split right is-locked" id="rightSection" data-aos="fade-left">
             <div class="content">
-                <h1>CoreForm Prints</h1>
+                <h2>CoreForm Prints</h2>
                 <p>Premium printing services with attention to detail, delivering quality that speaks for your brand.</p>
-                <a href="/prints.html" class="cta-button">Explore Prints</a>
+                <a class="cta-button is-disabled" aria-disabled="true">
+                    <svg class="lock-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                        <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+                    </svg>
+                    Explore Prints
+                </a>
+            </div>
+            <div class="coming-soon-overlay">
+                <span class="coming-soon-badge">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                        <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+                    </svg>
+                    Coming Soon
+                </span>
             </div>
         </section>
 
         <!-- Central Logo -->
         <div class="logo-container">
-            <img src="logogreen.png" alt="Core Form Logo" class="logo">
+            <picture><source srcset="img/logo-green.webp" type="image/webp"><img src="img/logo-green.png" alt="Core Form Logo" class="logo" width="512" height="566" decoding="async" loading="eager" fetchpriority="high"></picture>
         </div>
     </div>
 
@@ -44,5 +119,6 @@
     once: true,
   });
 </script>
+    <script src="language-switcher.js"></script>
 </body>
 </html>

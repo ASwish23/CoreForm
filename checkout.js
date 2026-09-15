@@ -95,7 +95,7 @@
         '<div class="checkout-empty">' +
           '<h2>Coșul tău este gol</h2>' +
           '<p>Adaugă produse în coș înainte de a finaliza comanda.</p>' +
-          '<a href="produse.html" class="btn-back">Vezi produsele</a>' +
+          '<a href="/produse.html" class="btn-back">Vezi produsele</a>' +
         '</div>';
       return;
     }
@@ -192,7 +192,7 @@
 
           '</form>' +
 
-          '<a href="cos.html" class="btn-back-cart">&#8592; Înapoi la coș</a>' +
+          '<a href="/cos.html" class="btn-back-cart">&#8592; Înapoi la coș</a>' +
 
         '</div>' +
 
@@ -482,7 +482,7 @@
 
       } else {
         /* ── Cash on delivery ──────────────────────────────────────
-           Send notification email then redirect to succes.html.     */
+           Send notification email then redirect to /succes.     */
         var detalii = formatCartForEmail(cart, shipping, total);
         try {
           await trimiteNotificareEmail(
@@ -504,7 +504,7 @@
           icon: 'success',
           confirmButtonColor: '#2C4A3B'
         }).then(function () {
-          window.location.href = 'succes.html';
+          window.location.href = '/succes.html';
         });
       }
     })

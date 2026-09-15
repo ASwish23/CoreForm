@@ -1,0 +1,14 @@
+# Tooling installed by `npm install` (see package.json devDependencies)
+node_modules/
+
+# Screenshot output from screenshot.mjs
+temporary screenshots/
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
+*.log
+
+# Real Supabase credentials — copy config.example.js to config.js and fill in
+config.js
+.env

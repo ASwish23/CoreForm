@@ -1,0 +1,54 @@
+# robots.txt — coreform.ro
+# CORE FORM S.R.L. · https://coreform.ro
+
+User-agent: *
+Allow: /
+
+# ── Private / transactional areas ─────────────────────────
+Disallow: /admin-login
+Disallow: /admin-login.html
+Disallow: /admin-dashboard
+Disallow: /admin-dashboard.html
+Disallow: /checkout
+Disallow: /checkout.html
+Disallow: /cos
+Disallow: /cos.html
+Disallow: /succes
+Disallow: /succes.html
+
+# ── Internal / non-content files ──────────────────────────
+Disallow: /supabase/
+Disallow: /*.csv$
+Disallow: /*.cer$
+Disallow: /netopia-payment-frontend-example.js
+Disallow: /NETOPIA_SETUP.md
+
+# ── Faceted / parameterised URLs (avoid duplicate content) ─
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+
+# The product detail template is reachable only with ?id= —
+# individual products are surfaced through /produse.
+Disallow: /produs$
+Disallow: /produs.html$
+
+# ── Assets crawlers need for rendering ────────────────────
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# ── AI training crawlers (opt out; remove if you want them) ─
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+Sitemap: https://coreform.ro/sitemap.xml

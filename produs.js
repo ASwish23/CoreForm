@@ -1,7 +1,7 @@
 // ── Supabase config ──────────────────────────────────────────────────────────
-// Same project credentials as database.js
-const SUPABASE_URL = 'https://gvqgmivhqfsdswrtaxyl.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWdtaXZocWZzZHN3cnRheHlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTU2MTYsImV4cCI6MjA5NDA3MTYxNn0.2EXNSTTaTbz1HCL7ynEbIj_OfgujhSps4gLK1U3mrNE';
+// Loaded from config.js (gitignored) — see config.example.js for the template.
+const SUPABASE_URL = window.SUPABASE_URL;
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY;
 
 const db = supabase.createClient(SUPABASE_URL.trim(), SUPABASE_KEY.trim());
 
@@ -87,12 +87,81 @@ function renderProduct(product) {
     }
     descriptionEl.textContent = product.descriere || '';
 
-    // Update browser tab title
+    // Update browser tab title and the rest of the per-product SEO metadata.
     document.title = (product.nume || 'Produs') + ' — CoreForm Prints';
+    updateProductMeta(product);
 
     // Show content, hide skeleton
     skeletonEl.style.display = 'none';
     contentEl.style.display  = 'grid';
+}
+
+/* ── Per-product SEO metadata ─────────────────────────────────────────────────
+   The page is one template served for every ?id=, so the canonical URL, the
+   description and the social tags all have to be rewritten per product.
+   Without this, every product collapses onto https://coreform.ro/produs in the
+   search index. ------------------------------------------------------------ */
+
+function setMeta(selector, attr, value) {
+    const el = document.head.querySelector(selector);
+    if (el && value) el.setAttribute(attr, value);
+}
+
+function updateProductMeta(product) {
+    const SITE = 'https://coreform.ro';
+    const name = product.nume || 'Produs';
+    const url  = SITE + '/produs?id=' + encodeURIComponent(product.id);
+
+    const raw  = (product.descriere || '').replace(/\s+/g, ' ').trim();
+    const desc = raw
+        ? (raw.length > 155 ? raw.slice(0, 152).trimEnd() + '…' : raw)
+        : name + ' — piesă printată 3D de CoreForm Prints, livrare în toată România.';
+
+    let image = product.imagine || product.image || '';
+    if (image && !/^https?:\/\//.test(image)) {
+        image = SITE + '/' + image.replace(/^\//, '');
+    }
+    if (!image) image = SITE + '/PozeMarketing/og-default.jpg';
+
+    setMeta('link[rel="canonical"]', 'href', url);
+    setMeta('meta[name="description"]', 'content', desc);
+    setMeta('meta[property="og:title"]', 'content', name + ' | CoreForm Prints');
+    setMeta('meta[property="og:description"]', 'content', desc);
+    setMeta('meta[property="og:url"]', 'content', url);
+    setMeta('meta[property="og:image"]', 'content', image);
+    setMeta('meta[property="og:type"]', 'content', 'product');
+    setMeta('meta[name="twitter:title"]', 'content', name + ' | CoreForm Prints');
+    setMeta('meta[name="twitter:description"]', 'content', desc);
+    setMeta('meta[name="twitter:image"]', 'content', image);
+
+    // Product structured data, so the listing can show price and availability.
+    const ld = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: name,
+        description: desc,
+        image: image,
+        url: url,
+        brand: { '@type': 'Brand', name: 'CoreForm Prints' }
+    };
+    if (product.pret != null) {
+        ld.offers = {
+            '@type': 'Offer',
+            price: String(product.pret),
+            priceCurrency: 'RON',
+            availability: 'https://schema.org/InStock',
+            url: url,
+            seller: { '@type': 'Organization', name: 'CORE FORM S.R.L.' }
+        };
+    }
+    let script = document.getElementById('productJsonLd');
+    if (!script) {
+        script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = 'productJsonLd';
+        document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(ld);
 }
 
 // ── Cart helpers ──────────────────────────────────────────────────────────────
@@ -244,7 +313,7 @@ async function incarcaRecomandari(categorie, idCurent) {
         var imageSrc = parseImageUrl(rec.imagine_url);
 
         var card = document.createElement('a');
-        card.href      = 'produs.html?id=' + rec.id;
+        card.href      = '/produs.html?id=' + rec.id;
         card.className = 'rec-card';
         card.setAttribute('aria-label', rec.nume || 'Produs recomandat');
 

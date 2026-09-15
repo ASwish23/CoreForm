@@ -3,53 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoreForm Marketing | Excelență Bazată pe Performanță</title>
+    <link rel="icon" type="image/png" href="PozeMarketing/favicon-32.png">
+    <link rel="apple-touch-icon" href="PozeMarketing/favicon-180.png">
+    <title>CoreForm Marketing | Marketing Strategic în România</title>
+    <meta name="description" content="Marketing strategic, branding și social media pentru afaceri din România. Soluții personalizate, rezultate măsurabile, raportare transparentă.">
+    <meta name="keywords" content="marketing România, consultant marketing Cluj-Napoca, marketing București, marketing Timișoara, marketing Iași, marketing Brașov, Oradea, Arad, Târgu Mureș, Baia Mare, Deva, Hunedoara, branding, social media management">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="CoreForm Marketing | Soluții Marketing Profesionale | România">
+    <meta property="og:description" content="Servicii profesionale de marketing strategic, branding și social media management pentru afaceri din toată România.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://coreform.ro/marketing">
+    <meta property="og:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+    <link rel="canonical" href="https://coreform.ro/marketing">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="marketing.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "CoreForm Marketing",
+      "url": "https://coreform.ro/marketing",
+      "logo": "https://coreform.ro/PozeMarketing/og-default.jpg",
+      "description": "Consultanță de marketing strategic, oferită independent de Mădălina Sorescu",
+      "founder": {
+        "@type": "Person",
+        "name": "Mădălina Sorescu",
+        "jobTitle": "Consultant de Marketing"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Cluj-Napoca", "addressCountry": "RO" },
+        { "@type": "City", "name": "Deva", "addressCountry": "RO" },
+        { "@type": "City", "name": "Timișoara", "addressCountry": "RO" },
+        { "@type": "City", "name": "Arad", "addressCountry": "RO" },
+        { "@type": "City", "name": "Oradea", "addressCountry": "RO" },
+        { "@type": "City", "name": "Hunedoara", "addressCountry": "RO" },
+        { "@type": "City", "name": "Baia Mare", "addressCountry": "RO" },
+        { "@type": "City", "name": "Târgu Mureș", "addressCountry": "RO" },
+        { "@type": "City", "name": "Iași", "addressCountry": "RO" },
+        { "@type": "City", "name": "București", "addressCountry": "RO" },
+        { "@type": "City", "name": "Brașov", "addressCountry": "RO" },
+        { "@type": "Country", "name": "România" }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Cluj-Napoca",
+        "addressCountry": "RO"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+40731644613",
+        "contactType": "Customer Service",
+        "email": "contact@coreform.ro"
+      }
+    }
+    </script>
+    <!-- Social sharing -->
+    <meta property="og:site_name" content="CoreForm">
+    <meta property="og:locale" content="ro_RO">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="CoreForm — marketing și printare 3D în România">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CoreForm Marketing | Soluții Marketing Profesionale | România">
+    <meta name="twitter:description" content="Servicii profesionale de marketing strategic, branding și social media management pentru afaceri din toată România.">
+    <meta name="twitter:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+    <!-- Language alternates -->
+    <link rel="alternate" hreflang="ro" href="https://coreform.ro/marketing">
+    <link rel="alternate" hreflang="en" href="https://coreform.ro/marketing-en">
+    <link rel="alternate" hreflang="x-default" href="https://coreform.ro/marketing">
+    <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
+    <script src="consent.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#continut">Sari la conținut</a>
+
+    <div class="lang-switch" data-active="ro">
+    <button type="button" id="lang-ro" class="lang-btn" aria-pressed="true">RO</button>
+    <button type="button" id="lang-en" class="lang-btn" aria-pressed="false">EN</button>
+    <span class="lang-thumb" aria-hidden="true"></span>
+</div>
     <!-- Navigare -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <img src="logopink.png" alt="CoreForm Logo" class="nav-logo-img">
+            <a href="/" class="nav-logo">
+                <img src="img/logo-pink-96.png" alt="CoreForm Logo" class="nav-logo-img" width="96" height="106" decoding="async">
                 <span>CoreForm</span>
             </a>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#hero">Acasă</a></li>
                 <li><a href="#performance">Performanță</a></li>
                 <li><a href="#pricing-packages">Servicii</a></li>
-                <li><a href="despre-noi.html">Despre Noi</a></li>
-                <li><a href="contact.html" class="nav-cta">Contactează-ne</a></li>
+                <li><a href="/despre-noi.html">Despre Mine</a></li>
+                <li><a href="/contact.html" class="nav-cta">Contactează-mă</a></li>
             </ul>
+            <button class="hamburger" id="hamburger" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navMenu">
+                <div></div>
+                <div></div>
+                <div></div>
+            </button>
         </div>
+        
     </nav>
 
     <!-- Secțiunea Hero -->
-    <section id="hero" class="hero">
+    <section id="continut" id="hero" class="hero">
         <div class="hero-container">
             <div class="hero-content">
                 <div class="hero-label">Excelență în Marketing</div>
                 <h1 class="hero-title">Marketingul nu este doar strategie<span class="accent-dot">;</span></h1>
-                <h1 class="hero-title-emphasis">este o performanță<span class="accent-dot">.</span></h1>
-                <p class="hero-description">Condusă de <strong>Mădălina Sorescu</strong>, o virtuoză a marketingului care a generat creștere virală la <strong>Nexus Gaming</strong> (300k+ vizualizări, 100k+ followers) și a ridicat performanța B2B la <strong>Bosch EMEA</strong> de la 1% la 4% engagement pe piețele de securitate tehnică.</p>
+                <span class="hero-title-emphasis">este o performanță<span class="accent-dot">.</span></span>
+                <p class="hero-description">Sunt <strong>Mădălina Sorescu</strong>, specialist independent de marketing. De la creștere virală pe social media, la analiză de piață și performanță B2B, orice ține de marketing este plăcerea mea.</p>
                 <div class="hero-cta-group">
-                    <a href="#pricing-packages" class="btn-primary">Explorează Sistemele de Creștere</a>
+                    <a href="#pricing-packages" class="btn-primary">Explorează Oportunitățile</a>
                     <a href="#performance" class="btn-secondary">Vezi Performanța</a>
                 </div>
             </div>
             <div class="hero-image">
-                <div class="image-frame">
-                    <img src="madalina.jpg" alt="Mădălina Sorescu - Director Marketing" />
-                    <div class="image-overlay"></div>
+                <div class="image-frame image-frame--logo">
+                    <picture><source srcset="img/logo-pink-hero.webp" type="image/webp"><img src="img/logo-pink-hero.png" alt="CoreForm" width="900" height="1012" decoding="async" loading="eager" fetchpriority="high"/></picture>
                 </div>
-                <div class="floating-badge">
-                    <span class="badge-number">300K+</span>
-                    <span class="badge-label">Vizualizări Virale</span>
-                </div>
+                <p class="hero-image-caption">Esența brand-ului tău, în forma ideală.</p>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -69,9 +145,9 @@
 
             <div class="case-studies-grid">
                 <!-- Studiu de Caz 1: Nexus Gaming -->
-                <a href="despre-noi.html#nexus" class="case-card" data-category="gaming">
+                <a href="/despre-noi.html#nexus" class="case-card" data-category="gaming">
                     <h3 class="case-title">Nexus Gaming</h3>
-                    <p class="case-description">Strategie de creștere virală care a generat 300.000+ vizualizări și gestionarea unei comunități de 100.000+ urmăritori activi pe multiple platforme.</p>
+                    <p class="case-description">Am construit o strategie de creștere virală care a generat 300.000+ vizualizări și am gestionat o comunitate de 100.000+ urmăritori activi pe multiple platforme.</p>
                     <div class="case-metrics">
                         <div class="metric">
                             <span class="metric-value">300K+</span>
@@ -86,9 +162,9 @@
                 </a>
 
                 <!-- Studiu de Caz 2: Bosch -->
-                <a href="despre-noi.html#bosch" class="case-card" data-category="b2b">
+                <a href="/despre-noi.html#bosch" class="case-card" data-category="b2b">
                     <h3 class="case-title">Bosch EMEA</h3>
-                    <p class="case-description">Transformarea marketingului B2B pentru divizia de securitate tehnică, cvadrupland engagement-ul de la 1% la 4% pe piețele industriale extrem de specializate.</p>
+                    <p class="case-description">Am transformat marketingul B2B pentru divizia de securitate tehnică, cvadruplând engagement-ul de la 1% la 4% pe piețele industriale extrem de specializate.</p>
                     <div class="case-metrics">
                         <div class="metric">
                             <span class="metric-value">4X</span>
@@ -103,9 +179,9 @@
                 </a>
 
                 <!-- Studiu de Caz 3: Nație prin Educație -->
-                <a href="despre-noi.html#natie" class="case-card" data-category="social">
+                <a href="/despre-noi.html#natie" class="case-card" data-category="social">
                     <h3 class="case-title">Nație prin Educație</h3>
-                    <p class="case-description">Scalarea prezenței pe TikTok de la 0 la 2.000+ într-un timp record. Orchestrarea campaniei de vizibilitate la Campionatul Mondial din Houston, cu acoperire națională (ProTV, Digi24).</p>
+                    <p class="case-description">Am scalat prezența pe Instagram și TikTok cu peste 10.000 de urmăritori într-un timp record și am orchestrat multiple campanii de vizibilitate a programului la Campionatul Mondial din Houston, cu acoperire națională (Digi24, ProTV).</p>
                     <div class="case-metrics">
                         <div class="metric">
                             <span class="metric-value">0→2K+</span>
@@ -119,22 +195,22 @@
                     <div class="case-tag">Creștere Social Media</div>
                 </a>
 
-                <!-- Studiu de Caz 4: Bucharest Titans -->
-                <a href="despre-noi.html#olympic" class="case-card" data-category="sports">
+                <!-- Studiu de Caz 4: The Student Life -->
+                <a href="/despre-noi.html#student-life" class="case-card" data-category="community">
 
-                    <h3 class="case-title">Bucharest Titans</h3>
-                    <p class="case-description">Crearea de storytelling strategic pentru atleți de calibru olimpic, construind momentum narativ în jurul visului olimpic și excelenței atletice.</p>
+                    <h3 class="case-title">The Student Life</h3>
+                    <p class="case-description">De la management a 60+ comunități de studenți internaționali la nivel global la experiența de client în rețelele de studenți, coordonez promovarea evenimentelor și suportul dedicat prin e-mai pentru mii de studenți care aleg experiența The Student Life.</p>
                     <div class="case-metrics">
                         <div class="metric">
-                            <span class="metric-value">Calibru</span>
-                            <span class="metric-label">Olimpic</span>
+                            <span class="metric-value">50+</span>
+                            <span class="metric-label">Comunități Studențești</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-value">Povestire</span>
-                            <span class="metric-label">Strategică</span>
+                            <span class="metric-value">Globală</span>
+                            <span class="metric-label">Acoperire</span>
                         </div>
                     </div>
-                    <div class="case-tag">Marketing Sportiv</div>
+                    <div class="case-tag">Management Comunitar</div>
                 </a>
             </div>
         </div>
@@ -165,7 +241,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Creare de conținut</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-amount">500 RON</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Creare de conținut'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Creare de conținut'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -176,7 +252,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Design grafic social media</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-amount">50 RON</span><span class="sub-pkg-per"> / postare</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Design grafic social media'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Design grafic social media'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -187,7 +263,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Editare video</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-amount">100 RON</span><span class="sub-pkg-per"> / video</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Editare video'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Editare video'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -198,7 +274,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Strategie de brand</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-amount">2.500 RON</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Strategie de brand'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Strategie de brand'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -209,7 +285,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Strategie social media</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-amount">1.500 RON</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Strategie social media'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Strategie social media'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -232,7 +308,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Essential Core</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">2.000 RON</span><span class="sub-pkg-per"> / lună</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Essential Core'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Essential Core'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -243,7 +319,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Core Growth</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">3.000 RON</span><span class="sub-pkg-per"> / lună</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Core Growth'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Core Growth'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -254,7 +330,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Premium Form</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">4.000 RON</span><span class="sub-pkg-per"> / lună</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Premium Form'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Premium Form'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -265,7 +341,7 @@
                                 <div style="text-align: left; font-weight: bold; font-size: 1.1em;">Total Form</div>
                                 <div style="text-align: left; margin-left: 15px; font-size: 0.9em; opacity: 0.8; margin-top: 4px;"><span class="sub-pkg-from">de la</span> <span class="sub-pkg-amount">5.000 RON</span><span class="sub-pkg-per"> / lună</span></div>
                             </div>
-                            <span onmousedown="window.location.href='contact.html?pachet=' + encodeURIComponent('Total Form'); event.stopPropagation();"
+                            <span onmousedown="window.location.href='/contact.html?pachet=' + encodeURIComponent('Total Form'); event.stopPropagation();"
                                   class="hover-glow"
                                   style="cursor: pointer; position: relative; z-index: 9999; pointer-events: auto; padding: 15px;">→</span>
                         </div>
@@ -281,7 +357,7 @@
                             <span class="custom-badge">✦ Custom</span>
                         </div>
                     </div>
-                    <p class="package-description">Ai nevoie de o structură diferită, un volum unic de postări sau o abordare specifică pentru nișa ta? CoreForm configurează împreună cu tine pachetul ideal, adaptat <span class="text-accent">100%</span> obiectivelor afacerii tale.</p>
+                    <p class="package-description">Ai nevoie de o structură diferită, un volum unic de postări sau o abordare specifică pentru nișa ta? Configurez împreună cu tine pachetul ideal, adaptat <span class="text-accent">100%</span> obiectivelor afacerii tale.</p>
                     <button class="package-cta" data-package="Servicii Personalizate">Configurează Pachet</button>
                 </div>
 
@@ -293,8 +369,8 @@
     <section id="contact" class="contact">
         <div class="contact-container">
             <h2 class="contact-title">Pregătit să Performezi?</h2>
-            <p class="contact-description">Hai să discutăm cum CoreForm Marketing poate ridica brandul tău la următorul nivel.</p>
-            <a href="contact.html" class="btn-primary-large">Programează o sesiune de consultanță</a>
+            <p class="contact-description">Hai să discutăm cum pot ridica brandul tău la următorul nivel.</p>
+            <a href="/contact.html" class="btn-primary-large">Programează o discuție</a>
         </div>
     </section>
 
@@ -303,14 +379,23 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <h3>CoreForm</h3>
-                <p>Excelență în Marketing din 2024</p>
+                <p>Marketing independent din 2024</p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener noreferrer" title="Soluționarea Alternativă a Litigiilor - ANPC" style="display: inline-block;">
+                        <img src="sal-badge.png" alt="SAL - Soluționarea Alternativă a Litigiilor" style="height: 50px; width: auto; display: block;" decoding="async" loading="lazy" width="201" height="50">
+                    </a>
+                </div>
             </div>
             <div class="footer-links">
-                <a href="index.html">Acasă</a>
+                <a href="/">Acasă</a>
                 <a href="#performance">Performanță</a>
                 <a href="#pricing-packages">Servicii</a>
-                <a href="despre-noi.html">Despre Noi</a>
-                <a href="contact.html">Contact</a>
+                <a href="/despre-noi.html">Despre Mine</a>
+                <a href="/contact.html">Contact</a>
+                <a href="/termeni-si-conditii.html">Termeni și Condiții</a>
+                <a href="/politica-confidentialitate.html">Confidențialitate</a>
+                <a href="/politica-cookies.html">Cookie-uri</a>
+                <button type="button" class="footer-cookie-btn" data-cookie-settings>Setări cookie-uri</button>
             </div>
         </div>
     </footer>
@@ -323,5 +408,6 @@
     once: true,    // animația se execută o singură dată (nu se repetă când urci înapoi)
   });
 </script>
+    <script src="language-switcher.js"></script>
 </body>
 </html>

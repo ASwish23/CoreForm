@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solicită Ofertă — CoreForm Prints</title>
-  <meta name="description" content="Solicită o ofertă gratuită pentru serviciile de printare 3D CoreForm. Răspuns în maxim 24 de ore.">
+  <link rel="icon" type="image/png" href="PozeMarketing/favicon-32.png">
+  <link rel="apple-touch-icon" href="PozeMarketing/favicon-180.png">
+  <title>Solicită Ofertă Gratuită — CoreForm Prints România</title>
+  <meta name="description" content="Solicită o ofertă gratuită pentru printare 3D. Descrie proiectul, atașează fișierul și primești un preț în cel mult 24 de ore.">
+  <meta name="keywords" content="ofertă printare 3D, cotație gratuită, Cluj-Napoca, București, Timișoara, Iași, Brașov, Oradea, Arad, Târgu Mureș, Baia Mare, Deva, Hunedoara, printare 3D profesională">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Solicită Ofertă Gratuită | CoreForm Prints | România">
+  <meta property="og:description" content="Obține o cotație gratuită pentru serviciile tale de printare 3D, oriunde în România. Răspunsuri în 24 de ore.">
+  <meta property="og:url" content="https://coreform.ro/oferta">
+  <link rel="canonical" href="https://coreform.ro/oferta">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -17,23 +25,39 @@
       });
    })();
 </script>
+  <!-- Social sharing -->
+  <meta property="og:site_name" content="CoreForm">
+  <meta property="og:locale" content="ro_RO">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CoreForm — marketing și printare 3D în România">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Solicită Ofertă Gratuită | CoreForm Prints | România">
+  <meta name="twitter:description" content="Obține o cotație gratuită pentru serviciile tale de printare 3D, oriunde în România. Răspunsuri în 24 de ore.">
+  <meta name="twitter:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+  <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
+  <script src="consent.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#continut">Sari la conținut</a>
 
   <!-- ══ HEADER ══════════════════════════════════════════ -->
   <header class="prints-header">
     <nav class="prints-nav" aria-label="Navigație principală">
-      <a href="index.html" class="nav-back">
+      <a href="/" class="nav-back">
         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
         Acasă
       </a>
-      <a href="prints.html" class="nav-brand"><img src="logopink.png" class="nav-brand-logo" alt="">CoreForm Prints</a>
+      <a href="/prints.html" class="nav-brand"><img src="img/logo-pink-96.png" class="nav-brand-logo" alt="" width="96" height="106" decoding="async">CoreForm Prints</a>
       <ul class="nav-links" id="navLinks" role="list">
-        <li><a href="prints.html">Prezentare</a></li>
-        <li><a href="produse.html">Produse</a></li>
-        <li><a href="consultanta.html">Consultant AI</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="oferta.html" class="nav-cta active" aria-current="page">Solicită Ofertă</a></li>
+        <li><a href="/prints.html">Prezentare</a></li>
+        <li><a href="/produse.html">Produse</a></li>
+        <li><a href="/servicii.html">Servicii</a></li>
+        <li><a href="/consultanta.html">Consultant AI</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/oferta.html" class="nav-cta active" aria-current="page">Solicită Ofertă</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
@@ -41,7 +65,7 @@
     </nav>
   </header>
 
-  <main>
+  <main id="continut">
 
     <!-- ══ PAGE HERO ═══════════════════════════════════════ -->
     <section class="page-hero">
@@ -129,7 +153,8 @@
                   autocomplete="tel"
                   aria-required="true"
                   pattern="[0-9\s\+\-\(\)]{7,20}"
-                >
+                  inputmode="tel"
+                />
               </div>
 
               <!-- Email -->
@@ -227,7 +252,7 @@
             </div>
             <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.75rem;">Mulțumim pentru solicitare!</h3>
             <p style="opacity: 0.72; font-size: 0.95rem; max-width: 440px; margin: 0 auto 1.5rem; line-height: 1.7;">Am primit mesajul tău și îți vom trimite o ofertă detaliată în maxim <strong>24 de ore</strong> pe adresa de email indicată.</p>
-            <a href="prints.html" class="btn btn-outline" style="display:inline-flex;">
+            <a href="/prints.html" class="btn btn-outline" style="display:inline-flex;">
               Înapoi la Prezentare
             </a>
           </div>
@@ -285,13 +310,23 @@
       <div>
         <div class="footer-brand">CoreForm Prints</div>
         <p class="footer-copy">&copy; 2026 CoreForm. Toate drepturile rezervate.</p>
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener noreferrer" title="Soluționarea Alternativă a Litigiilor - ANPC" style="display: inline-block;">
+            <img src="sal-badge.png" alt="SAL - Soluționarea Alternativă a Litigiilor" style="height: 50px; width: auto; display: block;" decoding="async" loading="lazy" width="201" height="50">
+          </a>
+        </div>
       </div>
       <nav class="footer-links" aria-label="Linkuri footer">
-        <a href="prints.html">Prezentare</a>
-        <a href="produse.html">Produse</a>
-        <a href="faq.html">FAQ</a>
-        <a href="oferta.html">Ofertă</a>
-        <a href="index.html">Acasă</a>
+        <a href="/prints.html">Prezentare</a>
+        <a href="/produse.html">Produse</a>
+        <a href="/servicii.html">Servicii</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/oferta.html">Ofertă</a>
+        <a href="/">Acasă</a>
+        <a href="/termeni-si-conditii.html">Termeni și Condiții</a>
+        <a href="/politica-confidentialitate.html">Confidențialitate</a>
+        <a href="/politica-cookies.html">Cookie-uri</a>
+        <button type="button" class="footer-cookie-btn" data-cookie-settings>Setări cookie-uri</button>
       </nav>
     </div>
   </footer>

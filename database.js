@@ -1,6 +1,6 @@
-// Înlocuiește cu datele tale, dar asigură-te că le copiezi FĂRĂ spații la început sau final
-const rawUrl = 'https://gvqgmivhqfsdswrtaxyl.supabase.co';
-const rawKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWdtaXZocWZzZHN3cnRheHlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTU2MTYsImV4cCI6MjA5NDA3MTYxNn0.2EXNSTTaTbz1HCL7ynEbIj_OfgujhSps4gLK1U3mrNE';
+// Loaded from config.js (gitignored) — see config.example.js for the template.
+const rawUrl = window.SUPABASE_URL;
+const rawKey = window.SUPABASE_ANON_KEY;
 
 // Aici curățăm URL-ul automat în caz că are o bară oblică "/" sau spații la final
 const supabaseUrl = rawUrl.trim().replace(/\/$/, "");
@@ -9,13 +9,27 @@ const supabaseKey = rawKey.trim();
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // ── Category → data-carousel ID mapping ─────────────────────────────────────
-// Keys must match exactly the `categorie` values stored in Supabase.
+// Keys should match the `categorie` values stored in Supabase (lookup below
+// is case/whitespace-insensitive so small data inconsistencies don't cause
+// products to silently disappear).
 const CATEGORY_MAP = {
-    'Accesori personale': 'accesorii',
-    'Decoratiuni':        'decoratiuni',
-    'Birotica':           'birotica',
-    'Organizarea casei':  'organizare'
+    'Accesorii personale': 'accesorii',
+    'Decoratiuni':          'decoratiuni',
+    'Birotica':             'birotica',
+    'Organizarea casei':    'organizare'
 };
+
+// Normalized (trimmed, lowercased) lookup so trailing spaces or casing
+// differences between the UI/DB don't cause a strict-match miss.
+const CATEGORY_MAP_NORMALIZED = Object.keys(CATEGORY_MAP).reduce(function (acc, key) {
+    acc[key.trim().toLowerCase()] = CATEGORY_MAP[key];
+    return acc;
+}, {});
+
+function resolveCarouselId(categorie) {
+    if (!categorie || typeof categorie !== 'string') return undefined;
+    return CATEGORY_MAP_NORMALIZED[categorie.trim().toLowerCase()];
+}
 
 // ── Build a single <li class="carousel-card"> element ───────────────────────
 function buildCardElement(product) {
@@ -98,7 +112,7 @@ function renderProducts(data) {
     // 1. Grupăm produsele în funcție de ID-ul caruselului țintă
     const grouped = {};
     data.forEach(function (product) {
-        const carouselId = CATEGORY_MAP[product.categorie];
+        const carouselId = resolveCarouselId(product.categorie);
         if (!carouselId) return; // categorie necunoscută — o sărim
         if (!grouped[carouselId]) grouped[carouselId] = [];
         grouped[carouselId].push(product);
@@ -137,7 +151,7 @@ function renderProducts(data) {
             // Folosim flexbox pentru a forța imaginea sus și textul jos
             const cardHTML = `
                 <li class="carousel-card" style="display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 320px; cursor: pointer;">
-                  <a href="produs.html?id=${product.id}" style="display: flex; flex-direction: column; height: 100%; text-decoration: none;">
+                  <a href="/produs.html?id=${product.id}" style="display: flex; flex-direction: column; height: 100%; text-decoration: none;">
 
                     <div class="carousel-card-image" style="flex: 0 0 75%; overflow: hidden; background-color: #f5f5f5;">
                       ${imagineSrc

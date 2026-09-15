@@ -20,6 +20,35 @@ window.addEventListener('scroll', () => {
     lastScrollY = currentScrollY;
 });
 
+// ===== Mobile Hamburger Nav Toggle =====
+(function () {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    if (!hamburger || !navMenu) return;
+
+    function closeMenu() {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+    }
+
+    hamburger.addEventListener('click', function () {
+        const isActive = navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active', isActive);
+        hamburger.setAttribute('aria-expanded', String(isActive));
+    });
+
+    navMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('scroll', function () {
+        if (navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    }, { passive: true });
+})();
+
 // ===== Fade-in Animation on Scroll =====
 const observerOptions = {
     threshold: 0.15,
@@ -75,13 +104,37 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ===== Highlight Stats Animation =====
+// ===== Count-Up Animation for Stat Numbers =====
+function animateCountUp(element, duration = 1200) {
+    const match = element.textContent.trim().match(/^([\d.]+)(.*)$/);
+    if (!match) return;
+
+    const target = parseFloat(match[1]);
+    const suffix = match[2];
+    const decimals = (match[1].split('.')[1] || '').length;
+    const startTime = performance.now();
+
+    function tick(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        element.textContent = (target * eased).toFixed(decimals) + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(tick);
+        } else {
+            element.textContent = target.toFixed(decimals) + suffix;
+        }
+    }
+
+    requestAnimationFrame(tick);
+}
+
 const statNumbers = document.querySelectorAll('.stat-number');
 
 const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.animation = 'pulse 1s ease-out';
+            animateCountUp(entry.target);
             statsObserver.unobserve(entry.target);
         }
     });
@@ -90,20 +143,6 @@ const statsObserver = new IntersectionObserver((entries) => {
 statNumbers.forEach(stat => {
     statsObserver.observe(stat);
 });
-
-// Add pulse animation to CSS dynamically
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.1);
-        }
-    }
-`;
-document.head.appendChild(style);
 
 // ===== Loading Animation =====
 window.addEventListener('load', () => {

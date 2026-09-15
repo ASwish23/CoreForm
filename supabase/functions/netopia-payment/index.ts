@@ -63,36 +63,28 @@ async function encryptPayload(
   xmlPayload: string,
   publicCertPem: string
 ): Promise<{ envKey: string; data: string }> {
-  // Normalize the PEM certificate: the Supabase Dashboard flattens multiline
-  // secrets into a single string, so we reconstruct the proper PEM format.
   let cleanCert = publicCertPem.replace(/\\n/g, "\n").replace(/\r/g, "");
   if (!cleanCert.includes("\n")) {
     const header = "-----BEGIN CERTIFICATE-----";
     const footer = "-----END CERTIFICATE-----";
     if (cleanCert.startsWith(header) && cleanCert.endsWith(footer)) {
       const body = cleanCert.slice(header.length, -footer.length).replace(/\s/g, "");
-      // Split the Base64 body into lines of 64 characters
       const wrapped = body.match(/.{1,64}/g)?.join("\n") || "";
       cleanCert = `${header}\n${wrapped}\n${footer}`;
     }
   }
 
-  // 1. Generate 16-byte random key using native Web Crypto
   const rc4KeyBytes = new Uint8Array(16);
   crypto.getRandomValues(rc4KeyBytes);
   let rc4KeyString = "";
   for (let i = 0; i < rc4KeyBytes.length; i++) {
     rc4KeyString += String.fromCharCode(rc4KeyBytes[i]);
   }
-
-  // 2. Encrypt the RC4 key with RSA using forge (PKCS#1 v1.5)
   const cert = forge.pki.certificateFromPem(cleanCert);
   const publicKey = cert.publicKey as forge.pki.rsa.PublicKey;
   const encryptedRc4Key = publicKey.encrypt(rc4KeyString);
   const env_key = forge.util.encode64(encryptedRc4Key);
 
-  // 3. Pure TypeScript RC4 implementation — avoids forge.rc4 which is
-  //    undefined in some esm.sh builds
   function encryptRC4(keyStr: string, text: string): Uint8Array {
     const s = new Uint8Array(256);
     for (let i = 0; i < 256; i++) s[i] = i;
@@ -232,7 +224,7 @@ async function handler(req: Request): Promise<Response> {
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ||
       "https://your-supabase-project.supabase.co";
     const confirmUrl = `${SUPABASE_URL}/functions/v1/netopia-webhook`;
-    const returnUrl = "http://127.0.0.1:5500/succes.html";
+    const returnUrl = "https://coreform.ro/succes";
 
     // Generate XML payload
     const xmlPayload = generateXmlPayload(

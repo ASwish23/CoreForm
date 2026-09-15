@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="PozeMarketing/favicon-32.png" />
+  <link rel="apple-touch-icon" href="PozeMarketing/favicon-180.png" />
   <title>Admin Dashboard – CoreForm</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,7 +94,7 @@
       padding: 2rem;
     }
 
-    .welcome-card h2 {
+    .welcome-card h1 {
       font-size: 1.4rem;
       font-weight: 600;
       color: #fff;
@@ -126,7 +128,7 @@
 
     <main>
       <div class="welcome-card">
-        <h2>Bun venit în panoul de administrare</h2>
+        <h1>Bun venit în panoul de administrare</h1>
         <p>Ești autentificat ca <span id="user-email"></span></p>
       </div>
     </main>
@@ -134,11 +136,13 @@
 
   <!-- Supabase JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
 
   <script>
     // ── Supabase client ──────────────────────────────────────────────────────
-    const SUPABASE_URL      = 'https://gvqgmivhqfsdswrtaxyl.supabase.co';       // <-- replace
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2cWdtaXZocWZzZHN3cnRheHlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0OTU2MTYsImV4cCI6MjA5NDA3MTYxNn0.2EXNSTTaTbz1HCL7ynEbIj_OfgujhSps4gLK1U3mrNE';  // <-- replace
+    // Loaded from config.js (gitignored) — see config.example.js for the template.
+    const SUPABASE_URL      = window.SUPABASE_URL;
+    const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
 
     const { createClient } = supabase;
     const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -149,7 +153,7 @@
 
       if (error || !data.session) {
         // No valid session → redirect to login immediately
-        window.location.replace('admin-login.html');
+        window.location.replace('/admin-login.html');
         return;
       }
 
@@ -167,7 +171,7 @@
       btn.textContent = 'Se delogheazâ...';
 
       await _supabase.auth.signOut();
-      window.location.replace('admin-login.html');
+      window.location.replace('/admin-login.html');
     });
   </script>
 

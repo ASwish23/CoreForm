@@ -127,7 +127,7 @@
     });
   }
 
-  // Expose globally so dynamic-render pages (e.g. produse.html) can call
+  // Expose globally so dynamic-render pages (e.g. /produse) can call
   // initCarousels() after appending cards from an async data source.
   window.initCarousels = initCarousels;
 
@@ -160,6 +160,47 @@
     document.addEventListener('DOMContentLoaded', initScrollAnimations);
   } else {
     initScrollAnimations();
+  }
+
+  /* ── Mobile hamburger nav toggle ──────────────────────────── */
+  function initHamburger() {
+    // prints.html uses #hamburger; the other pages use #navToggle.
+    var hamburger = document.getElementById('navToggle') ||
+                    document.getElementById('hamburger');
+    var navLinks  = document.getElementById('navLinks');
+    if (!hamburger || !navLinks) return;
+
+    function closeMenu() {
+      navLinks.classList.remove('active');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Deschide meniu');
+    }
+
+    hamburger.addEventListener('click', function () {
+      var isActive = navLinks.classList.toggle('active');
+      hamburger.classList.toggle('active', isActive);
+      hamburger.setAttribute('aria-expanded', String(isActive));
+      hamburger.setAttribute('aria-label', isActive ? 'Închide meniu' : 'Deschide meniu');
+    });
+
+    // Close menu when any nav link is clicked
+    navLinks.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close menu when user scrolls the page
+    window.addEventListener('scroll', function () {
+      if (navLinks.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHamburger);
+  } else {
+    initHamburger();
   }
 
 }());

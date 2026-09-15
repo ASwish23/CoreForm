@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/PozeMarketing/favicon-32.png">
+  <link rel="apple-touch-icon" href="/PozeMarketing/favicon-180.png">
+  <title>Pagina nu a fost găsită (404) — CoreForm</title>
+  <meta name="description" content="Pagina căutată nu există sau a fost mutată. Găsește rapid ce cauți pe coreform.ro: marketing, printare 3D, produse, ofertă sau contact.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/prints.css">
+  <link rel="stylesheet" href="/legal.css">
+  <style>
+    /* ── 404 layout ───────────────────────────────────── */
+    .nf {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: var(--sp-7) var(--sp-4);
+      overflow: hidden;
+    }
+    .nf::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(52rem 30rem at 20% 0%,   rgba(250, 218, 218, 0.13), transparent 62%),
+        radial-gradient(40rem 26rem at 88% 12%,  rgba(158, 214, 180, 0.10), transparent 60%),
+        radial-gradient(46rem 30rem at 50% 110%, rgba(250, 218, 218, 0.07), transparent 64%);
+    }
+    .nf::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.5;
+      mix-blend-mode: soft-light;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+    }
+    .nf-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 46rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Oversized numeral, treated as art rather than text */
+    .nf-code {
+      font-family: var(--font-serif);
+      font-size: clamp(6rem, 22vw, 12rem);
+      line-height: 0.82;
+      letter-spacing: -0.06em;
+      margin-bottom: var(--sp-4);
+      background: linear-gradient(168deg, #FFF1F1 6%, #FADADA 42%, rgba(250, 218, 218, 0.55) 92%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 18px 44px rgba(14, 30, 22, 0.55));
+    }
+    .nf-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 4.6vw, 2.4rem);
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      margin-bottom: var(--sp-3);
+    }
+    .nf-text {
+      font-size: 1.0625rem;
+      color: rgba(250, 218, 218, 0.85);
+      max-width: 36rem;
+      margin: 0 auto var(--sp-5);
+    }
+    .nf-url {
+      display: inline-block;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.8125rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid var(--hairline);
+      color: var(--ink-muted);
+    }
+
+    .nf-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      justify-content: center;
+      margin-bottom: var(--sp-7);
+    }
+
+    /* ── Destination cards ────────────────────────────── */
+    .nf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: var(--sp-3);
+      text-align: left;
+    }
+    .nf-card {
+      display: block;
+      background: var(--surface-elevated);
+      border: 1px solid var(--hairline);
+      border-radius: 14px;
+      padding: var(--sp-4);
+      box-shadow: var(--shadow-elevated);
+      will-change: transform;
+      transition: transform var(--spring), box-shadow var(--spring);
+    }
+    .nf-card:hover {
+      transform: translateY(-3px);
+      opacity: 1;
+      box-shadow: var(--shadow-floating);
+    }
+    .nf-card:active { transform: translateY(-1px) scale(0.99); }
+    .nf-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+    .nf-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .nf-card-title svg {
+      width: 1.1rem;
+      height: 1.1rem;
+      flex: 0 0 auto;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.75;
+    }
+    .nf-card p {
+      margin: 0;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--ink-muted);
+    }
+
+    @media (max-width: 560px) {
+      .nf { padding: var(--sp-6) var(--sp-3); }
+      .nf-actions .legal-btn { flex: 1 1 100%; justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nf-card { transition: none; }
+      .nf-card:hover { transform: none; }
+    }
+  </style>
+  <script src="/consent.js" defer></script>
+</head>
+<body>
+
+  <a class="skip-link" href="#continut">Sari la conținut</a>
+
+  <!-- ══ HEADER ══════════════════════════════════════════ -->
+  <header class="prints-header">
+    <nav class="prints-nav" aria-label="Navigație principală">
+      <a href="/" class="nav-back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Acasă
+      </a>
+      <a href="/" class="nav-brand"><img src="/img/logo-pink-96.png" class="nav-brand-logo" alt="" width="96" height="106" decoding="async">CoreForm</a>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="/marketing.html">Marketing</a></li>
+        <li><a href="/prints.html">Prints</a></li>
+        <li><a href="/faq.html">FAQ</a></li>
+        <li><a href="/contact.html" class="nav-cta">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ══ CONȚINUT ════════════════════════════════════════ -->
+  <main class="nf" id="continut">
+    <div class="nf-inner">
+
+      <p class="nf-code" aria-hidden="true">404</p>
+      <h1 class="nf-title">Pagina asta nu există</h1>
+      <p class="nf-text">
+        Linkul e greșit, pagina a fost mutată sau a fost ștearsă. Nimic pierdut —
+        mai jos sunt drumurile cele mai scurte către ce cauți.
+      </p>
+      <p class="nf-text">
+        <span class="nf-url" id="requestedUrl">/</span>
+      </p>
+
+      <div class="nf-actions">
+        <a class="legal-btn legal-btn-primary" href="/">Înapoi la pagina principală</a>
+        <a class="legal-btn legal-btn-ghost" href="/contact.html">Contactează-ne</a>
+      </div>
+
+      <nav class="nf-grid" aria-label="Destinații populare">
+        <a class="nf-card" href="/marketing.html">
+          <span class="nf-card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            Marketing
+          </span>
+          <p>Strategie, branding și social media pentru afaceri din toată România.</p>
+        </a>
+        <a class="nf-card" href="/prints.html">
+          <span class="nf-card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+            Printare 3D
+          </span>
+          <p>Piese tehnice, prototipuri și obiecte de design, printate la comandă.</p>
+        </a>
+        <a class="nf-card" href="/produse.html">
+          <span class="nf-card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            Produse
+          </span>
+          <p>Portofoliul de piese gata de comandat, cu livrare națională.</p>
+        </a>
+        <a class="nf-card" href="/oferta.html">
+          <span class="nf-card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h2"/></svg>
+            Cere o ofertă
+          </span>
+          <p>Spune-ne ce ai nevoie și primești un preț în cel mult 24 de ore.</p>
+        </a>
+        <a class="nf-card" href="/faq.html">
+          <span class="nf-card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            Întrebări frecvente
+          </span>
+          <p>Materiale, termene, prețuri și livrare — răspunsurile pe scurt.</p>
+        </a>
+        <a class="nf-card" href="/despre-noi.html">
+          <span class="nf-card-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            Despre noi
+          </span>
+          <p>Cine suntem și cum lucrăm cu clienții noștri.</p>
+        </a>
+      </nav>
+
+    </div>
+  </main>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════ -->
+  <footer class="prints-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">CoreForm</div>
+        <p class="footer-copy">&copy; 2026 CORE FORM S.R.L. Toate drepturile rezervate.</p>
+      </div>
+      <nav class="footer-links" aria-label="Linkuri legale">
+        <a href="/">Acasă</a>
+        <a href="/termeni-si-conditii.html">Termeni și Condiții</a>
+        <a href="/politica-confidentialitate.html">Confidențialitate</a>
+        <a href="/politica-cookies.html">Cookie-uri</a>
+        <a href="/contact.html">Contact</a>
+        <button type="button" class="footer-cookie-btn" data-cookie-settings>Setări cookie-uri</button>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="/prints.js"></script>
+  <script>
+    // Show the path the visitor actually asked for, so they can spot a typo.
+    (function () {
+      var el = document.getElementById('requestedUrl');
+      if (el) el.textContent = location.pathname + location.search;
+    })();
+  </script>
+</body>
+</html>

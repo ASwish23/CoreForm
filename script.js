@@ -37,7 +37,5 @@ window.addEventListener('load', () => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
         window.location.href = '/marketing.html';
-    } else if (e.key === 'ArrowRight') {
-        window.location.href = '/prints.html';
     }
 });

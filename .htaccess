@@ -1,0 +1,115 @@
+# ══════════════════════════════════════════════════════════════════════════
+#  CoreForm — Apache configuration
+#  1. Pretty URLs   2. Custom 404   3. Compression   4. Caching   5. Security
+# ══════════════════════════════════════════════════════════════════════════
+
+# ── 1. Pretty URLs: strip .html from the address bar ──────────────────────
+RewriteEngine On
+
+# 1a) index.html -> / (canonical root, not /index)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html[?\ ] [NC]
+RewriteRule ^ / [R=301,L]
+
+# 1b) Any other direct request for foo.html -> /foo (301, keeps query strings,
+#     so old bookmarks/search-engine links land on the clean URL instead of
+#     creating duplicate-content copies).
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(.+)\.html[?\ ] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# 1c) Internally serve foo.html when /foo is requested, without changing what
+#     shows in the address bar. Only kicks in when /foo isn't itself a real
+#     file or directory (so images, css, js, and folders like /pdfs/ are
+#     untouched).
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# ── 2. Custom error page ──────────────────────────────────────────────────
+ErrorDocument 404 /404.html
+
+# Never let the 404 page itself 301-redirect into a loop.
+<Files "404.html">
+  Header set Cache-Control "no-cache, must-revalidate"
+</Files>
+
+# ── 3. Compression ────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript text/javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE application/rss+xml image/svg+xml
+  AddOutputFilterByType DEFLATE font/woff2 font/ttf application/vnd.ms-fontobject
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript text/javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/json application/xml
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# ── 4. Browser caching ────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 month"
+
+  # HTML must stay fresh so content edits go live immediately.
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType application/xml           "access plus 1 day"
+  ExpiresByType text/plain                "access plus 1 day"
+
+  # Stylesheets and scripts: 1 week (bump the ?v= query when you deploy).
+  ExpiresByType text/css                  "access plus 1 week"
+  ExpiresByType text/javascript           "access plus 1 week"
+  ExpiresByType application/javascript    "access plus 1 week"
+
+  # Images and fonts change rarely.
+  ExpiresByType image/png                 "access plus 1 year"
+  ExpiresByType image/jpeg                "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 1 year"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType font/woff2                "access plus 1 year"
+  ExpiresByType application/pdf           "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(png|jpe?g|webp|svg|ico|woff2?|pdf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ── 5. Security headers ───────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(self)"
+  # Enable once HTTPS is confirmed working on every subdomain:
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header unset X-Powered-By
+</IfModule>
+
+# ── 6. Block access to internal files ─────────────────────────────────────
+<FilesMatch "\.(csv|cer|md|log|bak|sql)$">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteRule ^supabase/ - [F,L]
+</IfModule>
+
+# ── 7. Correct MIME types & charset ───────────────────────────────────────
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+  AddType image/webp                 .webp
+  AddType font/woff2                 .woff2
+  AddType application/xml            .xml
+</IfModule>

@@ -3,31 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | CoreForm</title>
+    <link rel="icon" type="image/png" href="PozeMarketing/favicon-32.png">
+    <link rel="apple-touch-icon" href="PozeMarketing/favicon-180.png">
+    <title>Contact CoreForm | Marketing & Printare 3D în Toată România</title>
+    <meta name="description" content="Contactează CoreForm pentru marketing și printare 3D. Îți răspundem în 24 de ore, cu o ofertă gratuită adaptată proiectului tău.">
+    <meta name="keywords" content="contact CoreForm, marketing Cluj-Napoca, printare 3D Deva, București, Timișoara, Iași, Brașov, Oradea, Arad, Târgu Mureș, Baia Mare, Hunedoara, ofertă gratuită">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Contact | CoreForm Marketing & Prints | România">
+    <meta property="og:description" content="Contactează CoreForm pentru servicii de marketing și printare 3D în toată România. Răspunsuri în 24 de ore.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://coreform.ro/contact">
+    <link rel="canonical" href="https://coreform.ro/contact">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="contact.css">
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "CoreForm",
+      "url": "https://coreform.ro/contact",
+      "description": "Consultanță de marketing și printare 3D, oferită independent de Mădălina Sorescu",
+      "founder": {
+        "@type": "Person",
+        "name": "Mădălina Sorescu",
+        "jobTitle": "Consultant de Marketing"
+      },
+      "areaServed": [{"@type": "City", "name": "Cluj-Napoca", "addressCountry": "RO"}, {"@type": "City", "name": "Deva", "addressCountry": "RO"}, {"@type": "City", "name": "Timișoara", "addressCountry": "RO"}, {"@type": "City", "name": "Arad", "addressCountry": "RO"}, {"@type": "City", "name": "Oradea", "addressCountry": "RO"}, {"@type": "City", "name": "Hunedoara", "addressCountry": "RO"}, {"@type": "City", "name": "Baia Mare", "addressCountry": "RO"}, {"@type": "City", "name": "Târgu Mureș", "addressCountry": "RO"}, {"@type": "City", "name": "Iași", "addressCountry": "RO"}, {"@type": "City", "name": "București", "addressCountry": "RO"}, {"@type": "City", "name": "Brașov", "addressCountry": "RO"}, {"@type": "Country", "name": "România"}],
+      "address": {"@type": "PostalAddress", "addressLocality": "Cluj-Napoca", "addressCountry": "RO"},
+      "contactPoint": {"@type": "ContactPoint", "telephone": "+40731644613", "contactType": "Customer Service", "email": "contact@coreform.ro"}
+    }
+    </script>
+    <!-- Social sharing -->
+    <meta property="og:site_name" content="CoreForm">
+    <meta property="og:locale" content="ro_RO">
+    <meta property="og:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="CoreForm — marketing și printare 3D în România">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact | CoreForm Marketing & Prints | România">
+    <meta name="twitter:description" content="Contactează CoreForm pentru servicii de marketing și printare 3D în toată România. Răspunsuri în 24 de ore.">
+    <meta name="twitter:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+    <!-- Language alternates -->
+    <link rel="alternate" hreflang="ro" href="https://coreform.ro/contact">
+    <link rel="alternate" hreflang="en" href="https://coreform.ro/contact-en">
+    <link rel="alternate" hreflang="x-default" href="https://coreform.ro/contact">
+    <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
+    <script src="consent.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#continut">Sari la conținut</a>
+
+    <div class="lang-switch" data-active="ro">
+    <button type="button" id="lang-ro" class="lang-btn" aria-pressed="true">RO</button>
+    <button type="button" id="lang-en" class="lang-btn" aria-pressed="false">EN</button>
+    <span class="lang-thumb" aria-hidden="true"></span>
+</div>
+
     <!-- Navigare -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <img src="logopink.png" alt="CoreForm Logo" class="nav-logo-img">
+            <a href="/" class="nav-logo">
+                <img src="img/logo-pink-96.png" alt="CoreForm Logo" class="nav-logo-img" width="96" height="106" decoding="async">
                 <span>CoreForm</span>
             </a>
-            <ul class="nav-menu">
-                <li><a href="index.html">Acasă</a></li>
-                <li><a href="marketing.html">Marketing</a></li>
-                <li><a href="despre-noi.html">Despre Noi</a></li>
-                <li><a href="contact.html" class="nav-active">Contact</a></li>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/">Acasă</a></li>
+                <li><a href="/marketing.html">Marketing</a></li>
+                <li><a href="/despre-noi.html">Despre Mine</a></li>
+                <li><a href="/contact.html" class="nav-active">Contact</a></li>
             </ul>
+            <button class="hamburger" id="hamburger" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navMenu">
+                <div></div>
+                <div></div>
+                <div></div>
+            </button>
         </div>
     </nav>
 
     <!-- Container Principal -->
-    <div class="contact-wrapper">
+    <main class="contact-wrapper" id="continut">
         <div class="contact-container">
             <h1 class="form-title">Detalii tale:</h1>
             
@@ -39,20 +98,20 @@
                         <input 
                             type="text" 
                             id="companyName" 
-                            name="companyName" 
+                            name="nume_companie" 
                             placeholder="Numele companiei tale"
                             required
-                        >
+                         autocomplete="organization">
                     </div>
                     <div class="form-group half">
                         <label for="phoneNumber">Numărul de telefon*</label>
                         <input 
                             type="tel" 
                             id="phoneNumber" 
-                            name="phoneNumber" 
+                            name="telefon" 
                             placeholder="+40 XXX XXX XXX"
                             required
-                        >
+                         autocomplete="tel" inputmode="tel">
                     </div>
                 </div>
 
@@ -66,7 +125,7 @@
                             name="email" 
                             placeholder="email@companie.ro"
                             required
-                        >
+                         autocomplete="email">
                     </div>
                 </div>
 
@@ -77,9 +136,9 @@
                         <input 
                             type="text" 
                             id="budget" 
-                            name="budget" 
+                            name="buget" 
                             placeholder="Ex: 5000 - 10000 EUR"
-                        >
+                         autocomplete="off">
                     </div>
                 </div>
 
@@ -91,35 +150,31 @@
                         <!-- Coloana 1 -->
                         <div class="checkbox-column">
                             <div class="checkbox-group">
-                                <input type="checkbox" id="contentCreation" name="services" value="content-creation">
+                                <input type="checkbox" id="contentCreation" name="servicii" value="content-creation">
                                 <label for="contentCreation">Creare de conținut foto/video</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="checkbox" id="webDesign" name="services" value="web-design">
+                                <input type="checkbox" id="webDesign" name="servicii" value="web-design">
                                 <label for="webDesign">Web design</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="checkbox" id="copywriting" name="services" value="copywriting">
+                                <input type="checkbox" id="copywriting" name="servicii" value="copywriting">
                                 <label for="copywriting">Copywriting</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="consultanta" name="services" value="consultanta">
-                                <label for="consultanta">Consultanță</label>
                             </div>
                         </div>
 
                         <!-- Coloana 2 -->
                         <div class="checkbox-column">
                             <div class="checkbox-group">
-                                <input type="checkbox" id="socialMedia" name="services" value="social-media">
+                                <input type="checkbox" id="socialMedia" name="servicii" value="social-media">
                                 <label for="socialMedia">Social media management</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="checkbox" id="ads" name="services" value="ads">
+                                <input type="checkbox" id="ads" name="servicii" value="ads">
                                 <label for="ads">Ads</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="checkbox" id="branding" name="services" value="branding">
+                                <input type="checkbox" id="branding" name="servicii" value="branding">
                                 <label for="branding">Branding</label>
                             </div>
                         </div>
@@ -133,9 +188,9 @@
                         <input 
                             type="text" 
                             id="marketingPerspective" 
-                            name="marketingPerspective" 
+                            name="perspectiva_marketing" 
                             placeholder="Descrie viziunea ta de marketing"
-                        >
+                         autocomplete="off">
                     </div>
                 </div>
 
@@ -145,89 +200,185 @@
                         <label for="projectDetails">Detalii proiect</label>
                         <textarea 
                             id="projectDetails" 
-                            name="projectDetails" 
+                            name="detalii_proiect" 
                             rows="6"
-                            placeholder="Spune-ne mai multe despre proiectul tău..."
+                            placeholder="Spune-mi mai multe despre proiectul tău..."
                         ></textarea>
                     </div>
                 </div>
 
                 <!-- Buton Submit -->
                 <div class="form-actions">
-                    <button type="submit" class="submit-btn">Trimite Propunerea</button>
+                    <button type="submit" class="submit-btn" id="submitBtn">Trimite Propunerea</button>
                 </div>
+
+                <!-- Mesaj feedback (succes / eroare) -->
+                <div id="formFeedback" role="alert" aria-live="polite" style="display:none; margin-top:1rem; padding:0.85rem 1.2rem; border-radius:8px; font-weight:500; text-align:center;"></div>
             </form>
         </div>
-    </div>
+    </main>
 
     <!-- Footer Minimal -->
     <footer class="footer">
         <div class="footer-content">
             <p>&copy; 2026 CoreForm. Toate drepturile rezervate.</p>
+            <nav class="footer-legal" aria-label="Linkuri legale">
+                <a href="/termeni-si-conditii.html">Termeni și Condiții</a>
+                <a href="/politica-confidentialitate.html">Confidențialitate</a>
+                <a href="/politica-cookies.html">Cookie-uri</a>
+                <button type="button" class="footer-cookie-btn" data-cookie-settings>Setări cookie-uri</button>
+            </nav>
+            <div style="margin-top: 1rem;">
+                <a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener noreferrer" title="Soluționarea Alternativă a Litigiilor - ANPC" style="display: inline-block;">
+                    <img src="sal-badge.png" alt="SAL - Soluționarea Alternativă a Litigiilor" style="height: 50px; width: auto; display: block;" decoding="async" loading="lazy" width="201" height="50">
+                </a>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Pre-fill marketingPerspective from package selection on marketing.html
-        (function() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var selectedPackage = urlParams.get('pachet');
-            if (selectedPackage) {
-                var field = document.getElementById('marketingPerspective');
-                if (field) {
-                    field.value = 'Pachet selectat: ' + selectedPackage;
-                    field.closest('.form-group').classList.add('focused');
-                }
+        // ─── Mobile Hamburger Nav Toggle ──────────────────────────────────────────
+        (function () {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            if (!hamburger || !navMenu) return;
+
+            function closeMenu() {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
             }
+
+            hamburger.addEventListener('click', function () {
+                const isActive = navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active', isActive);
+                hamburger.setAttribute('aria-expanded', String(isActive));
+            });
+
+            navMenu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+
+            window.addEventListener('scroll', function () {
+                if (navMenu.classList.contains('active')) {
+                    closeMenu();
+                }
+            }, { passive: true });
         })();
 
-        // Form submission handler
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Collect form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Get selected services
-            const services = Array.from(document.querySelectorAll('input[name="services"]:checked'))
-                .map(cb => cb.value);
-            data.services = services;
-            
-            // Log data (în producție, aici ar merge un API call)
-            console.log('Form Data:', data);
-            
-            // Success message
-            alert('Mulțumim! Propunerea ta a fost trimisă cu succes. Te vom contacta în curând.');
-            
-            // Reset form
-            this.reset();
-        });
+        // ─── EmailJS Initialization ───────────────────────────────────────────────
+        emailjs.init('O153E-J7Jeem1qSvi');
 
-        // Add focus effects
-        const inputs = document.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.classList.add('focused');
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.classList.remove('focused');
-            });
-        });
-    </script>
-
-    <script>
+        // ─── Pre-fill marketingPerspective from URL query param ───────────────────
         (function () {
             const params = new URLSearchParams(window.location.search);
             const pachet = params.get('pachet');
             if (pachet) {
                 const field = document.getElementById('marketingPerspective');
                 if (field) {
-                    field.value = pachet;
+                    field.value = 'Pachet selectat: ' + pachet;
+                    field.closest('.form-group')?.classList.add('focused');
                 }
             }
         })();
+
+        // ─── Contact Form Submission ──────────────────────────────────────────────
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const form      = this;
+            const submitBtn = document.getElementById('submitBtn');
+            const feedback  = document.getElementById('formFeedback');
+
+            // --- 1. Loading state ---
+            submitBtn.textContent = 'Se trimite...';
+            submitBtn.disabled    = true;
+            feedback.style.display = 'none';
+
+            // --- 2. Collect field values ---
+            const numeCompanie         = form.nume_companie.value.trim();
+            const telefon              = form.telefon.value.trim();
+            const emailAddr            = form.email.value.trim();
+            const buget                = form.buget.value.trim();
+            const perspectiva          = form.perspectiva_marketing.value.trim();
+            const detalii              = form.detalii_proiect.value.trim();
+
+            // Aggregate multiple checkbox selections into a readable string
+            const selectedServices = Array.from(
+                form.querySelectorAll('input[name="servicii"]:checked')
+            ).map(cb => cb.nextElementSibling?.textContent.trim() || cb.value);
+            const servicii = selectedServices.length > 0
+                ? selectedServices.join(', ')
+                : 'Niciun serviciu selectat';
+
+            // --- 3. Build the template parameters object ---
+            // These keys must EXACTLY match the template variable names in your EmailJS template.
+            const templateParams = {
+                nume_companie:           numeCompanie,
+                telefon:                 telefon,
+                email:                   emailAddr,
+                buget:                   buget,
+                servicii:                servicii,
+                perspectiva_marketing:   perspectiva,
+                detalii_proiect:         detalii,
+            };
+
+            try {
+                // --- 4. Send via EmailJS ---
+                await emailjs.send('service_6dsjm16', 'template_cxee0sr', templateParams);
+
+                // --- 5. Success: reset form and show confirmation ---
+                form.reset();
+                showFeedback(
+                    feedback,
+                    'Mesajul a fost trimis cu succes! Te voi contacta în curând.',
+                    'success'
+                );
+            } catch (error) {
+                // --- 6. Error: show polite error message ---
+                console.error('EmailJS error:', error);
+                showFeedback(
+                    feedback,
+                    'A apărut o eroare la trimiterea mesajului. Te rugăm să încerci din nou.',
+                    'error'
+                );
+            } finally {
+                // --- 7. Restore button regardless of outcome ---
+                submitBtn.textContent = 'Trimite Propunerea';
+                submitBtn.disabled    = false;
+            }
+        });
+
+        /**
+         * Displays a styled feedback message inside the given element.
+         * @param {HTMLElement} el    - The feedback container element.
+         * @param {string}      msg   - The message text to display.
+         * @param {'success'|'error'} type - Determines the visual style.
+         */
+        function showFeedback(el, msg, type) {
+            el.textContent = msg;
+            el.style.display = 'block';
+            if (type === 'success') {
+                el.style.backgroundColor = 'rgba(44, 74, 59, 0.85)';
+                el.style.border          = '1px solid #4caf91';
+                el.style.color           = '#b7f0d8';
+            } else {
+                el.style.backgroundColor = 'rgba(120, 40, 40, 0.75)';
+                el.style.border          = '1px solid #e57373';
+                el.style.color           = '#ffd0d0';
+            }
+        }
+
+        // ─── Input focus effects ──────────────────────────────────────────────────
+        document.querySelectorAll('input, textarea').forEach(function (input) {
+            input.addEventListener('focus', function () {
+                this.parentElement.classList.add('focused');
+            });
+            input.addEventListener('blur', function () {
+                this.parentElement.classList.remove('focused');
+            });
+        });
     </script>
+    <script src="language-switcher.js"></script>
 </body>
 </html>

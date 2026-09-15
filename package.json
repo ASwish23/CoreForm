@@ -1,0 +1,18 @@
+{
+  "name": "coreform-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static site for CoreForm (marketing + 3D printing). Tooling only - the site itself is plain HTML/CSS/JS.",
+  "scripts": {
+    "serve": "node serve.mjs",
+    "shot": "node screenshot.mjs http://localhost:3000",
+    "check:links": "node tools/crawl.mjs",
+    "check:forms": "node tools/audit.mjs",
+    "check:a11y": "node tools/interact.mjs",
+    "check:perf": "node tools/perf.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0",
+    "sharp": "^0.34.0"
+  }
+}

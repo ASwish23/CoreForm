@@ -4,28 +4,31 @@ let lastScroll = 0;
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
-    
+
     if (currentScroll > 100) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
-    
+
     lastScroll = currentScroll;
-});
+}, { passive: true });
 
-// ===== Case Card Hover Animation =====
+// ===== Case Card Hover Animation (skipped on touch devices to avoid stuck "lifted" cards) =====
 const caseCards = document.querySelectorAll('.case-card');
+const supportsHover = window.matchMedia('(hover: hover)').matches;
 
-caseCards.forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-10px) scale(1.02)';
+if (supportsHover) {
+    caseCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
     });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
-});
+}
 
 // ===== Intersection Observer for Scroll Animations =====
 const observerOptions = {
@@ -58,6 +61,35 @@ fadeInElements.forEach(element => {
     fadeInObserver.observe(element);
 });
 
+// ===== Mobile Hamburger Nav Toggle =====
+(function () {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    if (!hamburger || !navMenu) return;
+
+    function closeMenu() {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+    }
+
+    hamburger.addEventListener('click', function () {
+        const isActive = navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active', isActive);
+        hamburger.setAttribute('aria-expanded', String(isActive));
+    });
+
+    navMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('scroll', function () {
+        if (navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    }, { passive: true });
+})();
+
 // ===== Smooth Scroll for Navigation Links =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -75,8 +107,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== Package Card 3D Hover Effect (transferred from old pricing cards) =====
-const allPackageCards = document.querySelectorAll('.package-card');
+// ===== Package Card 3D Hover Effect (desktop only — avoids stuck tilt on touch) =====
+const allPackageCards = supportsHover ? document.querySelectorAll('.package-card') : [];
 
 allPackageCards.forEach(card => {
     // On enter: suppress transform transition so JS can drive each frame instantly
@@ -106,34 +138,65 @@ allPackageCards.forEach(card => {
 });
 
 // ===== Counter Animation for Metrics =====
-function animateCounter(element, target, duration = 2000) {
-    const start = 0;
-    const increment = target / (duration / 16);
-    let current = start;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target;
-            clearInterval(timer);
+function animateCounter(element, duration = 1200) {
+    const match = element.textContent.trim().match(/^([\d.]+)(.*)$/);
+    if (!match) return;
+
+    const target = parseFloat(match[1]);
+    const suffix = match[2];
+    const decimals = (match[1].split('.')[1] || '').length;
+    const startTime = performance.now();
+
+    function tick(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        element.textContent = (target * eased).toFixed(decimals) + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(tick);
         } else {
-            element.textContent = Math.floor(current);
+            element.textContent = target.toFixed(decimals) + suffix;
         }
-    }, 16);
+    }
+
+    requestAnimationFrame(tick);
 }
 
-// ===== Parallax Effect on Hero Image =====
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.badge-number, .metric-value').forEach(el => {
+    if (/^[\d.]/.test(el.textContent.trim())) {
+        counterObserver.observe(el);
+    }
+});
+
+// ===== Parallax Effect on Hero Image (rAF-throttled for smoothness) =====
 const heroImage = document.querySelector('.hero-image');
 
 if (heroImage) {
+    let parallaxTicking = false;
+
     window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallax = scrolled * 0.3;
-        
-        if (scrolled < window.innerHeight) {
-            heroImage.style.transform = `translateY(${parallax}px)`;
-        }
-    });
+        if (parallaxTicking) return;
+        parallaxTicking = true;
+
+        requestAnimationFrame(() => {
+            const scrolled = window.pageYOffset;
+
+            if (scrolled < window.innerHeight) {
+                heroImage.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+
+            parallaxTicking = false;
+        });
+    }, { passive: true });
 }
 
 // ===== Button Ripple Effect =====
@@ -183,16 +246,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// ===== Loading Animation =====
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    
-    requestAnimationFrame(() => {
-        document.body.style.transition = 'opacity 0.5s ease-in-out';
-        document.body.style.opacity = '1';
-    });
-});
-
 // ===== Console Easter Egg =====
 console.log('%c🚀 CoreForm Marketing', 'font-size: 24px; font-weight: bold; color: #F3E5E5;');
 console.log('%cInteresați de marketing bazat pe performanță? Hai să vorbim.', 'font-size: 14px; color: #2C4A3B;');
@@ -226,7 +279,7 @@ function selectPackage(packageName) {
 // Step 2: CTA click — navigate to contact form with the stored package name
 function selectPackageAndNavigate(packageName) {
     const encoded = encodeURIComponent(packageName);
-    window.location.href = 'contact.html?pachet=' + encoded;
+    window.location.href = '/contact.html?pachet=' + encoded;
 }
 
 // Main package CTA buttons — use selectedPackage if available, else fall back to data-package

@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="PozeMarketing/favicon-32.png" />
+  <link rel="apple-touch-icon" href="PozeMarketing/favicon-180.png" />
   <title>Comandă Plasată — CoreForm Prints</title>
+  <meta name="description" content="Comanda ta la CoreForm Prints a fost înregistrată. Îți trimitem confirmarea pe e-mail și te ținem la curent cu stadiul producției." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,8 +27,10 @@
     body {
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 2rem;
       padding: 1.5rem;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-color: #f2f5f3;
@@ -247,11 +252,88 @@
       .icon-wrap { width: 76px; height: 76px; }
       .icon-wrap svg { width: 32px; height: 32px; }
     }
+    /* ── Footer ─────────────────────────────────────────────── */
+    .succes-footer {
+      width: 100%;
+      max-width: 520px;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: #5d7268;
+    }
+    .succes-footer p { margin-bottom: 0.6rem; }
+    .succes-footer nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.1rem;
+      justify-content: center;
+    }
+    .succes-footer a,
+    .succes-footer .footer-cookie-btn {
+      color: #2C4A3B;
+      opacity: 0.78;
+      background: none;
+      border: 0;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: opacity 200ms ease;
+    }
+    .succes-footer a:hover,
+    .succes-footer .footer-cookie-btn:hover { opacity: 1; }
+    .succes-footer a:focus-visible,
+    .succes-footer .footer-cookie-btn:focus-visible {
+      outline: 2px solid #2C4A3B;
+      outline-offset: 3px;
+      border-radius: 3px;
+      opacity: 1;
+    }
+
+    /* ── Skip link ──────────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -100px;
+      z-index: 2000;
+      padding: 0.75rem 1.5rem;
+      background: #2C4A3B;
+      color: #FAF0F0;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: transform 220ms cubic-bezier(.34,1.4,.64,1);
+    }
+    .skip-link:focus-visible { top: 1rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
+  <!-- Social sharing -->
+  <meta property="og:site_name" content="CoreForm">
+  <meta property="og:locale" content="ro_RO">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Comandă Plasată — CoreForm Prints">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CoreForm — marketing și printare 3D în România">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Comandă Plasată — CoreForm Prints">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+  <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
+  <script src="consent.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#continut">Sari la conținut</a>
 
-  <article class="success-card" role="main">
+  <main id="continut"><article class="success-card">
 
     <!-- Animated checkmark badge -->
     <div class="icon-wrap" aria-hidden="true">
@@ -290,7 +372,7 @@
     </div>
 
     <!-- CTA -->
-    <a href="prints.html" class="btn-home">
+    <a href="/prints.html" class="btn-home">
       Înapoi la CoreForm Prints
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <line x1="5" y1="12" x2="19" y2="12"/>
@@ -300,7 +382,7 @@
 
     <p class="card-footer-note">&copy; 2026 CoreForm. Toate drepturile rezervate.</p>
 
-  </article>
+  </article></main>
 
   <!-- EmailJS -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -310,6 +392,7 @@
 
   <!-- Supabase client (needed to fetch order details) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
   <script src="database.js"></script>
 
   <script>
@@ -384,5 +467,17 @@
     })();
   </script>
 
+
+  <footer class="succes-footer">
+    <p>&copy; 2026 CORE FORM S.R.L. Toate drepturile rezervate.</p>
+    <nav aria-label="Linkuri legale">
+      <a href="/">Acasă</a>
+      <a href="/termeni-si-conditii.html">Termeni și Condiții</a>
+      <a href="/politica-confidentialitate.html">Confidențialitate</a>
+      <a href="/politica-cookies.html">Cookie-uri</a>
+      <a href="/contact.html">Contact</a>
+      <button type="button" class="footer-cookie-btn" data-cookie-settings>Setări cookie-uri</button>
+    </nav>
+  </footer>
 </body>
 </html>

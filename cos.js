@@ -45,7 +45,6 @@
     badge.classList.toggle('visible', n > 0);
   }
 
-  /* ── Pricing ────────────────────────────────────────────────── */
   function calcSubtotal(cart) {
     return cart.reduce(function (s, i) {
       var n = normalizeItem(i);
@@ -72,7 +71,7 @@
         '</svg></div>' +
         '<h2>Coșul tău este gol</h2>' +
         '<p>Explorează produsele noastre și adaugă ce îți place.</p>' +
-        '<a href="produse.html" class="btn-back">Întoarce-te la magazin</a>' +
+        '<a href="/produse.html" class="btn-back">Întoarce-te la magazin</a>' +
       '</div>'
     );
   }
@@ -172,8 +171,8 @@
           '<button id="promoBtn" class="promo-btn"' + promoBtnAttrs + '>' + promoBtnLabel + '</button>' +
         '</div>' +
         promoApplied +
-        '<a href="checkout.html" class="btn-checkout">Finalizează Comanda</a>' +
-        '<a href="produse.html" class="cart-continue">Continuă cumpărăturile</a>' +
+        '<a href="/checkout.html" class="btn-checkout">Finalizează Comanda</a>' +
+        '<a href="/produse.html" class="cart-continue">Continuă cumpărăturile</a>' +
       '</div>'
     );
   }
