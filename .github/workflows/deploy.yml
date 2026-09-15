@@ -1,0 +1,73 @@
+name: Deploy to cPanel (FTP)
+
+on:
+  push:
+    branches:
+      - main
+
+# Prevent two deploys from racing and corrupting the FTP sync-state file
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  ftp-deploy:
+    name: FTP Deploy to public_html
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # config.js is gitignored (it holds real Supabase credentials, see
+      # CLAUDE.md / config.example.js). It is generated here from GitHub
+      # Secrets on every deploy so the live site always has a working config
+      # without the credentials ever touching the git repo.
+      - name: Generate config.js from secrets
+        run: |
+          cat > config.js << EOF
+          // Auto-generated at deploy time from GitHub Actions secrets.
+          // Do not edit on the server — edit the secrets instead and redeploy.
+          window.SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
+          window.SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+          EOF
+
+      - name: Deploy over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./
+          server-dir: /public_html/
+          # Never wipe files on the server that aren't in this repo —
+          # cPanel keeps things here (cgi-bin, .well-known, error logs, the
+          # sync-state file itself) that must survive every deploy.
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.github/**/*
+            **/.vscode/**
+            **/.vscode/**/*
+            **/node_modules/**
+            **/node_modules/**/*
+            **/tools/**
+            **/tools/**/*
+            **/supabase/**
+            **/supabase/**/*
+            .gitattributes
+            .gitignore
+            CLAUDE.md
+            NETOPIA_SETUP.md
+            GoogleAnalyticsVsPlausible.txt
+            Ro-En switch.txt
+            config.example.js
+            package.json
+            package-lock.json
+            serve.mjs
+            screenshot.mjs
+            produse.csv
+            netopia-payment-frontend-example.js
