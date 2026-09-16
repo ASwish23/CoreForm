@@ -750,10 +750,8 @@ ul { list-style: none; }
 
 /* ── SCROLL INDICATOR ───────────────────────────────────── */
 .scroll-indicator {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  margin-top: 2.5rem;
   text-align: center;
   color: var(--primary);
   font-size: 0.72rem;
@@ -1021,7 +1019,7 @@ ul { list-style: none; }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: var(--primary);
+  color: var(--bg);
   opacity: 0.3;
 }
 
@@ -1037,6 +1035,10 @@ ul { list-style: none; }
 }
 
 .select-wrapper { position: relative; }
+
+.select-wrapper select:has(option:checked[value=""]) {
+  color: color-mix(in srgb, var(--bg) 30%, white);
+}
 
 .select-wrapper select {
   width: 100%;
