@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prints.css?v=2">
-  <link rel="stylesheet" href="legal.css?v=2">
+  <link rel="stylesheet" href="prints.css?v=4">
+  <link rel="stylesheet" href="legal.css?v=3">
   <script src="consent.js?v=2" defer></script>
 </head>
 <body>
@@ -127,28 +127,28 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><code>coreform_consent</code></td>
-                  <td>coreform.ro</td>
-                  <td>Reține opțiunea ta privind cookie-urile, ca să nu te întrebăm la fiecare pagină.</td>
-                  <td>6 luni</td>
+                  <td data-label="Nume"><code>coreform_consent</code></td>
+                  <td data-label="Furnizor">coreform.ro</td>
+                  <td data-label="Scop">Reține opțiunea ta privind cookie-urile, ca să nu te întrebăm la fiecare pagină.</td>
+                  <td data-label="Durată">6 luni</td>
                 </tr>
                 <tr>
-                  <td><code>coreform_cart</code></td>
-                  <td>coreform.ro (localStorage)</td>
-                  <td>Păstrează produsele din coșul de cumpărături între pagini.</td>
-                  <td>Până la golirea coșului</td>
+                  <td data-label="Nume"><code>coreform_cart</code></td>
+                  <td data-label="Furnizor">coreform.ro (localStorage)</td>
+                  <td data-label="Scop">Păstrează produsele din coșul de cumpărături între pagini.</td>
+                  <td data-label="Durată">Până la golirea coșului</td>
                 </tr>
                 <tr>
-                  <td><code>sb-*-auth-token</code></td>
-                  <td>Supabase</td>
-                  <td>Menține sesiunea autentificată în zona de administrare.</td>
-                  <td>Sesiune / 1 oră</td>
+                  <td data-label="Nume"><code>sb-*-auth-token</code></td>
+                  <td data-label="Furnizor">Supabase</td>
+                  <td data-label="Scop">Menține sesiunea autentificată în zona de administrare.</td>
+                  <td data-label="Durată">Sesiune / 1 oră</td>
                 </tr>
                 <tr>
-                  <td>Cookie-uri de plată</td>
-                  <td>NETOPIA Payments</td>
-                  <td>Securizarea tranzacției și prevenirea fraudei, în timpul procesului de plată.</td>
-                  <td>Sesiune</td>
+                  <td data-label="Nume">Cookie-uri de plată</td>
+                  <td data-label="Furnizor">NETOPIA Payments</td>
+                  <td data-label="Scop">Securizarea tranzacției și prevenirea fraudei, în timpul procesului de plată.</td>
+                  <td data-label="Durată">Sesiune</td>
                 </tr>
               </tbody>
             </table>
@@ -175,16 +175,16 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><code>_ga</code></td>
-                  <td>Google Analytics 4</td>
-                  <td>Distinge vizitatorii unici printr-un identificator aleatoriu.</td>
-                  <td>13 luni</td>
+                  <td data-label="Nume"><code>_ga</code></td>
+                  <td data-label="Furnizor">Google Analytics 4</td>
+                  <td data-label="Scop">Distinge vizitatorii unici printr-un identificator aleatoriu.</td>
+                  <td data-label="Durată">13 luni</td>
                 </tr>
                 <tr>
-                  <td><code>_ga_&lt;ID&gt;</code></td>
-                  <td>Google Analytics 4</td>
-                  <td>Menține starea sesiunii de analiză.</td>
-                  <td>13 luni</td>
+                  <td data-label="Nume"><code>_ga_&lt;ID&gt;</code></td>
+                  <td data-label="Furnizor">Google Analytics 4</td>
+                  <td data-label="Scop">Menține starea sesiunii de analiză.</td>
+                  <td data-label="Durată">13 luni</td>
                 </tr>
               </tbody>
             </table>

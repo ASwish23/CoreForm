@@ -220,7 +220,11 @@
 
   /* ── Event binding ──────────────────────────────────────────── */
   function bindEvents(container) {
-    /* Quantity controls + remove */
+    /* Quantity controls + remove — delegated on the persistent container, so
+       attach it only once. render() calls bindEvents() every time; without this
+       guard each render stacked another listener and one tap ran N times. */
+    if (!container.dataset.cartBound) {
+    container.dataset.cartBound = '1';
     container.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-action], .cart-remove-btn');
       if (!btn) return;
@@ -242,6 +246,7 @@
       saveCart(cart);
       render();
     });
+    }
 
     /* Promo code */
     var promoBtn   = document.getElementById('promoBtn');

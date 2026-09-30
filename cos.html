@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prints.css?v=2">
+  <link rel="stylesheet" href="prints.css?v=4">
   <style>
     /* ── Cart page ─────────────────────────────────────── */
     .cart-page {
@@ -44,54 +44,7 @@
       border-radius: 2px;
     }
 
-    /* ── Cart nav link (same as /produse) ──────────── */
-    .cart-link {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-sans);
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--primary);
-      text-decoration: none;
-      white-space: nowrap;
-      flex-shrink: 0;
-      opacity: 0.8;
-      transition: opacity 0.2s ease;
-    }
-
-    .cart-link:hover { opacity: 1; }
-
-    .cart-link svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      flex-shrink: 0;
-    }
-
-    .cart-link .cart-badge {
-      position: absolute;
-      top: -4px;
-      right: -6px;
-      background-color: #FADADA;
-      color: #2C4A3B;
-      font-size: 0.58rem;
-      font-weight: 800;
-      min-width: 15px;
-      height: 15px;
-      border-radius: 8px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 0 3px;
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .cart-link .cart-badge.visible { display: flex; }
+    /* Cart nav link styles live in prints.css (shared with produse / checkout). */
 
     /* ── Empty state ───────────────────────────────────── */
     .cart-empty {
@@ -276,8 +229,12 @@
     }
 
     @media (max-width: 860px) {
-      .cart-layout { grid-template-columns: 1fr; }
+      /* minmax(0,…) lets the column shrink to the phone width instead of
+         growing to fit the widest table row. */
+      .cart-layout { grid-template-columns: minmax(0, 1fr); }
     }
+
+    .cart-layout > * { min-width: 0; }
 
     .cart-summary {
       background-color: rgba(255,255,255,0.04);
@@ -406,6 +363,7 @@
 
     .promo-input {
       flex: 1;
+      min-width: 0; /* inputs default to ~20ch wide; let it shrink on phones */
       background-color: rgba(255,255,255,0.06);
       border: 1px solid rgba(250,218,218,0.18);
       border-radius: 7px;
@@ -454,6 +412,76 @@
     @media (max-width: 560px) {
       .col-price,
       .cart-table thead th.col-price { display: none; }
+    }
+
+    /* ── Touch: thumb-sized quantity / remove controls ──── */
+    @media (max-width: 1024px) {
+      .cart-qty { padding: 2px; gap: 2px; }
+
+      .cart-qty-btn {
+        min-width: 40px;
+        min-height: 40px;
+        font-size: 1.25rem;
+        padding: 0;
+      }
+
+      .cart-remove-btn {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cart-continue {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .promo-input,
+      .promo-btn { min-height: 44px; }
+    }
+
+    /* ── Phones: each row becomes a stacked item ─────────
+       product (thumb + name + colour) on top, then quantity · subtotal · remove.
+       The column header is only hidden visually; screen readers keep it. */
+    @media (max-width: 560px) {
+      .cart-table thead {
+        position: absolute;
+        width: 1px; height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      .cart-table,
+      .cart-table tbody { display: block; }
+
+      .cart-table tbody tr {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+          "info info   info"
+          "qty  sub    remove";
+        align-items: center;
+        gap: 0.9rem 0.75rem;
+        padding: 1.25rem 0;
+      }
+
+      .cart-table tbody td { padding: 0; }
+
+      .cart-table tbody td:nth-child(1) { grid-area: info; }
+      .cart-table tbody td:nth-child(3) { grid-area: qty; }
+      .cart-table tbody td.col-subtotal {
+        grid-area: sub;
+        text-align: right;
+        font-weight: 600;
+      }
+      .cart-table tbody td.col-remove   { grid-area: remove; }
+
+      .cart-item-name { line-height: 1.35; }
     }
   </style>
   <!-- Social sharing -->
@@ -560,6 +588,6 @@
       navToggle.setAttribute('aria-label', isOpen ? 'Închide meniu' : 'Deschide meniu');
     });
   </script>
-  <script src="cos.js?v=2"></script>
+  <script src="cos.js?v=3"></script>
 </body>
 </html>

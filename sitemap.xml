@@ -71,7 +71,7 @@
   </url>
   <url>
     <loc>https://coreform.ro/contact</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ro" href="https://coreform.ro/contact"/>
@@ -80,12 +80,30 @@
   </url>
   <url>
     <loc>https://coreform.ro/contact-en</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="ro" href="https://coreform.ro/contact"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://coreform.ro/contact-en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://coreform.ro/contact"/>
+  </url>
+  <url>
+    <loc>https://coreform.ro/personalizeaza</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://coreform.ro/personalizeaza"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coreform.ro/personalizeaza-en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coreform.ro/personalizeaza"/>
+  </url>
+  <url>
+    <loc>https://coreform.ro/personalizeaza-en</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://coreform.ro/personalizeaza"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://coreform.ro/personalizeaza-en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://coreform.ro/personalizeaza"/>
   </url>
 
   <!-- ── Trust & information ─────────────────────────────── -->

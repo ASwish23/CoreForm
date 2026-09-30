@@ -3,54 +3,7 @@
    Colors: #2C4A3B (bg-section) · #FADADA (text/icons) · #FFFFFF #FADADA (card)
    ============================================================ */
 
-/* ── CART NAV LINK ─────────────────────────────────────── */
-.cart-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--primary);
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
-}
-
-.cart-link:hover { opacity: 1; }
-
-.cart-link svg {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  flex-shrink: 0;
-}
-
-.cart-link .cart-badge {
-  position: absolute;
-  top: -4px;
-  right: -6px;
-  background-color: #FADADA;
-  color: #2C4A3B;
-  font-size: 0.58rem;
-  font-weight: 800;
-  min-width: 15px;
-  height: 15px;
-  border-radius: 8px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 0 3px;
-  line-height: 1;
-  pointer-events: none;
-}
-
-.cart-link .cart-badge.visible { display: flex; }
+/* Cart nav link styles live in prints.css (shared with cos.html / checkout.html). */
 
 /* ── CAROUSEL SECTION ───────────────────────────────────── */
 .carousel-section {
@@ -63,9 +16,13 @@
   border-bottom: none;
 }
 
-/* Override container's default 2rem padding so headings hug the left */
-.carousel-section .container {
-  padding-left: 0;
+/* Override container's default 2rem padding so headings hug the left.
+   Only when the viewport is wider than the 1200px container (+2rem each side);
+   narrower than that it would push headings flush against the screen edge. */
+@media (min-width: 1264px) {
+  .carousel-section .container {
+    padding-left: 0;
+  }
 }
 
 .carousel-section .category-heading {
@@ -78,12 +35,6 @@
   opacity: 0.72;
   margin-bottom: 2rem;
   text-align: left;
-}
-
-@media (max-width: 768px) {
-  .carousel-section .container {
-    padding-left: 8px;
-  }
 }
 
 /* ── STAGE (holds track + buttons) ─────────────────────── */
@@ -298,21 +249,28 @@
 }
 
 /* ── DOT INDICATORS ──────────────────────────────────────── */
+/* Wraps onto a second centred row for long categories (e.g. 20+ products)
+   instead of running off the side of a phone screen. */
 .carousel-dots {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 0.55rem;
-  padding-bottom: 2rem;
+  gap: 0 0.55rem;
+  padding: 0 1.25rem 2rem;
 }
 
+/* 8px dot drawn inside a 24px tap area (padding + content-box background). */
 .carousel-dot {
+  box-sizing: content-box;
   width: 8px;
   height: 8px;
+  padding: 8px;
+  margin: 0 -4px;
   border-radius: 50%;
   background-color: #FADADA;
+  background-clip: content-box;
   opacity: 0.25;
   border: none;
-  padding: 0;
   cursor: pointer;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -354,23 +312,47 @@
   .carousel-btn--next { margin-right: 0.75rem; }
 }
 
+/* Phones: the card takes the full content width and the arrows move to a
+   centred row underneath, so they never cover the product (swipe also works). */
 @media (max-width: 480px) {
+  .carousel-stage {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 1.25rem;
+    padding-top: 0.5rem;
+  }
+
+  .carousel-track-wrapper {
+    flex: 0 0 100%;
+    padding: 1.5rem 0 1.75rem;
+  }
+
   .carousel-card {
-    width: calc(100vw - 6rem);
+    width: min(340px, calc(100vw - 2.5rem));
   }
 
   .carousel-track {
-    min-height: 340px;
+    min-height: 330px;
   }
 
   .carousel-btn {
-    width: 38px;
-    height: 38px;
+    order: 1;
+    width: 44px;
+    height: 44px;
+  }
+
+  .carousel-btn--prev,
+  .carousel-btn--next {
+    margin: 0;
   }
 
   .carousel-btn svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .carousel-dots {
+    padding-top: 0.75rem;
   }
 }
 

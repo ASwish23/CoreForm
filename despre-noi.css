@@ -302,6 +302,9 @@ body {
 /* ===== Content Sections ===== */
 .section-spacing {
     padding: 8rem 2rem;
+    /* AOS fade-left/right start blocks shifted sideways; without this they
+       widen the page on phones and push fixed elements off-screen. */
+    overflow-x: clip;
 }
 
 .content-container {
@@ -786,6 +789,24 @@ body {
 }
 
 @media (max-width: 768px) {
+    /* Language switcher: only on landing. Sits just under the hamburger,
+       right edge aligned with the icon; fades out once the user scrolls. */
+    .lang-switch {
+        top: calc(var(--nav-h, 80px) + 10px);
+        right: calc(2rem + 6px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0s;
+    }
+
+    /* Also tucked away while the hamburger menu is open, so it never overlaps the links. */
+    .lang-switch.is-scrolled,
+    body:has(.nav-menu.active) .lang-switch {
+        opacity: 0;
+        transform: translateY(-8px);
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+    }
+
     .nav-menu {
         display: flex;
         flex-direction: column;

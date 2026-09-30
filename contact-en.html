@@ -17,9 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="contact.css?v=2">
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="stylesheet" href="contact.css?v=3">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -34,7 +32,11 @@
       },
       "areaServed": [{"@type": "City", "name": "Cluj-Napoca", "addressCountry": "RO"}, {"@type": "City", "name": "Deva", "addressCountry": "RO"}, {"@type": "City", "name": "Timișoara", "addressCountry": "RO"}, {"@type": "City", "name": "Arad", "addressCountry": "RO"}, {"@type": "City", "name": "Oradea", "addressCountry": "RO"}, {"@type": "City", "name": "Hunedoara", "addressCountry": "RO"}, {"@type": "City", "name": "Baia Mare", "addressCountry": "RO"}, {"@type": "City", "name": "Târgu Mureș", "addressCountry": "RO"}, {"@type": "City", "name": "Iași", "addressCountry": "RO"}, {"@type": "City", "name": "București", "addressCountry": "RO"}, {"@type": "City", "name": "Brașov", "addressCountry": "RO"}, {"@type": "Country", "name": "Romania"}],
       "address": {"@type": "PostalAddress", "addressLocality": "Cluj-Napoca", "addressCountry": "RO"},
-      "contactPoint": {"@type": "ContactPoint", "telephone": "+40731644613", "contactType": "Customer Service", "email": "contact@coreform.ro"}
+      "email": "contact@coreform.ro",
+      "contactPoint": [
+        {"@type": "ContactPoint", "name": "Mădălina Sorescu", "telephone": "+40731644613", "contactType": "Customer Service", "email": "contact@coreform.ro"},
+        {"@type": "ContactPoint", "name": "Cătălin Colcea", "telephone": "+40731741588", "contactType": "Customer Service", "email": "contact@coreform.ro"}
+      ]
     }
     </script>
     <!-- Social sharing -->
@@ -75,7 +77,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/marketing.html">Marketing</a></li>
                 <li><a href="/despre-noi.html">About Me</a></li>
-                <li><a href="/contact.html" class="nav-active">Contact</a></li>
+                <li><a href="/contact-en.html" class="nav-active">Contact</a></li>
             </ul>
             <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
                 <div></div>
@@ -88,133 +90,28 @@
     <!-- Main Container -->
     <main class="contact-wrapper" id="continut">
         <div class="contact-container">
-            <h1 class="form-title">Your Details:</h1>
-            
-            <form id="contactForm" class="contact-form">
-                <!-- Row 1: Company Name + Phone Number -->
-                <div class="form-row">
-                    <div class="form-group half">
-                        <label for="companyName">Company Name*</label>
-                        <input 
-                            type="text" 
-                            id="companyName" 
-                            name="nume_companie" 
-                            placeholder="Your company name"
-                            required
-                         autocomplete="organization">
-                    </div>
-                    <div class="form-group half">
-                        <label for="phoneNumber">Phone Number*</label>
-                        <input 
-                            type="tel" 
-                            id="phoneNumber" 
-                            name="telefon" 
-                            placeholder="+40 XXX XXX XXX"
-                            required
-                         autocomplete="tel" inputmode="tel">
-                    </div>
-                </div>
+            <h1 class="form-title">Contact</h1>
 
-                <!-- Row 2: Email -->
-                <div class="form-row">
-                    <div class="form-group full">
-                        <label for="email">Email*</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            placeholder="email@company.com"
-                            required
-                         autocomplete="email">
-                    </div>
-                </div>
-
-                <!-- Row 3: Estimated Budget -->
-                <div class="form-row">
-                    <div class="form-group full">
-                        <label for="budget">Estimated Budget</label>
-                        <input 
-                            type="text" 
-                            id="budget" 
-                            name="buget" 
-                            placeholder="E.g.: 5,000 - 10,000 EUR"
-                         autocomplete="off">
-                    </div>
-                </div>
-
-                <!-- Services Section -->
-                <div class="services-section">
-                    <h2 class="section-title">Which services are you interested in?</h2>
-                    
-                    <div class="checkbox-grid">
-                        <!-- Column 1 -->
-                        <div class="checkbox-column">
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="contentCreation" name="servicii" value="content-creation">
-                                <label for="contentCreation">Photo/Video Content Creation</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="webDesign" name="servicii" value="web-design">
-                                <label for="webDesign">Web Design</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="copywriting" name="servicii" value="copywriting">
-                                <label for="copywriting">Copywriting</label>
-                            </div>
-                        </div>
-
-                        <!-- Column 2 -->
-                        <div class="checkbox-column">
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="socialMedia" name="servicii" value="social-media">
-                                <label for="socialMedia">Social Media Management</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="ads" name="servicii" value="ads">
-                                <label for="ads">Ads</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="branding" name="servicii" value="branding">
-                                <label for="branding">Branding</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Marketing Section -->
-                <div class="form-row">
-                    <div class="form-group full">
-                        <label for="marketingPerspective">Marketing Perspective</label>
-                        <input 
-                            type="text" 
-                            id="marketingPerspective" 
-                            name="perspectiva_marketing" 
-                            placeholder="Describe your marketing vision"
-                         autocomplete="off">
-                    </div>
-                </div>
-
-                <!-- Message / Project Details -->
-                <div class="form-row">
-                    <div class="form-group full">
-                        <label for="projectDetails">Project Details</label>
-                        <textarea 
-                            id="projectDetails" 
-                            name="detalii_proiect" 
-                            rows="6"
-                            placeholder="Tell me more about your project..."
-                        ></textarea>
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="form-actions">
-                    <button type="submit" class="submit-btn" id="submitBtn">Submit Proposal</button>
-                </div>
-
-                <!-- Feedback Message (success / error) -->
-                <div id="formFeedback" role="alert" aria-live="polite" style="display:none; margin-top:1rem; padding:0.85rem 1.2rem; border-radius:8px; font-weight:500; text-align:center;"></div>
-            </form>
+            <ul class="contact-details" role="list">
+                <li class="contact-details-email">
+                    <a class="contact-item" href="mailto:contact@coreform.ro">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value">contact@coreform.ro</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="contact-item" href="tel:+40731644613">
+                        <span class="contact-label">Mădălina Sorescu</span>
+                        <span class="contact-value">+40 731 644 613</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="contact-item" href="tel:+40731741588">
+                        <span class="contact-label">Cătălin Colcea</span>
+                        <span class="contact-value">+40 731 741 588</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </main>
 
@@ -265,119 +162,6 @@
                 }
             }, { passive: true });
         })();
-
-        // ─── EmailJS Initialization ───────────────────────────────────────────────
-        emailjs.init('O153E-J7Jeem1qSvi');
-
-        // ─── Pre-fill marketingPerspective from URL query param ───────────────────
-        (function () {
-            const params = new URLSearchParams(window.location.search);
-            const pachet = params.get('pachet');
-            if (pachet) {
-                const field = document.getElementById('marketingPerspective');
-                if (field) {
-                    field.value = 'Pachet selectat: ' + pachet;
-                    field.closest('.form-group')?.classList.add('focused');
-                }
-            }
-        })();
-
-        // ─── Contact Form Submission ──────────────────────────────────────────────
-        document.getElementById('contactForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const form      = this;
-            const submitBtn = document.getElementById('submitBtn');
-            const feedback  = document.getElementById('formFeedback');
-
-            // --- 1. Loading state ---
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled    = true;
-            feedback.style.display = 'none';
-
-            // --- 2. Collect field values ---
-            const numeCompanie         = form.nume_companie.value.trim();
-            const telefon              = form.telefon.value.trim();
-            const emailAddr            = form.email.value.trim();
-            const buget                = form.buget.value.trim();
-            const perspectiva          = form.perspectiva_marketing.value.trim();
-            const detalii              = form.detalii_proiect.value.trim();
-
-            // Aggregate multiple checkbox selections into a readable string
-            const selectedServices = Array.from(
-                form.querySelectorAll('input[name="servicii"]:checked')
-            ).map(cb => cb.nextElementSibling?.textContent.trim() || cb.value);
-            const servicii = selectedServices.length > 0
-                ? selectedServices.join(', ')
-                : 'Niciun serviciu selectat';
-
-            // --- 3. Build the template parameters object ---
-            // These keys must EXACTLY match the template variable names in your EmailJS template.
-            const templateParams = {
-                nume_companie:           numeCompanie,
-                telefon:                 telefon,
-                email:                   emailAddr,
-                buget:                   buget,
-                servicii:                servicii,
-                perspectiva_marketing:   perspectiva,
-                detalii_proiect:         detalii,
-            };
-
-            try {
-                // --- 4. Send via EmailJS ---
-                await emailjs.send('service_6dsjm16', 'template_cxee0sr', templateParams);
-
-                // --- 5. Success: reset form and show confirmation ---
-                form.reset();
-                showFeedback(
-                    feedback,
-                    'Your message was sent successfully! I will contact you shortly.',
-                    'success'
-                );
-            } catch (error) {
-                // --- 6. Error: show polite error message ---
-                console.error('EmailJS error:', error);
-                showFeedback(
-                    feedback,
-                    'An error occurred while sending your message. Please try again.',
-                    'error'
-                );
-            } finally {
-                // --- 7. Restore button regardless of outcome ---
-                submitBtn.textContent = 'Submit Proposal';
-                submitBtn.disabled    = false;
-            }
-        });
-
-        /**
-         * Displays a styled feedback message inside the given element.
-         * @param {HTMLElement} el    - The feedback container element.
-         * @param {string}      msg   - The message text to display.
-         * @param {'success'|'error'} type - Determines the visual style.
-         */
-        function showFeedback(el, msg, type) {
-            el.textContent = msg;
-            el.style.display = 'block';
-            if (type === 'success') {
-                el.style.backgroundColor = 'rgba(44, 74, 59, 0.85)';
-                el.style.border          = '1px solid #4caf91';
-                el.style.color           = '#b7f0d8';
-            } else {
-                el.style.backgroundColor = 'rgba(120, 40, 40, 0.75)';
-                el.style.border          = '1px solid #e57373';
-                el.style.color           = '#ffd0d0';
-            }
-        }
-
-        // ─── Input focus effects ──────────────────────────────────────────────────
-        document.querySelectorAll('input, textarea').forEach(function (input) {
-            input.addEventListener('focus', function () {
-                this.parentElement.classList.add('focused');
-            });
-            input.addEventListener('blur', function () {
-                this.parentElement.classList.remove('focused');
-            });
-        });
     </script>
     <script src="language-switcher.js?v=2"></script>
 </body>

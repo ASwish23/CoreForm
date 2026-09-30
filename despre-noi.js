@@ -20,6 +20,27 @@ window.addEventListener('scroll', () => {
     lastScrollY = currentScrollY;
 });
 
+// ===== Language switcher: mobile shows it on landing only =====
+// CSS applies .is-scrolled only at <=768px; desktop keeps it always visible.
+(function () {
+    const langSwitch = document.querySelector('.lang-switch');
+    if (!langSwitch) return;
+
+    function syncNavHeight() {
+        document.documentElement.style.setProperty('--nav-h', navbar.offsetHeight + 'px');
+    }
+
+    function syncLangSwitch() {
+        langSwitch.classList.toggle('is-scrolled', window.scrollY > 10);
+    }
+
+    syncNavHeight();
+    syncLangSwitch();
+    window.addEventListener('scroll', syncLangSwitch, { passive: true });
+    window.addEventListener('resize', syncNavHeight);
+    window.addEventListener('load', syncNavHeight);
+})();
+
 // ===== Mobile Hamburger Nav Toggle =====
 (function () {
     const hamburger = document.getElementById('hamburger');

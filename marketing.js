@@ -276,10 +276,11 @@ function selectPackage(packageName) {
     });
 }
 
-// Step 2: CTA click — navigate to contact form with the stored package name
+// Step 2: CTA click — navigate to the personalise form with the stored package name
 function selectPackageAndNavigate(packageName) {
     const encoded = encodeURIComponent(packageName);
-    window.location.href = '/contact.html?pachet=' + encoded;
+    const formPage = document.documentElement.lang === 'en' ? '/personalizeaza-en.html' : '/personalizeaza.html';
+    window.location.href = formPage + '?pachet=' + encoded;
 }
 
 // Main package CTA buttons — use selectedPackage if available, else fall back to data-package

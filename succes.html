@@ -20,12 +20,15 @@
     }
 
     /* ── Page ───────────────────────────────────────────────── */
-    html, body {
+    /* Only min-height on body: a fixed height:100% + flex centring pushed the
+       top of the card above the page on short phone screens (unreachable). */
+    html {
       height: 100%;
     }
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -282,6 +285,19 @@
     }
     .succes-footer a:hover,
     .succes-footer .footer-cookie-btn:hover { opacity: 1; }
+
+    /* Touch: give the small footer links a thumb-sized hit area. */
+    @media (pointer: coarse), (max-width: 480px) {
+      .succes-footer nav { gap: 0 0.5rem; }
+
+      .succes-footer a,
+      .succes-footer .footer-cookie-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 0.4rem;
+      }
+    }
     .succes-footer a:focus-visible,
     .succes-footer .footer-cookie-btn:focus-visible {
       outline: 2px solid #2C4A3B;

@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prints.css?v=2">
-  <link rel="stylesheet" href="legal.css?v=2">
+  <link rel="stylesheet" href="prints.css?v=4">
+  <link rel="stylesheet" href="legal.css?v=3">
   <script src="consent.js?v=2" defer></script>
 </head>
 <body>
@@ -125,7 +125,7 @@
 
           <h3>2.1. Formulare de contact și de ofertă</h3>
           <p>
-            Când completezi formularul de pe paginile <a href="/contact.html">Contact</a>,
+            Când completezi formularul de pe paginile <a href="/personalizeaza.html">Personalizează</a>,
             <a href="/oferta.html">Ofertă</a> sau <a href="/servicii.html">Servicii</a>, colectăm: <strong>nume, adresă de e-mail,
             număr de telefon (opțional), denumirea companiei (opțional) și conținutul mesajului</strong>,
             inclusiv eventualele fișiere sau descrieri de proiect pe care le atașezi.
@@ -180,34 +180,34 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Răspuns la mesaje și cereri de ofertă</td>
-                  <td>Nume, e-mail, telefon, mesaj</td>
-                  <td>Art. 6(1)(b) — demersuri precontractuale la cererea ta</td>
+                  <td data-label="Scop">Răspuns la mesaje și cereri de ofertă</td>
+                  <td data-label="Date prelucrate">Nume, e-mail, telefon, mesaj</td>
+                  <td data-label="Temei legal (GDPR)">Art. 6(1)(b) — demersuri precontractuale la cererea ta</td>
                 </tr>
                 <tr>
-                  <td>Procesarea și livrarea comenzilor</td>
-                  <td>Date de identificare, contact, livrare, comandă</td>
-                  <td>Art. 6(1)(b) — executarea contractului</td>
+                  <td data-label="Scop">Procesarea și livrarea comenzilor</td>
+                  <td data-label="Date prelucrate">Date de identificare, contact, livrare, comandă</td>
+                  <td data-label="Temei legal (GDPR)">Art. 6(1)(b) — executarea contractului</td>
                 </tr>
                 <tr>
-                  <td>Facturare și evidență contabilă</td>
-                  <td>Date de facturare, valoarea comenzii</td>
-                  <td>Art. 6(1)(c) — obligație legală (Legea contabilității nr. 82/1991, Codul fiscal)</td>
+                  <td data-label="Scop">Facturare și evidență contabilă</td>
+                  <td data-label="Date prelucrate">Date de facturare, valoarea comenzii</td>
+                  <td data-label="Temei legal (GDPR)">Art. 6(1)(c) — obligație legală (Legea contabilității nr. 82/1991, Codul fiscal)</td>
                 </tr>
                 <tr>
-                  <td>Statistici de trafic (Google Analytics 4)</td>
-                  <td>Identificator cookie, pagini vizitate, date tehnice</td>
-                  <td>Art. 6(1)(a) — consimțământ, revocabil oricând</td>
+                  <td data-label="Scop">Statistici de trafic (Google Analytics 4)</td>
+                  <td data-label="Date prelucrate">Identificator cookie, pagini vizitate, date tehnice</td>
+                  <td data-label="Temei legal (GDPR)">Art. 6(1)(a) — consimțământ, revocabil oricând</td>
                 </tr>
                 <tr>
-                  <td>Securitatea site-ului și prevenirea fraudei</td>
-                  <td>Adresă IP, jurnale de acces</td>
-                  <td>Art. 6(1)(f) — interes legitim</td>
+                  <td data-label="Scop">Securitatea site-ului și prevenirea fraudei</td>
+                  <td data-label="Date prelucrate">Adresă IP, jurnale de acces</td>
+                  <td data-label="Temei legal (GDPR)">Art. 6(1)(f) — interes legitim</td>
                 </tr>
                 <tr>
-                  <td>Apărarea drepturilor în caz de litigiu</td>
-                  <td>Corespondență, documente contractuale</td>
-                  <td>Art. 6(1)(f) — interes legitim</td>
+                  <td data-label="Scop">Apărarea drepturilor în caz de litigiu</td>
+                  <td data-label="Date prelucrate">Corespondență, documente contractuale</td>
+                  <td data-label="Temei legal (GDPR)">Art. 6(1)(f) — interes legitim</td>
                 </tr>
               </tbody>
             </table>
@@ -237,34 +237,34 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>NETOPIA Payments (RO)</td>
-                  <td>Procesare plăți online</td>
-                  <td>Nume, e-mail, valoarea și referința comenzii</td>
+                  <td data-label="Furnizor">NETOPIA Payments (RO)</td>
+                  <td data-label="Rol">Procesare plăți online</td>
+                  <td data-label="Date transmise">Nume, e-mail, valoarea și referința comenzii</td>
                 </tr>
                 <tr>
-                  <td>Supabase Inc. (US/EU)</td>
-                  <td>Găzduirea bazei de date a comenzilor</td>
-                  <td>Datele comenzii și de contact</td>
+                  <td data-label="Furnizor">Supabase Inc. (US/EU)</td>
+                  <td data-label="Rol">Găzduirea bazei de date a comenzilor</td>
+                  <td data-label="Date transmise">Datele comenzii și de contact</td>
                 </tr>
                 <tr>
-                  <td>EmailJS (US)</td>
-                  <td>Livrarea mesajelor din formulare</td>
-                  <td>Nume, e-mail, telefon, conținutul mesajului</td>
+                  <td data-label="Furnizor">EmailJS (US)</td>
+                  <td data-label="Rol">Livrarea mesajelor din formulare</td>
+                  <td data-label="Date transmise">Nume, e-mail, telefon, conținutul mesajului</td>
                 </tr>
                 <tr>
-                  <td>Google Ireland Ltd.</td>
-                  <td>Google Analytics 4, Google Fonts</td>
-                  <td>Identificator cookie, date tehnice, adresă IP</td>
+                  <td data-label="Furnizor">Google Ireland Ltd.</td>
+                  <td data-label="Rol">Google Analytics 4, Google Fonts</td>
+                  <td data-label="Date transmise">Identificator cookie, date tehnice, adresă IP</td>
                 </tr>
                 <tr>
-                  <td>Furnizori de curierat</td>
-                  <td>Livrarea coletelor</td>
-                  <td>Nume, telefon, adresă de livrare</td>
+                  <td data-label="Furnizor">Furnizori de curierat</td>
+                  <td data-label="Rol">Livrarea coletelor</td>
+                  <td data-label="Date transmise">Nume, telefon, adresă de livrare</td>
                 </tr>
                 <tr>
-                  <td>Contabilitate și autorități</td>
-                  <td>Obligații fiscale și legale</td>
-                  <td>Date de facturare</td>
+                  <td data-label="Furnizor">Contabilitate și autorități</td>
+                  <td data-label="Rol">Obligații fiscale și legale</td>
+                  <td data-label="Date transmise">Date de facturare</td>
                 </tr>
               </tbody>
             </table>

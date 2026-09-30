@@ -321,6 +321,55 @@ ul { list-style: none; }
   transform: translateY(-7px) rotate(-45deg);
 }
 
+/* ── CART NAV LINK (produse, cos, checkout) ───────────── */
+.cart-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.cart-link:hover { opacity: 1; }
+
+.cart-link svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.cart-link .cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background-color: #FADADA;
+  color: #2C4A3B;
+  font-size: 0.58rem;
+  font-weight: 800;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cart-link .cart-badge.visible { display: flex; }
+
 /* ── FOOTER ──────────────────────────────────────────────── */
 .prints-footer {
   margin-top: auto;
@@ -533,17 +582,19 @@ ul { list-style: none; }
 
 .service-features li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.7rem;
   font-size: 0.88rem;
   opacity: 0.82;
 }
 
+/* Bullet sits on the first line, so items that wrap on phones still read cleanly. */
 .service-features li::before {
   content: '';
   flex-shrink: 0;
   width: 5px;
   height: 5px;
+  margin-top: calc(0.875em - 4px);
   border: 1.5px solid var(--primary);
   border-radius: 50%;
 }
@@ -637,28 +688,38 @@ ul { list-style: none; }
 }
 
 .material-card {
-  height: 360px;
+  min-height: 360px;
   perspective: 1200px;
   cursor: pointer;
+  display: flex;
 }
 
+/* Front and back share one grid cell, so the card grows to fit
+   whichever face is taller — the spec list never gets clipped. */
 .card-inner {
   position: relative;
+  display: grid;
   width: 100%;
-  height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.material-card:hover .card-inner,
 .material-card.flipped .card-inner {
   transform: rotateY(180deg);
 }
 
+/* Hover-flip only where hover is real. On touch screens :hover sticks after a
+   tap, which would stop the card from flipping back on the second tap. */
+@media (hover: hover) {
+  .material-card:hover .card-inner {
+    transform: rotateY(180deg);
+  }
+}
+
+
 .card-front,
 .card-back {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   border: 1px solid var(--bg);
@@ -711,6 +772,25 @@ ul { list-style: none; }
   margin-top: 1.5rem;
 }
 
+/* The hint names the gesture the device actually has. */
+.hint-touch { display: none; }
+
+@media (hover: none) {
+  .hint-hover { display: none; }
+  .hint-touch { display: inline; }
+
+  /* Touch: a visible outline + centred content makes each front read as a
+     tappable card instead of loose text floating in empty space. */
+  .card-front {
+    border-color: rgba(250, 218, 218, 0.28);
+    justify-content: center;
+  }
+
+  .card-front-label { display: none; }
+
+  .card-hover-hint { opacity: 0.6; }
+}
+
 .card-back h4 {
   font-family: var(--font-serif);
   font-size: 1.4rem;
@@ -727,25 +807,25 @@ ul { list-style: none; }
   flex: 1;
 }
 
+/* Label sits above its value, full width, so long values don't
+   get squeezed into a narrow right-hand column. */
 .spec-item {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 0.15rem;
   font-size: 0.83rem;
 }
 
 .spec-label {
   opacity: 0.55;
-  font-size: 0.76rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  flex-shrink: 0;
 }
 
 .spec-value {
   font-weight: 600;
-  text-align: right;
+  line-height: 1.4;
 }
 
 /* ── SCROLL INDICATOR ───────────────────────────────────── */
@@ -902,6 +982,13 @@ ul { list-style: none; }
 }
 
 .faq-question {
+  /* It's a <button>: reset the browser's default centred text, bevelled
+     border and shrink-to-fit width, so every question is a uniform row. */
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  border: 1px solid rgba(250, 218, 218, 0.18);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -977,6 +1064,51 @@ ul { list-style: none; }
 
 /* ── QUOTE FORM (oferta.html) ───────────────────────────── */
 .quote-form-wrapper { max-width: 760px; margin: 0 auto; }
+
+/* 4-step strip above the form: a row on wider screens, 2×2 on phones. */
+.quote-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--primary);
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.quote-step {
+  padding: 1.1rem 1.25rem;
+  text-align: center;
+  border-right: 1px solid var(--primary);
+}
+
+.quote-step:last-child { border-right: none; }
+
+.quote-step-num {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.quote-step-label {
+  font-size: 0.72rem;
+  opacity: 0.55;
+  margin-top: 0.3rem;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 600px) {
+  .quote-steps {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 2.25rem;
+  }
+
+  .quote-step { padding: 1rem 0.75rem; }
+
+  .quote-step:nth-child(2n)  { border-right: none; }
+  .quote-step:nth-child(-n+2) { border-bottom: 1px solid var(--primary); }
+
+  .quote-step-label { font-size: 0.8rem; }
+}
 
 .form-grid {
   display: grid;
@@ -1093,10 +1225,62 @@ ul { list-style: none; }
   .process-step:nth-child(4)    { border-bottom: none; }
 }
 
-@media (max-width: 768px) {
-  .section { padding: 3rem 0; }
-  .hero    { padding: 4rem 0 3rem; }
-  .category-section { padding: 2.5rem 0; }
+/* ── Collapsed header (hamburger) ───────────────────────── */
+@media (max-width: 1024px) {
+  /* iOS Safari zooms the whole page into any field under 16px when it is
+     tapped. The :not() chain keeps this above page-level form rules. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select:not([multiple]):not([size]),
+  textarea:not([hidden]):not([disabled]) {
+    font-size: 16px;
+  }
+
+  /* The full link row + back link + brand (+ cart) needs ~1000px, so below
+     1024px the header collapses to the hamburger menu. Desktop spacing
+     (2rem gaps) also made it ~446px wide on phones. */
+  .prints-nav {
+    gap: 0.75rem;
+  }
+
+  .nav-back,
+  .nav-brand {
+    min-height: 44px;
+  }
+
+  .nav-back {
+    min-width: 44px;
+  }
+
+  .nav-brand {
+    font-size: 1.1rem;
+    min-width: 0;
+  }
+
+  .nav-brand-logo {
+    height: 30px;
+    margin-right: 8px;
+  }
+
+  /* Cart: icon + count badge only (aria-label keeps the full name). */
+  .cart-link {
+    font-size: 0;
+    gap: 0;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .cart-link svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .cart-link .cart-badge {
+    font-size: 0.62rem;
+    top: 4px;
+    right: 2px;
+  }
 
   /* Mobile nav dropdown */
   .nav-links {
@@ -1152,6 +1336,13 @@ ul { list-style: none; }
 
   .nav-toggle,
   .hamburger { display: flex; }
+}
+
+@media (max-width: 768px) {
+  .section { padding: 3rem 0; }
+  .hero    { padding: 4rem 0 3rem; }
+  .category-section { padding: 2.5rem 0; }
+
 
   /* Services */
   .services-grid { grid-template-columns: 1fr; }
@@ -1162,6 +1353,13 @@ ul { list-style: none; }
   }
 
   .service-card:last-child { border-bottom: none; }
+
+  .service-card { padding: 2rem 1.5rem; }
+
+  /* Uppercase micro-labels: keep them legible on small screens. */
+  .service-tag,
+  .faq-category-tag { font-size: 0.75rem; }
+  .card-hover-hint { font-size: 0.72rem; }
 
   /* Process */
   .process-grid { grid-template-columns: 1fr; }
@@ -1181,7 +1379,7 @@ ul { list-style: none; }
     gap: 1rem;
   }
 
-  .material-card { height: 300px; }
+  .material-card { min-height: 300px; }
 
   /* Footer */
   .footer-inner {
@@ -1189,7 +1387,24 @@ ul { list-style: none; }
     text-align: center;
   }
 
-  .footer-links { justify-content: center; }
+  .footer-links {
+    justify-content: center;
+    gap: 0.25rem 1rem;
+  }
+
+  /* Larger tap area around short labels like "FAQ". */
+  .footer-links a,
+  .footer-links .footer-cookie-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.35rem;
+  }
+
+  /* SAL/ANPC badge row: centre it with the rest of the stacked footer. */
+  .footer-inner > div > div {
+    justify-content: center;
+  }
 
   /* Form */
   .form-grid { grid-template-columns: 1fr; }
@@ -1213,7 +1428,62 @@ ul { list-style: none; }
   .portfolio-grid  { grid-template-columns: 1fr; }
   .hero-actions    { flex-direction: column; }
   .hero-actions .btn { justify-content: center; }
-  .hero-stat { min-width: 100%; }
+
+  /* Stats as a 2×2 grid instead of four full-width rows. */
+  .hero-stat { min-width: calc(50% - 0.75rem); }
+
+  /* Slimmer side gutters on phones: more room for content. */
+  .container,
+  .hero-inner,
+  .page-hero-inner,
+  .footer-inner,
+  .prints-nav,
+  .nav-links {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .service-card { padding: 1.75rem 1.25rem; }
+}
+
+/* Narrow phones: the back link collapses to its arrow (text stays for
+   screen readers via font-size:0 rather than display:none). */
+@media (max-width: 400px) {
+  .nav-back {
+    font-size: 0;
+    letter-spacing: 0;
+    gap: 0;
+    justify-content: center;
+    opacity: 0.8;
+  }
+
+  .nav-back svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Four header items (back, brand, cart, menu) on the shop pages: tighten. */
+  .prints-nav { gap: 0.4rem; }
+
+  .nav-brand       { font-size: 1rem; }
+  .nav-brand-logo  { height: 26px; margin-right: 6px; }
+}
+
+/* Smallest phones (320px, e.g. iPhone SE 1st gen). */
+@media (max-width: 340px) {
+  .form-group select,
+  .select-wrapper select {
+    padding-left: 0.75rem;
+    padding-right: 2rem;
+  }
+
+  .prints-nav {
+    padding: 0 1rem;
+    gap: 0.25rem;
+  }
+
+  .nav-brand      { font-size: 0.9rem; }
+  .nav-brand-logo { height: 24px; margin-right: 5px; }
 }
 
 /* ── Scroll-triggered section animations ────────────────── */
