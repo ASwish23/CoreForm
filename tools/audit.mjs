@@ -13,7 +13,7 @@ const root = join(homedir(), '.cache', 'puppeteer', 'chrome');
 const exe = join(root, readdirSync(root).sort().pop(), 'chrome-win64', 'chrome.exe');
 
 const PAGES = ['/contact', '/contact-en', '/oferta', '/servicii', '/consultanta',
-               '/cos', '/checkout', '/', '/marketing', '/prints', '/produse', '/faq', '/despre-noi'];
+               '/cos', '/checkout', '/', '/marketing', '/prints', '/faq', '/despre-noi'];
 
 const browser = await puppeteer.launch({ executablePath: exe, headless: 'new', args: ['--no-sandbox'] });
 const page = await browser.newPage();

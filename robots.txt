@@ -27,8 +27,8 @@ Disallow: /NETOPIA_SETUP.md
 Disallow: /*?*sort=
 Disallow: /*?*filter=
 
-# The product detail template is reachable only with ?id= —
-# individual products are surfaced through /produse.
+# Product catalogue pages are archived (see /archive); /produse and /produs
+# redirect to /prints.
 Disallow: /produs$
 Disallow: /produs.html$
 

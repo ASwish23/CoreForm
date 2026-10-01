@@ -19,7 +19,7 @@ const ok = (b) => (b ? 'PASS' : 'FAIL');
 {
   const page = await browser.newPage();
   await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
-  for (const path of ['/prints', '/faq', '/produse', '/produs', '/servicii', '/consultanta',
+  for (const path of ['/prints', '/faq', '/servicii', '/consultanta',
                       '/oferta', '/cos', '/checkout', '/politica-cookies',
                       '/politica-confidentialitate', '/termeni-si-conditii', '/404.html',
                       '/marketing', '/despre-noi', '/contact']) {

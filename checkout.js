@@ -95,7 +95,7 @@
         '<div class="checkout-empty">' +
           '<h2>Coșul tău este gol</h2>' +
           '<p>Adaugă produse în coș înainte de a finaliza comanda.</p>' +
-          '<a href="/produse.html" class="btn-back">Vezi produsele</a>' +
+          '<a href="/prints.html" class="btn-back">Înapoi la CoreForm Prints</a>' +
         '</div>';
       return;
     }

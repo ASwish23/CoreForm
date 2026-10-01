@@ -6,6 +6,15 @@
 # ── 1. Pretty URLs: strip .html from the address bar ──────────────────────
 RewriteEngine On
 
+# ── 0. Archived product catalogue ────────────────────────────────────────
+#    produse / produs were taken offline (code kept in /archive, see
+#    archive/README.md). Old copies may still sit on the server from earlier
+#    deploys, so send visitors to /prints and hide the leftover assets.
+RewriteRule ^produse(\.html)?/?$ /prints? [R=301,L]
+RewriteRule ^produs(\.html)?/?$ /prints? [R=301,L]
+RewriteRule ^(produs\.js|produse\.css)$ - [R=404,L]
+RewriteRule ^archive(/|$) - [F,L]
+
 # 1a) index.html -> / (canonical root, not /index)
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html[?\ ] [NC]
 RewriteRule ^ / [R=301,L]

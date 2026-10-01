@@ -73,4 +73,6 @@ jobs:
             serve.mjs
             screenshot.mjs
             produse.csv
+            archive/**
+            archive/**/*
             netopia-payment-frontend-example.js

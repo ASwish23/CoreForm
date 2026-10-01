@@ -12,7 +12,7 @@ const BASE = 'http://localhost:3000';
 const root = join(homedir(), '.cache', 'puppeteer', 'chrome');
 const exe = join(root, readdirSync(root).sort().pop(), 'chrome-win64', 'chrome.exe');
 
-const PAGES = ['/', '/marketing', '/prints', '/produse', '/despre-noi', '/faq',
+const PAGES = ['/', '/marketing', '/prints', '/despre-noi', '/faq',
                '/oferta', '/contact', '/politica-confidentialitate', '/404.html'];
 
 const browser = await puppeteer.launch({ executablePath: exe, headless: 'new', args: ['--no-sandbox'] });

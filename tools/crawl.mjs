@@ -13,7 +13,7 @@ const root = join(homedir(), '.cache', 'puppeteer', 'chrome');
 const exe = join(root, readdirSync(root).sort().pop(), 'chrome-win64', 'chrome.exe');
 
 const PAGES = [
-  '/', '/marketing', '/marketing-en', '/prints', '/produse', '/produs',
+  '/', '/marketing', '/marketing-en', '/prints',
   '/servicii', '/consultanta', '/faq', '/oferta', '/contact', '/contact-en',
   '/despre-noi', '/despre-noi-en', '/cos', '/checkout', '/succes',
   '/termeni-si-conditii', '/politica-confidentialitate', '/politica-cookies',

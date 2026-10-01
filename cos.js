@@ -71,7 +71,7 @@
         '</svg></div>' +
         '<h2>Coșul tău este gol</h2>' +
         '<p>Explorează produsele noastre și adaugă ce îți place.</p>' +
-        '<a href="/produse.html" class="btn-back">Întoarce-te la magazin</a>' +
+        '<a href="/prints.html" class="btn-back">Înapoi la CoreForm Prints</a>' +
       '</div>'
     );
   }
@@ -172,7 +172,7 @@
         '</div>' +
         promoApplied +
         '<a href="/checkout.html" class="btn-checkout">Finalizează Comanda</a>' +
-        '<a href="/produse.html" class="cart-continue">Continuă cumpărăturile</a>' +
+        '<a href="/prints.html" class="cart-continue">Înapoi la CoreForm Prints</a>' +
       '</div>'
     );
   }
