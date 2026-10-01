@@ -270,7 +270,8 @@ body {
 .hero-image {
     position: relative;
     aspect-ratio: 3 / 4;
-    max-height: 620px;
+    width: min(100%, 460px);
+    margin-inline: auto;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
@@ -280,7 +281,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center 30%;
     display: block;
     transition: transform 0.6s ease;
 }
@@ -383,7 +384,8 @@ body {
 .content-image {
     position: relative;
     aspect-ratio: 3 / 4;
-    max-height: 560px;
+    width: min(100%, 420px);
+    margin-inline: auto;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
@@ -397,7 +399,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 22%;
+    object-position: center 30%;
     display: block;
     transition: transform 0.6s ease;
 }
@@ -429,6 +431,12 @@ body {
     border: 1px solid rgba(250, 218, 218, 0.15);
     padding: 1.5rem;
     border-radius: 15px;
+}
+
+/* Keep the stats strip the same width as the portrait card above it */
+.image-content .stats-overlay {
+    width: min(100%, 420px);
+    margin-inline: auto;
 }
 
 .stat-item {
@@ -784,7 +792,7 @@ body {
 
     .hero-image,
     .content-image {
-        max-height: 480px;
+        width: min(100%, 400px);
     }
 }
 
@@ -894,7 +902,7 @@ body {
 
     .hero-image,
     .content-image {
-        max-height: 380px;
+        width: min(100%, 340px);
     }
 
     .olympic-badge {
@@ -937,6 +945,12 @@ body {
 
     .hero-title {
         font-size: 2rem;
+    }
+
+    .hero-image,
+    .content-image,
+    .image-content .stats-overlay {
+        width: 100%;
     }
 
     .section-title {
