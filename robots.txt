@@ -5,10 +5,12 @@ User-agent: *
 Allow: /
 
 # ── Private / transactional areas ─────────────────────────
-Disallow: /admin-login
-Disallow: /admin-login.html
-Disallow: /admin-dashboard
-Disallow: /admin-dashboard.html
+Disallow: /login
+Disallow: /login.html
+Disallow: /dashboard
+Disallow: /dashboard.html
+Disallow: /sw.js
+Disallow: /manifest.json
 Disallow: /checkout
 Disallow: /checkout.html
 Disallow: /cos
@@ -16,19 +18,11 @@ Disallow: /cos.html
 Disallow: /succes
 Disallow: /succes.html
 
-# ── Internal / non-content files ──────────────────────────
-Disallow: /supabase/
-Disallow: /*.csv$
-Disallow: /*.cer$
-Disallow: /netopia-payment-frontend-example.js
-Disallow: /NETOPIA_SETUP.md
-
 # ── Faceted / parameterised URLs (avoid duplicate content) ─
 Disallow: /*?*sort=
 Disallow: /*?*filter=
 
-# Product catalogue pages are archived (see /archive); /produse and /produs
-# redirect to /prints.
+# Product catalogue pages are archived; /produse and /produs redirect to /prints.
 Disallow: /produs$
 Disallow: /produs.html$
 

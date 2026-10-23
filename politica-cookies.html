@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="PozeMarketing/favicon-32.png">
-  <link rel="apple-touch-icon" href="PozeMarketing/favicon-180.png">
+  <link rel="icon" type="image/png" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/favicon-180.png">
   <title>Politica de Cookie-uri — CoreForm</title>
   <meta name="description" content="Ce cookie-uri folosește coreform.ro, în ce scop, cât durează și cum îți poți schimba oricând preferințele. Analiza de trafic rulează doar cu acordul tău.">
   <meta name="robots" content="index, follow">
@@ -14,20 +14,21 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ro_RO">
   <meta property="og:url" content="https://coreform.ro/politica-cookies">
-  <meta property="og:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+  <meta property="og:image" content="https://coreform.ro/img/og-default.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Politica de Cookie-uri | CoreForm">
   <meta name="twitter:description" content="Ce cookie-uri folosim, în ce scop și cum îți schimbi preferințele oricând.">
-  <meta name="twitter:image" content="https://coreform.ro/PozeMarketing/og-default.jpg">
+  <meta name="twitter:image" content="https://coreform.ro/img/og-default.jpg">
   <link rel="canonical" href="https://coreform.ro/politica-cookies">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="prints.css?v=5">
-  <link rel="stylesheet" href="legal.css?v=3">
-  <script src="consent.js?v=2" defer></script>
+  <link rel="stylesheet" href="css/prints.css?v=5">
+  <link rel="stylesheet" href="css/legal.css?v=3">
+  <script src="js/consent.js?v=3" defer></script>
+  <script src="js/attribution.js?v=1" defer></script>
 </head>
 <body>
 
@@ -139,6 +140,12 @@
                   <td data-label="Durată">Până la golirea coșului</td>
                 </tr>
                 <tr>
+                  <td data-label="Nume"><code>cf-attr-last</code></td>
+                  <td data-label="Furnizor">coreform.ro (sessionStorage)</td>
+                  <td data-label="Scop">Reține de unde ai ajuns pe site în vizita curentă (de exemplu o reclamă sau un motor de căutare), ca să știm ce canal a adus o cerere trimisă prin formular. Nu conține date personale și nu este un cookie.</td>
+                  <td data-label="Durată">Până la închiderea filei</td>
+                </tr>
+                <tr>
                   <td data-label="Nume"><code>sb-*-auth-token</code></td>
                   <td data-label="Furnizor">Supabase</td>
                   <td data-label="Scop">Menține sesiunea autentificată în zona de administrare.</td>
@@ -185,6 +192,12 @@
                   <td data-label="Furnizor">Google Analytics 4</td>
                   <td data-label="Scop">Menține starea sesiunii de analiză.</td>
                   <td data-label="Durată">13 luni</td>
+                </tr>
+                <tr>
+                  <td data-label="Nume"><code>cf-attr-first</code></td>
+                  <td data-label="Furnizor">coreform.ro (localStorage)</td>
+                  <td data-label="Scop">Reține de unde ai ajuns pe site la prima vizită, ca să știm ce canal a adus o cerere trimisă mai târziu prin formular. Nu conține date personale și se șterge dacă îți retragi acordul.</td>
+                  <td data-label="Durată">90 de zile</td>
                 </tr>
               </tbody>
             </table>
@@ -259,7 +272,7 @@
         <p class="footer-copy">&copy; 2026 CORE FORM S.R.L. Toate drepturile rezervate.</p>
         <div style="margin-top: 1.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
           <a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener noreferrer" title="Soluționarea Alternativă a Litigiilor - ANPC">
-            <img src="sal-badge.png" alt="SAL — Soluționarea Alternativă a Litigiilor, ANPC" width="120" height="50" loading="lazy" style="height: 50px; width: auto; display: block;" decoding="async">
+            <img src="img/sal-badge.png" alt="SAL — Soluționarea Alternativă a Litigiilor, ANPC" width="120" height="50" loading="lazy" style="height: 50px; width: auto; display: block;" decoding="async">
           </a>
         </div>
       </div>
@@ -274,6 +287,6 @@
     </div>
   </footer>
 
-  <script src="prints.js?v=2"></script>
+  <script src="js/prints.js?v=2"></script>
 </body>
 </html>

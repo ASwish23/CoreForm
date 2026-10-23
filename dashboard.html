@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Dashboard – CoreForm Admin</title>
+  <link rel="icon" type="image/png" href="img/favicon-32.png" />
+  <!-- PWA: installable on iOS / Android (see manifest.json + sw.js) -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2C4A3B" />
+  <!-- Sets light/dark before first paint (must stay blocking, after the meta above) -->
+  <script src="js/admin/theme.js?v=1"></script>
+  <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="CoreForm" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet" />
+  <!-- Release: bump ?v= here AND VERSION in sw.js -->
+  <link rel="stylesheet" href="css/dashboard.css?v=6" />
+</head>
+<body>
+
+  <!-- Shown until the auth + admin check passes -->
+  <div class="boot" id="boot" role="status" aria-live="polite">
+    <div class="boot-inner">
+      <img src="img/icons/icon-192.png" alt="" width="52" height="52" />
+      <p id="boot-text">Se verifică accesul...</p>
+    </div>
+  </div>
+
+  <div class="app" id="app" hidden>
+
+    <!-- ══ SIDEBAR ═══════════════════════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigare principală">
+      <a class="brand" href="#/">
+        <img src="img/icons/icon-192.png" alt="" width="36" height="36" />
+        <span>
+          <span class="brand-name">CoreForm</span>
+          <span class="brand-sub">Admin</span>
+        </span>
+      </a>
+
+      <p class="nav-label">Meniu</p>
+      <nav class="nav">
+        <a class="nav-link" href="#/" data-view="overview">Home / Overview</a>
+        <a class="nav-link" href="#/leads" data-view="leads">
+          Leads / CRM
+          <span class="nav-badge" id="nav-badge" hidden></span>
+        </a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="theme-switch" role="group" aria-label="Temă">
+          <span class="theme-label">Temă</span>
+          <div class="segmented">
+            <button type="button" data-theme-choice="light" aria-pressed="false">Luminos</button>
+            <button type="button" data-theme-choice="dark" aria-pressed="false">Întunecat</button>
+          </div>
+        </div>
+
+        <div class="install-wrap">
+          <button type="button" class="btn btn-secondary install-btn" id="install-btn" aria-expanded="false" hidden>Instalează aplicația</button>
+          <div class="install-pop" id="install-pop" role="dialog" aria-label="Instalare pe iPhone" hidden>
+            <strong>Adaugă pe ecranul principal</strong>
+            <ol>
+              <li>Apasă butonul <b>Share</b> din Safari.</li>
+              <li>Alege <b>„Adaugă pe ecranul principal”</b>.</li>
+            </ol>
+          </div>
+        </div>
+
+        <a class="sys-mini" id="sys-mini" href="#/" data-health="checking">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="sys-mini-text">Se verifică sistemele...</span>
+        </a>
+
+        <div class="user-chip">
+          <span class="user-meta">
+            <span class="user-name" id="user-name"></span>
+            <span class="user-email" id="user-email"></span>
+          </span>
+        </div>
+        <button type="button" class="btn btn-ghost logout" id="logout-btn">Deconectare</button>
+      </div>
+    </aside>
+    <div class="backdrop sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- ══ MAIN ══════════════════════════════════════════════════════════ -->
+    <div class="main">
+      <header class="topbar">
+        <button type="button" class="btn btn-secondary menu-toggle" id="menu-toggle" aria-controls="sidebar" aria-expanded="false">Meniu</button>
+
+        <div class="greeting">
+          <strong id="greeting-text">Bună!</strong>
+          <span id="greeting-date"></span>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="search" role="search">
+            <label for="search-input" class="sr-only">Caută lead-uri</label>
+            <input class="input" type="search" id="search-input" placeholder="Caută nume, firmă, telefon..." autocomplete="off" />
+          </div>
+          <button type="button" class="btn btn-secondary search-toggle" id="search-toggle">Caută</button>
+          <button type="button" class="btn btn-primary btn-new" id="new-lead-btn">Lead nou</button>
+        </div>
+      </header>
+
+      <div class="offline-banner" id="offline-banner" role="status" aria-live="polite" aria-hidden="true">
+        Ești offline. Datele se actualizează automat când revine conexiunea.
+      </div>
+
+      <main class="content" id="content">
+
+        <!-- Home / Morning Briefing -->
+        <section class="view" id="view-overview" aria-labelledby="overview-title" hidden>
+          <div class="page-head">
+            <div>
+              <h1 class="page-title" id="overview-title">Briefing-ul zilei</h1>
+              <p class="page-sub" id="briefing-summary">Se pregătește briefing-ul...</p>
+            </div>
+            <div class="head-actions">
+              <span class="live" id="live-indicator" title="Datele se actualizează automat">
+                <span class="live-dot" aria-hidden="true"></span>
+                Live
+              </span>
+              <div class="report-ctrl">
+                <label for="report-month" class="sr-only">Luna raportului</label>
+                <select class="select select-sm" id="report-month"></select>
+                <button type="button" class="btn btn-secondary report-btn" id="report-btn">
+                  <span id="report-btn-text">Descarcă raport PDF</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="briefing-error panel" id="briefing-error" role="alert" hidden>
+            <div class="empty-state">
+              <strong>Nu am putut încărca briefing-ul</strong>
+              <span>Verifică conexiunea sau încearcă din nou.</span>
+              <div><button type="button" class="btn btn-secondary" id="briefing-retry">Reîncearcă</button></div>
+            </div>
+          </div>
+
+          <div class="kpis" id="kpis" aria-live="polite"></div>
+
+          <div class="briefing-grid">
+            <div class="briefing-main">
+              <div class="panel panel-chart">
+                <div class="panel-head">
+                  <h2>Lead-uri în ultimele 14 zile</h2>
+                  <span class="panel-meta" id="chart-meta"></span>
+                </div>
+                <div class="chart" id="chart"></div>
+              </div>
+
+              <div class="panel panel-recent">
+                <div class="panel-head">
+                  <h2>Activitate recentă</h2>
+                  <a href="#/leads">Vezi toate</a>
+                </div>
+                <ul class="recent" id="recent-list"></ul>
+              </div>
+            </div>
+
+            <div class="briefing-side">
+              <div class="panel panel-attention">
+                <div class="panel-head">
+                  <h2>Necesită atenție</h2>
+                  <span class="panel-meta" id="attention-meta"></span>
+                </div>
+                <ul class="attention" id="attention-list"></ul>
+              </div>
+
+              <div class="panel status-panel" id="status-panel">
+                <div class="panel-head">
+                  <h2>Stare sistem</h2>
+                  <span class="panel-meta" id="status-checked"></span>
+                </div>
+                <div class="status-hero" id="status-hero" data-health="checking" role="status" aria-live="polite">
+                  <span class="status-dot" aria-hidden="true"></span>
+                  <span>
+                    <strong id="status-title">Se verifică sistemele...</strong>
+                    <span id="status-sub">Câteva secunde</span>
+                  </span>
+                </div>
+                <ul class="status-list" id="status-list"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Leads / Kanban -->
+        <section class="view" id="view-leads" aria-labelledby="leads-title" hidden>
+          <div class="page-head">
+            <div>
+              <h1 class="page-title" id="leads-title">Leads</h1>
+              <p class="page-sub" id="leads-sub">Trage cardurile între coloane sau schimbă statusul din fiecare card.</p>
+            </div>
+            <div class="head-actions">
+              <span class="result-hint" id="result-hint" hidden></span>
+              <div class="segmented" id="owner-filter" role="group" aria-label="Filtru responsabil">
+                <button type="button" data-mine="0" aria-pressed="true">Toate</button>
+                <button type="button" data-mine="1" aria-pressed="false">Ale mele</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="board" id="board"></div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ══ DRAWER (view / edit / new) ══════════════════════════════════════ -->
+  <div class="backdrop" id="drawer-backdrop"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <form id="lead-form" novalidate style="display:contents">
+      <div class="drawer-head">
+        <div>
+          <h2 id="drawer-title">Lead nou</h2>
+          <div class="drawer-meta" id="drawer-meta"></div>
+        </div>
+        <button type="button" class="btn btn-ghost" id="drawer-close">Închide</button>
+      </div>
+
+      <div class="drawer-quick" id="drawer-quick"></div>
+
+      <div class="drawer-tabs" id="drawer-tabs" role="tablist" aria-label="Secțiuni lead" hidden>
+        <button type="button" role="tab" id="tab-btn-details" aria-controls="tab-details" aria-selected="true">Detalii</button>
+        <button type="button" role="tab" id="tab-btn-history" aria-controls="tab-history" aria-selected="false" tabindex="-1">Istoric</button>
+      </div>
+
+      <div class="drawer-body">
+       <div class="tab-panel" id="tab-details" role="tabpanel" aria-labelledby="tab-btn-details">
+        <div class="dup-banner" id="dup-banner" role="note" hidden></div>
+        <div class="field">
+          <label for="f-name">Nume <span class="hint">obligatoriu</span></label>
+          <input class="input" id="f-name" name="name" required maxlength="200" />
+        </div>
+        <div class="field">
+          <label for="f-company">Firmă</label>
+          <input class="input" id="f-company" name="company" maxlength="200" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-phone">Telefon</label>
+            <input class="input" id="f-phone" name="phone" type="tel" maxlength="50" />
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input class="input" id="f-email" name="email" type="email" maxlength="200" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-source">Sursă</label>
+            <select class="select" id="f-source" name="source"></select>
+          </div>
+          <div class="field">
+            <label for="f-status">Status</label>
+            <select class="select" id="f-status" name="status"></select>
+          </div>
+        </div>
+        <div class="field" id="lost-field" hidden>
+          <label for="f-lost">Motivul pierderii</label>
+          <select class="select" id="f-lost" name="lost_reason"></select>
+        </div>
+        <div class="field">
+          <label for="f-service">Serviciu</label>
+          <input class="input" id="f-service" name="service" maxlength="500" placeholder="ex. Printare 3D, Social media..." />
+        </div>
+        <div class="field">
+          <label for="f-message">Mesaj / detalii cerere</label>
+          <textarea class="textarea" id="f-message" name="message" rows="5" maxlength="5000"></textarea>
+        </div>
+
+        <p class="drawer-section-label">Vânzare</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-owner">Responsabil</label>
+            <select class="select" id="f-owner" name="owner_id"></select>
+          </div>
+          <div class="field">
+            <label for="f-value">Valoare <span class="hint">lei</span></label>
+            <input class="input" id="f-value" name="value_lei" type="number" min="0" step="1" inputmode="decimal" placeholder="0" />
+          </div>
+        </div>
+        <div class="field-row field-row-next">
+          <div class="field">
+            <label for="f-next">Următorul pas</label>
+            <input class="input" id="f-next" name="next_step" maxlength="300" placeholder="ex. Sună pentru detalii STL" />
+          </div>
+          <div class="field">
+            <label for="f-next-due">Până la</label>
+            <input class="input" id="f-next-due" name="next_step_due" type="date" />
+          </div>
+        </div>
+        <div class="field" id="channel-field">
+          <label for="f-channel">Canal <span class="hint">cum a aflat de noi</span></label>
+          <select class="select" id="f-channel" name="channel"></select>
+        </div>
+        <div class="channel-info" id="channel-info" hidden></div>
+
+        <p class="drawer-section-label">Intern</p>
+        <div class="field notes-field">
+          <label for="f-notes">Notițe <span class="hint">vizibile doar pentru echipă</span></label>
+          <textarea class="textarea" id="f-notes" name="notes" rows="4" placeholder="ex. Am vorbit pe WhatsApp, revine cu fișierul STL vineri."></textarea>
+        </div>
+       </div>
+
+       <div class="tab-panel" id="tab-history" role="tabpanel" aria-labelledby="tab-btn-history" hidden>
+         <ol class="timeline" id="timeline"></ol>
+       </div>
+      </div>
+
+      <div class="drawer-foot">
+        <button type="button" class="btn btn-danger" id="delete-btn" hidden>Șterge</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" id="cancel-btn">Anulează</button>
+        <button type="submit" class="btn btn-primary" id="save-btn">Salvează</button>
+      </div>
+    </form>
+  </aside>
+
+  <!-- Asked when a lead moves to "Pierdut" -->
+  <dialog class="dialog" id="lost-dialog" aria-labelledby="lost-title">
+    <h2 id="lost-title">De ce s-a pierdut?</h2>
+    <p class="dialog-sub"><span id="lost-name"></span> trece în „Pierdut”.</p>
+    <div class="lost-options" id="lost-options"></div>
+    <div class="dialog-foot">
+      <button type="button" class="btn btn-ghost" id="lost-cancel">Anulează</button>
+    </div>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script>
+  <script src="js/config.js?v=2"></script>
+  <script src="js/admin/dashboard.js?v=6"></script>
+</body>
+</html>

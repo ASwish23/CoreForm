@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Autentificare – CoreForm Admin</title>
+  <link rel="icon" type="image/png" href="img/favicon-32.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2C4A3B" />
+  <script src="js/admin/theme.js?v=1"></script>
+  <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="CoreForm" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/dashboard.css?v=6" />
+</head>
+<body>
+
+  <main class="auth-page">
+    <div class="auth-card">
+      <a class="auth-logo" href="/" aria-label="CoreForm — înapoi la site">
+        <img src="img/icons/icon-192.png" alt="" width="42" height="42" />
+        <span>CoreForm<small>Admin</small></span>
+      </a>
+
+      <h1>Bine ai revenit</h1>
+      <p class="lead-text">Autentifică-te pentru a gestiona lead-urile.</p>
+
+      <form class="auth-form" id="login-form" novalidate>
+        <div class="alert" id="form-alert" role="alert" hidden>
+          <span id="form-alert-text"></span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input class="input" type="email" id="email" name="email" placeholder="nume@coreform.ro" autocomplete="username" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Parolă</label>
+          <div class="password-wrap">
+            <input class="input" type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+            <button type="button" class="pw-toggle" id="toggle-password" aria-pressed="false">Arată</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit-btn">Autentificare</button>
+      </form>
+
+      <div class="auth-foot">
+        <a href="/">Înapoi la coreform.ro</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script>
+  <script src="js/config.js?v=2"></script>
+
+  <script>
+    (function () {
+      const form      = document.getElementById('login-form');
+      const alertBox  = document.getElementById('form-alert');
+      const alertText = document.getElementById('form-alert-text');
+      const submitBtn = document.getElementById('submit-btn');
+      const pwInput   = document.getElementById('password');
+      const pwToggle  = document.getElementById('toggle-password');
+
+      function showAlert(message, type) {
+        alertText.textContent = message;
+        alertBox.classList.toggle('is-info', type === 'info');
+        alertBox.hidden = false;
+      }
+
+      function setLoading(loading) {
+        submitBtn.disabled = loading;
+        submitBtn.replaceChildren();
+        if (loading) {
+          const spin = document.createElement('span');
+          spin.className = 'spinner';
+          submitBtn.append(spin, 'Se verifică...');
+        } else {
+          submitBtn.textContent = 'Autentificare';
+        }
+      }
+
+      pwToggle.addEventListener('click', () => {
+        const show = pwInput.type === 'password';
+        pwInput.type = show ? 'text' : 'password';
+        pwToggle.setAttribute('aria-pressed', String(show));
+        pwToggle.textContent = show ? 'Ascunde' : 'Arată';
+      });
+
+      // Messages passed back from the dashboard guard
+      const reason = new URLSearchParams(location.search).get('e');
+      if (reason === 'forbidden') showAlert('Contul tău nu are acces la panoul de administrare.');
+      if (reason === 'logout')    showAlert('Te-ai deconectat cu succes.', 'info');
+
+      if (!window.supabase || !window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+        showAlert('Configurația Supabase lipsește (config.js). Contactează administratorul site-ului.');
+        submitBtn.disabled = true;
+        return;
+      }
+
+      const sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+      // Already signed in → straight to the dashboard (which re-checks admin access)
+      if (reason !== 'forbidden') {
+        sb.auth.getSession().then(({ data }) => {
+          if (data.session) location.replace('dashboard.html');
+        });
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        alertBox.hidden = true;
+
+        const email    = form.email.value.trim();
+        const password = pwInput.value;
+
+        if (!email || !password) {
+          showAlert('Completează emailul și parola.');
+          (email ? pwInput : form.email).focus();
+          return;
+        }
+
+        setLoading(true);
+        const { error } = await sb.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          setLoading(false);
+          const msg = /invalid login credentials/i.test(error.message)
+            ? 'Email sau parolă incorectă. Încearcă din nou.'
+            : /email not confirmed/i.test(error.message)
+              ? 'Emailul nu a fost confirmat încă.'
+              : 'Nu ne-am putut conecta. Verifică internetul și încearcă din nou.';
+          showAlert(msg);
+          pwInput.select();
+          return;
+        }
+
+        location.replace('dashboard.html');
+      });
+    })();
+  </script>
+
+</body>
+</html>

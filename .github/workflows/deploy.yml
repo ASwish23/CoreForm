@@ -1,4 +1,4 @@
-name: Deploy to cPanel (FTP)
+name: Deploy to cyberfolks (FTP)
 
 on:
   push:
@@ -18,19 +18,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # config.js is gitignored (it holds real Supabase credentials, see
-      # CLAUDE.md / config.example.js). It is generated here from GitHub
-      # Secrets on every deploy so the live site always has a working config
-      # without the credentials ever touching the git repo.
-      - name: Generate config.js from secrets
+      # js/config.js is gitignored (it holds the Supabase credentials). It is
+      # generated here from GitHub Secrets on every deploy so the live site
+      # always has a working config without the credentials touching git.
+      - name: Generate js/config.js from secrets
         run: |
-          cat > config.js << EOF
+          cat > js/config.js << EOF
           // Auto-generated at deploy time from GitHub Actions secrets.
           // Do not edit on the server — edit the secrets instead and redeploy.
           window.SUPABASE_URL = '${{ secrets.SUPABASE_URL }}';
           window.SUPABASE_ANON_KEY = '${{ secrets.SUPABASE_ANON_KEY }}';
+          // Optional: read-only UptimeRobot monitor key for the dashboard's
+          // System Status (the uptime line stays hidden when empty).
+          window.UPTIMEROBOT_KEY = '${{ secrets.UPTIMEROBOT_KEY }}';
           EOF
 
+      # The repo holds only the website (see .gitignore), so everything
+      # checked out is uploaded except git/GitHub metadata.
       - name: Deploy over FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -41,11 +45,10 @@ jobs:
           port: 21
           local-dir: ./
           # FTP_USERNAME's home directory is already public_html (a scoped
-          # FTP account, not the main cPanel login) — so the FTP root here
-          # already IS the deploy target.
+          # FTP account), so the FTP root IS the deploy target.
           server-dir: ./
           # Never wipe files on the server that aren't in this repo —
-          # cPanel keeps things here (cgi-bin, .well-known, error logs, the
+          # the host keeps things here (cgi-bin, .well-known, error logs, the
           # sync-state file itself) that must survive every deploy.
           dangerous-clean-slate: false
           exclude: |
@@ -53,26 +56,3 @@ jobs:
             **/.git*/**
             **/.github/**
             **/.github/**/*
-            **/.vscode/**
-            **/.vscode/**/*
-            **/node_modules/**
-            **/node_modules/**/*
-            **/tools/**
-            **/tools/**/*
-            **/supabase/**
-            **/supabase/**/*
-            .gitattributes
-            .gitignore
-            CLAUDE.md
-            NETOPIA_SETUP.md
-            GoogleAnalyticsVsPlausible.txt
-            Ro-En switch.txt
-            config.example.js
-            package.json
-            package-lock.json
-            serve.mjs
-            screenshot.mjs
-            produse.csv
-            archive/**
-            archive/**/*
-            netopia-payment-frontend-example.js
