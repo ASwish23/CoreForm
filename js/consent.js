@@ -220,7 +220,7 @@
       '<h2 id="cf-consent-title">Cookie-uri pe coreform.ro</h2>' +
       '<p id="cf-consent-desc">Folosim cookie-uri strict necesare pentru funcționarea site-ului. ' +
       'Cu acordul tău, adăugăm și cookie-uri de analiză, ca să vedem ce pagini sunt utile. ' +
-      'Detalii în <a href="/politica-cookies.html">Politica de Cookie-uri</a>.</p>' +
+      'Detalii în <a href="/politica-cookies">Politica de Cookie-uri</a>.</p>' +
       '<div class="cf-actions">' +
         '<button type="button" class="cf-btn cf-btn-primary" data-cf="accept">Acceptă tot</button>' +
         '<button type="button" class="cf-btn" data-cf="reject">Doar necesare</button>' +

@@ -13,7 +13,7 @@
 //     traffic and the public site's pages/assets are never touched.
 // ════════════════════════════════════════════════════════════════════════
 
-const VERSION = 'v7';
+const VERSION = 'v8';
 const SHELL_CACHE = `cf-shell-${VERSION}`;
 const ASSET_CACHE = `cf-assets-${VERSION}`;
 
@@ -25,8 +25,8 @@ const PAGES = {
 };
 
 const PRECACHE_ASSETS = [
-  'css/dashboard.css?v=6',
-  'js/admin/dashboard.js?v=6',
+  'css/dashboard.css?v=7',
+  'js/admin/dashboard.js?v=7',
   'js/config.js?v=2',
   'js/admin/theme.js?v=1',
   'manifest.json',

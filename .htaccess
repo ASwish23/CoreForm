@@ -6,6 +6,22 @@
 # ── 1. Pretty URLs: strip .html from the address bar ──────────────────────
 RewriteEngine On
 
+# ── 00. One canonical host: https://coreform.ro ──────────────────────────
+#    http:// and www. used to answer 200 with the same pages, so search
+#    engines saw up to four copies of the site. Send everything to the
+#    https, non-www origin in ONE hop. Scoped to the coreform.ro hostnames
+#    so any temporary/preview hostname on the hosting account is untouched.
+RewriteCond %{HTTP_HOST} ^(www\.)?coreform\.ro$ [NC]
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^ https://coreform.ro%{REQUEST_URI} [R=301,L,NE]
+
+# ── 01. Trailing slash on a page URL (/prints/) -> /prints ───────────────
+#    Without this, /prints/ fell through to rule 1c and returned a 500.
+#    Real folders (e.g. /pdfs/) are left alone.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
 # ── 0. Archived product catalogue ────────────────────────────────────────
 #    produse / produs were taken offline (the code is kept locally, outside
 #    the repo). Old copies may still sit on the server from earlier deploys,
@@ -13,6 +29,11 @@ RewriteEngine On
 RewriteRule ^produse(\.html)?/?$ /prints? [R=301,L]
 RewriteRule ^produs(\.html)?/?$ /prints? [R=301,L]
 RewriteRule ^(produs\.js|produse\.css)$ - [R=404,L]
+
+# The AI material advisor (consultanta) was removed, but an old copy is
+# still on the server and answered 200. Its topic (choosing a 3D-printing
+# material) now lives in the materials section of /prints.
+RewriteRule ^consultanta(\.html)?/?$ /prints? [R=301,L]
 RewriteRule ^archive(/|$) - [F,L]
 
 # Images moved into /img — keep old public URLs (social share previews,
@@ -115,8 +136,10 @@ ErrorDocument 404 /404.html
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(self)"
-  # Enable once HTTPS is confirmed working on every subdomain:
-  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # HTTPS is confirmed on coreform.ro and www.coreform.ro, and rule 00 now
+  # forces it. includeSubDomains is left off on purpose until every other
+  # subdomain (mail., cpanel., …) is known to have a valid certificate.
+  Header always set Strict-Transport-Security "max-age=31536000"
   Header unset X-Powered-By
 </IfModule>
 

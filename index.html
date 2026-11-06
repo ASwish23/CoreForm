@@ -21,39 +21,168 @@
     <link rel="stylesheet" href="css/style.css?v=2">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "CoreForm",
-      "url": "https://coreform.ro",
-      "logo": "https://coreform.ro/img/og-default.jpg",
-      "description": "Servicii de marketing strategic și printare 3D profesională",
-      "areaServed": [
-        { "@type": "City", "name": "Cluj-Napoca", "addressCountry": "RO" },
-        { "@type": "City", "name": "Deva", "addressCountry": "RO" },
-        { "@type": "City", "name": "Timișoara", "addressCountry": "RO" },
-        { "@type": "City", "name": "Arad", "addressCountry": "RO" },
-        { "@type": "City", "name": "Oradea", "addressCountry": "RO" },
-        { "@type": "City", "name": "Hunedoara", "addressCountry": "RO" },
-        { "@type": "City", "name": "Baia Mare", "addressCountry": "RO" },
-        { "@type": "City", "name": "Târgu Mureș", "addressCountry": "RO" },
-        { "@type": "City", "name": "Iași", "addressCountry": "RO" },
-        { "@type": "City", "name": "București", "addressCountry": "RO" },
-        { "@type": "City", "name": "Brașov", "addressCountry": "RO" },
-        { "@type": "Country", "name": "România" }
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Cluj-Napoca",
-        "addressCountry": "RO"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+40731644613",
-        "contactType": "Customer Service",
-        "email": "contact@coreform.ro"
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://coreform.ro/#website",
+            "url": "https://coreform.ro/",
+            "name": "CoreForm",
+            "inLanguage": [
+              "ro",
+              "en"
+            ],
+            "publisher": {
+              "@id": "https://coreform.ro/#organization"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://coreform.ro/#organization",
+            "name": "CoreForm",
+            "legalName": "CORE FORM S.R.L.",
+            "url": "https://coreform.ro/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://coreform.ro/img/logo-green.png",
+              "width": 512,
+              "height": 566
+            },
+            "image": "https://coreform.ro/img/og-default.jpg",
+            "description": "Marketing strategic și printare 3D profesională, cu livrare în toată România.",
+            "email": "contact@coreform.ro",
+            "telephone": "+40731644613",
+            "vatID": "RO53575751",
+            "identifier": {
+              "@type": "PropertyValue",
+              "propertyID": "Nr. Reg. Com.",
+              "value": "J2026005970005"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Nr. 16",
+              "addressLocality": "Cârjiți",
+              "addressRegion": "Hunedoara",
+              "addressCountry": "RO"
+            },
+            "areaServed": [
+              {
+                "@type": "Country",
+                "name": "România"
+              },
+              {
+                "@type": "City",
+                "name": "Cluj-Napoca"
+              },
+              {
+                "@type": "City",
+                "name": "București"
+              },
+              {
+                "@type": "City",
+                "name": "Timișoara"
+              },
+              {
+                "@type": "City",
+                "name": "Iași"
+              },
+              {
+                "@type": "City",
+                "name": "Brașov"
+              },
+              {
+                "@type": "City",
+                "name": "Oradea"
+              },
+              {
+                "@type": "City",
+                "name": "Arad"
+              },
+              {
+                "@type": "City",
+                "name": "Târgu Mureș"
+              },
+              {
+                "@type": "City",
+                "name": "Baia Mare"
+              },
+              {
+                "@type": "City",
+                "name": "Deva"
+              },
+              {
+                "@type": "City",
+                "name": "Hunedoara"
+              }
+            ],
+            "founder": {
+              "@id": "https://coreform.ro/#madalina-sorescu"
+            },
+            "brand": [
+              {
+                "@type": "Brand",
+                "name": "CoreForm Marketing"
+              },
+              {
+                "@type": "Brand",
+                "name": "CoreForm Prints"
+              }
+            ],
+            "contactPoint": [
+              {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "telephone": "+40731644613",
+                "email": "contact@coreform.ro",
+                "areaServed": "RO",
+                "availableLanguage": [
+                  "ro",
+                  "en"
+                ]
+              }
+            ],
+            "knowsAbout": [
+              "marketing strategic",
+              "branding",
+              "social media marketing",
+              "printare 3D",
+              "prototipare rapidă"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://coreform.ro/#madalina-sorescu",
+            "name": "Mădălina Sorescu",
+            "jobTitle": "Consultant de Marketing",
+            "worksFor": {
+              "@id": "https://coreform.ro/#organization"
+            },
+            "url": "https://coreform.ro/despre-noi",
+            "image": "https://coreform.ro/img/mada-philosophy.jpg",
+            "knowsAbout": [
+              "marketing strategic",
+              "social media",
+              "marketing B2B",
+              "branding",
+              "management de comunitate"
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://coreform.ro/#webpage",
+            "url": "https://coreform.ro/",
+            "name": "CoreForm | Marketing & Printare 3D | România",
+            "inLanguage": "ro",
+            "isPartOf": {
+              "@id": "https://coreform.ro/#website"
+            },
+            "about": {
+              "@id": "https://coreform.ro/#organization"
+            }
+          }
+        ]
       }
-    }
     </script>
     <!-- Social sharing -->
     <meta property="og:site_name" content="CoreForm">
@@ -66,7 +195,7 @@
     <meta name="twitter:description" content="Servicii de marketing strategic și printare 3D profesională, cu livrare în toată România: Cluj-Napoca, București, Timișoara, Iași, Brașov și alte orașe.">
     <meta name="twitter:image" content="https://coreform.ro/img/og-default.jpg">
     <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
-    <script src="js/consent.js?v=3" defer></script>
+    <script src="js/consent.js?v=4" defer></script>
     <script src="js/attribution.js?v=1" defer></script>
 </head>
 <body>
@@ -77,8 +206,8 @@
         <section class="split left" id="leftSection" data-aos="fade-right">
             <div class="content">
                 <h2>CoreForm Marketing</h2>
-                <p>Elevate your brand with strategic marketing solutions that drive results and create lasting impact.</p>
-                <a href="/marketing.html" class="cta-button">Explore Marketing</a>
+                <p>Marketing strategic, branding și social media, cu rezultate măsurabile pentru afacerea ta.</p>
+                <a href="/marketing" class="cta-button">Descoperă Marketing</a>
             </div>
         </section>
 
@@ -86,18 +215,18 @@
         <section class="split right" id="rightSection" data-aos="fade-left">
             <div class="content">
                 <h2>CoreForm Prints</h2>
-                <p>Premium printing services with attention to detail, delivering quality that speaks for your brand.</p>
-                <a href="/prints.html" class="cta-button">Explore Prints</a>
+                <p>Printare 3D profesională pentru prototipuri, piese tehnice și obiecte personalizate, cu livrare în toată România.</p>
+                <a href="/prints" class="cta-button">Descoperă Printarea 3D</a>
             </div>
         </section>
 
         <!-- Central Logo -->
         <div class="logo-container">
-            <picture><source srcset="img/logo-green.webp" type="image/webp"><img src="img/logo-green.png" alt="Core Form Logo" class="logo" width="512" height="566" decoding="async" loading="eager" fetchpriority="high"></picture>
+            <picture><source srcset="img/logo-green.webp" type="image/webp"><img src="img/logo-green.png" alt="Logo CoreForm" class="logo" width="512" height="566" decoding="async" loading="eager" fetchpriority="high"></picture>
         </div>
     </div>
 
-    <script src="js/script.js?v=2"></script>
+    <script src="js/script.js?v=3"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
   AOS.init({

@@ -344,7 +344,7 @@
   <meta name="twitter:description" content="">
   <meta name="twitter:image" content="https://coreform.ro/img/og-default.jpg">
   <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
-  <script src="js/consent.js?v=3" defer></script>
+  <script src="js/consent.js?v=4" defer></script>
   <script src="js/attribution.js?v=1" defer></script>
 </head>
 <body>
@@ -389,7 +389,7 @@
     </div>
 
     <!-- CTA -->
-    <a href="/prints.html" class="btn-home">
+    <a href="/prints" class="btn-home">
       Înapoi la CoreForm Prints
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <line x1="5" y1="12" x2="19" y2="12"/>
@@ -421,10 +421,13 @@
         return new Intl.NumberFormat('ro-RO', { style: 'currency', currency: 'RON' }).format(amount);
       }
 
-      /* ── Format stored produse JSON into a readable email body ── */
-      function formatOrderForEmail(produseJson, total) {
-        var items;
-        try { items = JSON.parse(produseJson); } catch (e) { items = []; }
+      /* ── Format stored produse into a readable email body ─────── */
+      function formatOrderForEmail(produse, total) {
+        var items = produse;
+        if (typeof items === 'string') {
+          try { items = JSON.parse(items); } catch (e) { items = []; }
+        }
+        if (!Array.isArray(items)) items = [];
         var lines = items.map(function (item) {
           return item.name +
             ' (Culoare: ' + item.color + ')' +
@@ -440,23 +443,25 @@
       async function handleSuccessPage() {
         var params  = new URLSearchParams(window.location.search);
         var orderId = params.get('orderId');
+        var token   = params.get('t');
 
         // Belt-and-suspenders: clear cart regardless of payment method.
         // For ramburs this is a no-op (already cleared in checkout.js).
         localStorage.removeItem(CART_KEY);
 
-        if (!orderId) {
+        if (!orderId || !token) {
           // Ramburs flow — email was already sent in checkout.js. Nothing to do.
           return;
         }
 
-        // Card / Netopia flow — fetch order from Supabase and send notification email.
+        // Send the notification once per order, not on every reload
+        var sentKey = 'cf-order-notified-' + orderId;
+        try { if (sessionStorage.getItem(sentKey)) return; } catch (e) { /* private mode */ }
+
+        // Card / Netopia flow — the order is only readable with its token
+        // (get_order_confirmation), never by id alone.
         try {
-          var result = await _supabase
-            .from('comenzi')
-            .select('nume_client, email, telefon, produse, total')
-            .eq('id', orderId)
-            .single();
+          var result = await _supabase.rpc('get_order_confirmation', { p_id: Number(orderId), p_token: token });
 
           if (result.error || !result.data) {
             console.error('[succes] Nu s-a putut prelua comanda:', result.error);
@@ -465,6 +470,7 @@
 
           var order   = result.data;
           var detalii = formatOrderForEmail(order.produse, order.total);
+          var paid    = order.status === 'platit';
 
           await emailjs.send('service_6dsjm16', 'template_v1dpcx2', {
             nr_comanda:      orderId,
@@ -472,8 +478,9 @@
             telefon_client:  order.telefon,
             email_client:    order.email,
             detalii_comanda: detalii,
-            total_plata:     '0 lei (Achitat online)'
+            total_plata:     Math.round(Number(order.total)) + ' lei (' + (paid ? 'achitat online' : 'plată card în curs de confirmare') + ')'
           });
+          try { sessionStorage.setItem(sentKey, '1'); } catch (e) { /* private mode */ }
           console.log('[succes] Email notificare trimis pentru comanda #' + orderId);
         } catch (err) {
           console.error('[succes] Email notificare eșuat (comanda a fost salvată):', err);
@@ -489,10 +496,10 @@
     <p>&copy; 2026 CORE FORM S.R.L. Toate drepturile rezervate.</p>
     <nav aria-label="Linkuri legale">
       <a href="/">Acasă</a>
-      <a href="/termeni-si-conditii.html">Termeni și Condiții</a>
-      <a href="/politica-confidentialitate.html">Confidențialitate</a>
-      <a href="/politica-cookies.html">Cookie-uri</a>
-      <a href="/contact.html">Contact</a>
+      <a href="/termeni-si-conditii">Termeni și Condiții</a>
+      <a href="/politica-confidentialitate">Confidențialitate</a>
+      <a href="/politica-cookies">Cookie-uri</a>
+      <a href="/contact">Contact</a>
       <button type="button" class="footer-cookie-btn" data-cookie-settings>Setări cookie-uri</button>
     </nav>
   </footer>

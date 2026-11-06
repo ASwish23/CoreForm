@@ -279,7 +279,7 @@ function selectPackage(packageName) {
 // Step 2: CTA click — navigate to the personalise form with the stored package name
 function selectPackageAndNavigate(packageName) {
     const encoded = encodeURIComponent(packageName);
-    const formPage = document.documentElement.lang === 'en' ? '/personalizeaza-en.html' : '/personalizeaza.html';
+    const formPage = document.documentElement.lang === 'en' ? '/personalizeaza-en' : '/personalizeaza';
     window.location.href = formPage + '?pachet=' + encoded;
 }
 

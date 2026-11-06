@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet" />
   <!-- Release: bump ?v= here AND VERSION in sw.js -->
-  <link rel="stylesheet" href="css/dashboard.css?v=6" />
+  <link rel="stylesheet" href="css/dashboard.css?v=7" />
 </head>
 <body>
 
@@ -50,6 +50,10 @@
         <a class="nav-link" href="#/leads" data-view="leads">
           Leads / CRM
           <span class="nav-badge" id="nav-badge" hidden></span>
+        </a>
+        <a class="nav-link" href="#/orders" data-view="orders">
+          Comenzi
+          <span class="nav-badge" id="orders-badge" hidden></span>
         </a>
       </nav>
 
@@ -206,10 +210,33 @@
                 <button type="button" data-mine="0" aria-pressed="true">Toate</button>
                 <button type="button" data-mine="1" aria-pressed="false">Ale mele</button>
               </div>
+              <button type="button" class="btn btn-secondary" id="leads-csv-btn">Export CSV</button>
             </div>
           </div>
 
           <div class="board" id="board"></div>
+        </section>
+
+        <!-- Orders (online shop) -->
+        <section class="view" id="view-orders" aria-labelledby="orders-title" hidden>
+          <div class="page-head">
+            <div>
+              <h1 class="page-title" id="orders-title">Comenzi</h1>
+              <p class="page-sub" id="orders-sub">Comenzile din magazinul online. Schimbă statusul pe măsură ce le pregătești.</p>
+            </div>
+            <div class="head-actions">
+              <span class="result-hint" id="orders-hint" hidden></span>
+              <button type="button" class="btn btn-secondary" id="orders-csv-btn">Export CSV</button>
+            </div>
+          </div>
+
+          <div class="order-filters" id="order-filters" role="group" aria-label="Filtrează după status"></div>
+          <div class="panel orders-panel">
+            <div class="orders-head" aria-hidden="true">
+              <span>Comandă</span><span>Client</span><span>Produse</span><span>Total</span><span>Plată</span><span>Status</span>
+            </div>
+            <ul class="orders" id="orders-list"></ul>
+          </div>
         </section>
 
       </main>
@@ -327,6 +354,62 @@
     </form>
   </aside>
 
+  <!-- ══ ORDER DRAWER ════════════════════════════════════════════════════ -->
+  <div class="backdrop" id="order-backdrop"></div>
+  <aside class="drawer" id="order-drawer" role="dialog" aria-modal="true" aria-labelledby="order-title">
+    <form id="order-form" novalidate style="display:contents">
+      <div class="drawer-head">
+        <div>
+          <h2 id="order-title">Comandă</h2>
+          <div class="drawer-meta" id="order-meta"></div>
+        </div>
+        <button type="button" class="btn btn-ghost" id="order-close">Închide</button>
+      </div>
+
+      <div class="drawer-quick" id="order-quick"></div>
+
+      <div class="drawer-body">
+        <div class="order-section">
+          <p class="drawer-section-label">Client</p>
+          <dl class="order-facts" id="order-client"></dl>
+        </div>
+
+        <div class="order-section">
+          <p class="drawer-section-label">Produse</p>
+          <ul class="order-items" id="order-items"></ul>
+          <dl class="order-totals" id="order-totals"></dl>
+        </div>
+
+        <div class="order-section">
+          <p class="drawer-section-label">Plată</p>
+          <dl class="order-facts" id="order-payment"></dl>
+        </div>
+
+        <p class="drawer-section-label">Livrare</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="o-status">Status</label>
+            <select class="select" id="o-status" name="status"></select>
+          </div>
+          <div class="field">
+            <label for="o-awb">AWB <span class="hint">obligatoriu la expediere</span></label>
+            <input class="input" id="o-awb" name="awb" maxlength="100" autocomplete="off" placeholder="ex. 2345678901" />
+          </div>
+        </div>
+        <div class="field notes-field">
+          <label for="o-notes">Notițe <span class="hint">vizibile doar pentru echipă</span></label>
+          <textarea class="textarea" id="o-notes" name="admin_notes" rows="3" maxlength="5000" placeholder="ex. Clientul vrea culoarea verde închis."></textarea>
+        </div>
+      </div>
+
+      <div class="drawer-foot">
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" id="order-cancel">Anulează</button>
+        <button type="submit" class="btn btn-primary" id="order-save">Salvează</button>
+      </div>
+    </form>
+  </aside>
+
   <!-- Asked when a lead moves to "Pierdut" -->
   <dialog class="dialog" id="lost-dialog" aria-labelledby="lost-title">
     <h2 id="lost-title">De ce s-a pierdut?</h2>
@@ -341,6 +424,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script>
   <script src="js/config.js?v=2"></script>
-  <script src="js/admin/dashboard.js?v=6"></script>
+  <script src="js/admin/dashboard.js?v=7"></script>
 </body>
 </html>

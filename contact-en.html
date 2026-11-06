@@ -19,25 +19,189 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/contact.css?v=3">
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "CoreForm",
-      "url": "https://coreform.ro/contact-en",
-      "description": "Marketing and 3D printing consulting, offered independently by Mădălina Sorescu",
-      "founder": {
-        "@type": "Person",
-        "name": "Mădălina Sorescu",
-        "jobTitle": "Marketing Consultant"
-      },
-      "areaServed": [{"@type": "City", "name": "Cluj-Napoca", "addressCountry": "RO"}, {"@type": "City", "name": "Deva", "addressCountry": "RO"}, {"@type": "City", "name": "Timișoara", "addressCountry": "RO"}, {"@type": "City", "name": "Arad", "addressCountry": "RO"}, {"@type": "City", "name": "Oradea", "addressCountry": "RO"}, {"@type": "City", "name": "Hunedoara", "addressCountry": "RO"}, {"@type": "City", "name": "Baia Mare", "addressCountry": "RO"}, {"@type": "City", "name": "Târgu Mureș", "addressCountry": "RO"}, {"@type": "City", "name": "Iași", "addressCountry": "RO"}, {"@type": "City", "name": "București", "addressCountry": "RO"}, {"@type": "City", "name": "Brașov", "addressCountry": "RO"}, {"@type": "Country", "name": "Romania"}],
-      "address": {"@type": "PostalAddress", "addressLocality": "Cluj-Napoca", "addressCountry": "RO"},
-      "email": "contact@coreform.ro",
-      "contactPoint": [
-        {"@type": "ContactPoint", "name": "Mădălina Sorescu", "telephone": "+40731644613", "contactType": "Customer Service", "email": "contact@coreform.ro"},
-        {"@type": "ContactPoint", "name": "Cătălin Colcea", "telephone": "+40731741588", "contactType": "Customer Service", "email": "contact@coreform.ro"}
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://coreform.ro/#organization",
+            "name": "CoreForm",
+            "legalName": "CORE FORM S.R.L.",
+            "url": "https://coreform.ro/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://coreform.ro/img/logo-green.png",
+              "width": 512,
+              "height": 566
+            },
+            "image": "https://coreform.ro/img/og-default.jpg",
+            "description": "Strategic marketing and professional 3D printing, delivered across Romania.",
+            "email": "contact@coreform.ro",
+            "telephone": "+40731644613",
+            "vatID": "RO53575751",
+            "identifier": {
+              "@type": "PropertyValue",
+              "propertyID": "Nr. Reg. Com.",
+              "value": "J2026005970005"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Nr. 16",
+              "addressLocality": "Cârjiți",
+              "addressRegion": "Hunedoara",
+              "addressCountry": "RO"
+            },
+            "areaServed": [
+              {
+                "@type": "Country",
+                "name": "România"
+              },
+              {
+                "@type": "City",
+                "name": "Cluj-Napoca"
+              },
+              {
+                "@type": "City",
+                "name": "București"
+              },
+              {
+                "@type": "City",
+                "name": "Timișoara"
+              },
+              {
+                "@type": "City",
+                "name": "Iași"
+              },
+              {
+                "@type": "City",
+                "name": "Brașov"
+              },
+              {
+                "@type": "City",
+                "name": "Oradea"
+              },
+              {
+                "@type": "City",
+                "name": "Arad"
+              },
+              {
+                "@type": "City",
+                "name": "Târgu Mureș"
+              },
+              {
+                "@type": "City",
+                "name": "Baia Mare"
+              },
+              {
+                "@type": "City",
+                "name": "Deva"
+              },
+              {
+                "@type": "City",
+                "name": "Hunedoara"
+              }
+            ],
+            "founder": {
+              "@id": "https://coreform.ro/#madalina-sorescu"
+            },
+            "brand": [
+              {
+                "@type": "Brand",
+                "name": "CoreForm Marketing"
+              },
+              {
+                "@type": "Brand",
+                "name": "CoreForm Prints"
+              }
+            ],
+            "contactPoint": [
+              {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "telephone": "+40731644613",
+                "email": "contact@coreform.ro",
+                "areaServed": "RO",
+                "availableLanguage": [
+                  "ro",
+                  "en"
+                ],
+                "name": "Mădălina Sorescu"
+              },
+              {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "name": "Cătălin Colcea",
+                "telephone": "+40731741588",
+                "email": "contact@coreform.ro",
+                "areaServed": "RO",
+                "availableLanguage": [
+                  "ro",
+                  "en"
+                ]
+              }
+            ],
+            "knowsAbout": [
+              "strategic marketing",
+              "branding",
+              "social media marketing",
+              "3D printing",
+              "rapid prototyping"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://coreform.ro/#madalina-sorescu",
+            "name": "Mădălina Sorescu",
+            "jobTitle": "Marketing Consultant",
+            "worksFor": {
+              "@id": "https://coreform.ro/#organization"
+            },
+            "url": "https://coreform.ro/despre-noi-en",
+            "image": "https://coreform.ro/img/mada-philosophy.jpg",
+            "knowsAbout": [
+              "strategic marketing",
+              "social media",
+              "B2B marketing",
+              "branding",
+              "community management"
+            ]
+          },
+          {
+            "@type": "ContactPage",
+            "@id": "https://coreform.ro/contact-en#webpage",
+            "url": "https://coreform.ro/contact-en",
+            "name": "Contact CoreForm",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://coreform.ro/#website"
+            },
+            "about": {
+              "@id": "https://coreform.ro/#organization"
+            },
+            "breadcrumb": {
+              "@id": "https://coreform.ro/contact-en#breadcrumb"
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://coreform.ro/contact-en#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://coreform.ro/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Contact",
+                "item": "https://coreform.ro/contact-en"
+              }
+            ]
+          }
+        ]
+      }
     </script>
     <!-- Social sharing -->
     <meta property="og:site_name" content="CoreForm">
@@ -55,7 +219,7 @@
     <link rel="alternate" hreflang="en" href="https://coreform.ro/contact-en">
     <link rel="alternate" hreflang="x-default" href="https://coreform.ro/contact">
     <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
-    <script src="js/consent.js?v=3" defer></script>
+    <script src="js/consent.js?v=4" defer></script>
     <script src="js/attribution.js?v=1" defer></script>
 </head>
 <body>
@@ -76,9 +240,9 @@
             </a>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="/">Home</a></li>
-                <li><a href="/marketing.html">Marketing</a></li>
-                <li><a href="/despre-noi.html">About Me</a></li>
-                <li><a href="/contact-en.html" class="nav-active">Contact</a></li>
+                <li><a href="/marketing">Marketing</a></li>
+                <li><a href="/despre-noi">About Me</a></li>
+                <li><a href="/contact-en" class="nav-active">Contact</a></li>
             </ul>
             <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
                 <div></div>
@@ -121,9 +285,9 @@
         <div class="footer-content">
             <p>&copy; 2026 CoreForm. All rights reserved.</p>
             <nav class="footer-legal" aria-label="Legal links">
-                <a href="/termeni-si-conditii.html">Terms &amp; Conditions</a>
-                <a href="/politica-confidentialitate.html">Privacy Policy</a>
-                <a href="/politica-cookies.html">Cookie Policy</a>
+                <a href="/termeni-si-conditii">Terms &amp; Conditions</a>
+                <a href="/politica-confidentialitate">Privacy Policy</a>
+                <a href="/politica-cookies">Cookie Policy</a>
                 <button type="button" class="footer-cookie-btn" data-cookie-settings>Cookie settings</button>
             </nav>
             <div style="margin-top: 1rem;">

@@ -36,6 +36,6 @@ window.addEventListener('load', () => {
 // Optional: Add keyboard navigation for accessibility
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') {
-        window.location.href = '/marketing.html';
+        window.location.href = '/marketing';
     }
 });

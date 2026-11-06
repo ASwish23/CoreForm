@@ -6,7 +6,8 @@
   const FREE_SHIPPING_THRESHOLD = 300;
   const SHIPPING_COST           = 20;
 
-  const EDGE_FN_URL = 'https://gvqgmivhqfsdswrtaxyl.supabase.co/functions/v1/netopia-payment';
+  // supabaseUrl / supabaseKey / _supabase come from database.js (loaded first)
+  const EDGE_FN_URL = supabaseUrl + '/functions/v1/netopia-payment';
 
   /* ── Helpers ────────────────────────────────────────────────── */
   function fmt(val) {
@@ -314,48 +315,40 @@
     return emailjs.send('service_6dsjm16', 'template_v1dpcx2', templateParams);
   }
 
-  /* ── Format cart for email body ─────────────────────────────── */
-  function formatCartForEmail(cart, shipping, total) {
-    var lines = cart.map(normalizeItem).map(function (item) {
+  /* ── Format the saved order for the email body ─────────────── */
+  // Uses the server's prices (create_order), not the cart in the browser.
+  function formatOrderForEmail(order) {
+    var lines = (order.items || []).map(function (item) {
       return item.name +
-        ' (Culoare: ' + item.color + ')' +
+        ' (Culoare: ' + (item.color || '—') + ')' +
         ' x' + item.quantity +
-        ' — ' + fmt(item.price * item.quantity);
+        ' — ' + fmt(Number(item.price) * item.quantity);
     });
     lines.push('');
-    lines.push('Transport: ' + (shipping === 0 ? 'Gratuit' : fmt(shipping)));
-    lines.push('TOTAL: ' + fmt(total));
+    lines.push('Transport: ' + (Number(order.shipping) === 0 ? 'Gratuit' : fmt(Number(order.shipping))));
+    lines.push('TOTAL: ' + fmt(Number(order.total)));
     return lines.join('\n');
   }
 
-  /* ── Supabase: persist order ────────────────────────────────── */
-  // .select('id').single() returns the newly created row so that
-  // result.data.id can be forwarded to the Netopia Edge Function.
+  /* ── Supabase: create the order ─────────────────────────────── */
+  // create_order() recalculates every price from the `produse` table and
+  // returns { id, token, items, subtotal, shipping, total }. The token lets
+  // the payment function and the thank-you page find this one order.
   function saveOrder(orderData) {
-    return _supabase
-      .from('comenzi')
-      .insert([orderData])
-      .select('id')
-      .single();
+    return _supabase.rpc('create_order', { p: orderData });
   }
 
-  /* ── Netopia: initiate payment session ─────────────────────── */
-  // POSTs orderId, amount, and customer details to the Supabase Edge
-  // Function. Returns { paymentUrl, env_key, data } for the gateway.
-  function initiateNetopiaPayment(orderId, amount, customerEmail, customerName) {
+  /* ── Netopia: start the payment ────────────────────────────── */
+  // The Edge Function reads the amount from the database and returns
+  // { paymentUrl } — Netopia's hosted card page.
+  function initiateNetopiaPayment(orderId, token) {
     return fetch(EDGE_FN_URL, {
       method:  'POST',
       headers: {
         'Content-Type':  'application/json',
-        // supabaseKey is the anon key declared in database.js (loaded first)
         'Authorization': 'Bearer ' + supabaseKey
       },
-      body: JSON.stringify({
-        orderId:       String(orderId),
-        amount:        amount,
-        customerEmail: customerEmail,
-        customerName:  customerName
-      })
+      body: JSON.stringify({ orderId: orderId, token: token })
     })
     .then(function (res) {
       // Always parse JSON so we can surface server-side error messages
@@ -369,30 +362,6 @@
     });
   }
 
-  /* ── Netopia: POST redirect to secure payment page ──────────── */
-  // Netopia requires a browser-level POST (not a redirect) so we
-  // dynamically build a hidden form and submit it programmatically.
-  function redirectToNetopia(paymentUrl, envKey, data) {
-    var form = document.createElement('form');
-    form.method = 'POST';
-    form.action = paymentUrl;
-
-    var envKeyInput = document.createElement('input');
-    envKeyInput.type  = 'hidden';
-    envKeyInput.name  = 'env_key';
-    envKeyInput.value = envKey;
-    form.appendChild(envKeyInput);
-
-    var dataInput = document.createElement('input');
-    dataInput.type  = 'hidden';
-    dataInput.name  = 'data';
-    dataInput.value = data;
-    form.appendChild(dataInput);
-
-    document.body.appendChild(form);
-    form.submit();
-  }
-
   /* ── Place order flow ───────────────────────────────────────── */
   function placeOrder(formData) {
     var btn = document.getElementById('placeOrderBtn');
@@ -402,10 +371,7 @@
     }
     hideGlobalError();
 
-    var cart     = getCart();
-    var subtotal = calcSubtotal(cart);
-    var shipping = calcShipping(subtotal);
-    var total    = subtotal + shipping;
+    var cart = getCart();
 
     function resetBtn() {
       if (btn) {
@@ -414,41 +380,44 @@
       }
     }
 
-    // Save the order to Supabase first, regardless of payment method.
-    // Card orders are stored with 'in_asteptare' until Netopia confirms.
-    var orderStatus = formData.paymentMethod === 'card' ? 'in_asteptare' : 'nou';
-
+    // Save the order first, regardless of payment method. The database sets
+    // the status (card: 'in_asteptare' until Netopia confirms; ramburs:
+    // 'confirmat') and recalculates the total from the product prices.
     saveOrder({
       nume_client:  formData.fullName,
       email:        formData.email,
       telefon:      formData.phone,
       adresa:       formData.address,
       oras:         formData.city,
-      produse:      JSON.stringify(cart.map(normalizeItem)),
-      total:        total,
+      produse:      cart.map(normalizeItem).map(function (i) {
+        return { id: i.id, color: i.color, quantity: i.quantity };
+      }),
       metoda_plata: formData.paymentMethod,
-      status:       orderStatus
+      attribution:  window.cfAttribution ? window.cfAttribution.get() : null
     })
     .then(async function (result) {
-      if (result.error) {
+      if (result.error || !result.data) {
         console.error('[checkout] Supabase error:', result.error);
         resetBtn();
+        var unknownProduct = result.error && /unknown_product|invalid_cart/.test(result.error.message || '');
         Swal.fire({
           title: 'Eroare la plasarea comenzii',
-          text: 'Ceva nu a mers bine. Te rugăm să încerci din nou.',
+          text: unknownProduct
+            ? 'Un produs din coș nu mai este disponibil. Verifică coșul și încearcă din nou.'
+            : 'Ceva nu a mers bine. Te rugăm să încerci din nou.',
           icon: 'error',
           confirmButtonColor: '#2C4A3B'
         });
         return;
       }
 
-      var orderId = result.data && result.data.id;
+      var order = result.data;
 
       if (formData.paymentMethod === 'card') {
         /* ── Netopia Payments ──────────────────────────────────────
            1. Show SweetAlert2 loading state while calling the Edge Function.
-           2. POST orderId + amount + customer details to the Edge Function.
-           3. Dynamically submit a hidden form to Netopia's gateway.        */
+           2. POST orderId + token; the function reads the amount itself.
+           3. Send the browser to Netopia's hosted card page.            */
         Swal.fire({
           title: 'Se pregătește plata securizată...',
           allowOutsideClick: false,
@@ -457,18 +426,11 @@
         });
 
         try {
-          var body = await initiateNetopiaPayment(
-            orderId,
-            total,
-            formData.email,
-            formData.fullName
-          );
-
-          if (!body || !body.paymentUrl || !body.env_key || !body.data) {
-            throw new Error('Răspuns invalid de la server: date de plată incomplete.');
+          var body = await initiateNetopiaPayment(order.id, order.token);
+          if (!body || !body.paymentUrl) {
+            throw new Error('Răspuns invalid de la server: lipsește adresa de plată.');
           }
-
-          redirectToNetopia(body.paymentUrl, body.env_key, body.data);
+          window.location.href = body.paymentUrl;
         } catch (err) {
           console.error('[checkout] Netopia redirect error:', err);
           Swal.fire({
@@ -483,14 +445,14 @@
       } else {
         /* ── Cash on delivery ──────────────────────────────────────
            Send notification email then redirect to /succes.     */
-        var detalii = formatCartForEmail(cart, shipping, total);
+        var detalii = formatOrderForEmail(order);
         try {
           await trimiteNotificareEmail(
             formData.fullName,
             formData.phone,
             formData.email,
             detalii,
-            Math.round(total) + ' lei'
+            Math.round(Number(order.total)) + ' lei'
           );
           console.log('[checkout] Email notificare trimis cu succes.');
         } catch (emailErr) {

@@ -29,6 +29,189 @@
         });
      })();
   </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://coreform.ro/#organization",
+          "name": "CoreForm",
+          "legalName": "CORE FORM S.R.L.",
+          "url": "https://coreform.ro/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://coreform.ro/img/logo-green.png",
+            "width": 512,
+            "height": 566
+          },
+          "image": "https://coreform.ro/img/og-default.jpg",
+          "description": "Marketing strategic și printare 3D profesională, cu livrare în toată România.",
+          "email": "contact@coreform.ro",
+          "telephone": "+40731644613",
+          "vatID": "RO53575751",
+          "identifier": {
+            "@type": "PropertyValue",
+            "propertyID": "Nr. Reg. Com.",
+            "value": "J2026005970005"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Nr. 16",
+            "addressLocality": "Cârjiți",
+            "addressRegion": "Hunedoara",
+            "addressCountry": "RO"
+          },
+          "areaServed": [
+            {
+              "@type": "Country",
+              "name": "România"
+            },
+            {
+              "@type": "City",
+              "name": "Cluj-Napoca"
+            },
+            {
+              "@type": "City",
+              "name": "București"
+            },
+            {
+              "@type": "City",
+              "name": "Timișoara"
+            },
+            {
+              "@type": "City",
+              "name": "Iași"
+            },
+            {
+              "@type": "City",
+              "name": "Brașov"
+            },
+            {
+              "@type": "City",
+              "name": "Oradea"
+            },
+            {
+              "@type": "City",
+              "name": "Arad"
+            },
+            {
+              "@type": "City",
+              "name": "Târgu Mureș"
+            },
+            {
+              "@type": "City",
+              "name": "Baia Mare"
+            },
+            {
+              "@type": "City",
+              "name": "Deva"
+            },
+            {
+              "@type": "City",
+              "name": "Hunedoara"
+            }
+          ],
+          "founder": {
+            "@id": "https://coreform.ro/#madalina-sorescu"
+          },
+          "brand": [
+            {
+              "@type": "Brand",
+              "name": "CoreForm Marketing"
+            },
+            {
+              "@type": "Brand",
+              "name": "CoreForm Prints"
+            }
+          ],
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer service",
+              "telephone": "+40731644613",
+              "email": "contact@coreform.ro",
+              "areaServed": "RO",
+              "availableLanguage": [
+                "ro",
+                "en"
+              ]
+            }
+          ],
+          "knowsAbout": [
+            "marketing strategic",
+            "branding",
+            "social media marketing",
+            "printare 3D",
+            "prototipare rapidă"
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://coreform.ro/servicii#webpage",
+          "url": "https://coreform.ro/servicii",
+          "name": "Printare 3D pentru Proiecte Studențești",
+          "inLanguage": "ro",
+          "isPartOf": {
+            "@id": "https://coreform.ro/#website"
+          },
+          "about": {
+            "@id": "https://coreform.ro/#organization"
+          },
+          "breadcrumb": {
+            "@id": "https://coreform.ro/servicii#breadcrumb"
+          },
+          "mainEntity": {
+            "@id": "https://coreform.ro/servicii#service"
+          }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://coreform.ro/servicii#service",
+          "name": "Printare 3D pentru proiecte studențești",
+          "serviceType": "Printare 3D",
+          "description": "Printare 3D pentru lucrări de licență, disertație și proiecte de facultate — arhitectură, design, inginerie, robotică — la un preț gândit pentru studenți, cu livrare în toată România.",
+          "url": "https://coreform.ro/servicii",
+          "inLanguage": "ro",
+          "provider": {
+            "@id": "https://coreform.ro/#organization"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "România"
+          },
+          "audience": {
+            "@type": "EducationalAudience",
+            "educationalRole": "student"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://coreform.ro/servicii#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Acasă",
+              "item": "https://coreform.ro/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "CoreForm Prints",
+              "item": "https://coreform.ro/prints"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Servicii",
+              "item": "https://coreform.ro/servicii"
+            }
+          ]
+        }
+      ]
+    }
+  </script>
   <!-- Social sharing -->
   <meta property="og:site_name" content="CoreForm">
   <meta property="og:locale" content="ro_RO">
@@ -42,7 +225,7 @@
   <meta name="twitter:description" content="Vii cu proiectul 3D, noi îl transformăm în realitate. Printare 3D la preț de student, oriunde în România.">
   <meta name="twitter:image" content="https://coreform.ro/img/og-default.jpg">
   <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
-  <script src="js/consent.js?v=3" defer></script>
+  <script src="js/consent.js?v=4" defer></script>
   <script src="js/attribution.js?v=1" defer></script>
 </head>
 <body>
@@ -55,12 +238,12 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
         Acasă
       </a>
-      <a href="/prints.html" class="nav-brand"><img src="img/logo-pink-96.png" class="nav-brand-logo" alt="" width="96" height="106" decoding="async">CoreForm Prints</a>
+      <a href="/prints" class="nav-brand"><img src="img/logo-pink-96.png" class="nav-brand-logo" alt="" width="96" height="106" decoding="async">CoreForm Prints</a>
       <ul class="nav-links" id="navLinks" role="list">
-        <li><a href="/prints.html">Prezentare</a></li>
-        <li><a href="/servicii.html" class="active" aria-current="page">Servicii</a></li>
-        <li><a href="/faq.html">FAQ</a></li>
-        <li><a href="/oferta.html" class="nav-cta">Solicită Ofertă</a></li>
+        <li><a href="/prints">Prezentare</a></li>
+        <li><a href="/servicii" class="active" aria-current="page">Servicii</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/oferta" class="nav-cta">Solicită Ofertă</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle" aria-label="Deschide meniu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
@@ -74,7 +257,7 @@
     <section class="page-hero">
       <div class="page-hero-inner">
         <span class="section-label">Pentru Orice Proiect 3D</span>
-        <h1 class="section-title">Servicii</h1>
+        <h1 class="section-title">Printare 3D pentru Proiecte Studențești</h1>
         <div class="divider"></div>
         <p class="section-desc">Găsește soluția perfectă pentru nevoia ta.</p>
       </div>
@@ -289,7 +472,7 @@
             </div>
             <h3 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.75rem;">Mulțumim pentru solicitare!</h3>
             <p style="opacity: 0.72; font-size: 0.95rem; max-width: 440px; margin: 0 auto 1.5rem; line-height: 1.7;">Am primit mesajul tău și te contactăm în cel mai scurt timp pe adresa de email indicată.</p>
-            <a href="/prints.html" class="btn btn-outline" style="display:inline-flex;">
+            <a href="/prints" class="btn btn-outline" style="display:inline-flex;">
               Înapoi la Prezentare
             </a>
           </div>
@@ -313,14 +496,14 @@
         </div>
       </div>
       <nav class="footer-links" aria-label="Linkuri footer">
-        <a href="/prints.html">Prezentare</a>
-        <a href="/servicii.html">Servicii</a>
-        <a href="/faq.html">FAQ</a>
-        <a href="/oferta.html">Ofertă</a>
+        <a href="/prints">Prezentare</a>
+        <a href="/servicii">Servicii</a>
+        <a href="/faq">FAQ</a>
+        <a href="/oferta">Ofertă</a>
         <a href="/">Acasă</a>
-        <a href="/termeni-si-conditii.html">Termeni și Condiții</a>
-        <a href="/politica-confidentialitate.html">Confidențialitate</a>
-        <a href="/politica-cookies.html">Cookie-uri</a>
+        <a href="/termeni-si-conditii">Termeni și Condiții</a>
+        <a href="/politica-confidentialitate">Confidențialitate</a>
+        <a href="/politica-cookies">Cookie-uri</a>
         <button type="button" class="footer-cookie-btn" data-cookie-settings>Setări cookie-uri</button>
       </nav>
     </div>

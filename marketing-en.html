@@ -20,44 +20,227 @@
     <link rel="stylesheet" href="css/marketing.css?v=2">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "CoreForm Marketing",
-      "url": "https://coreform.ro/marketing-en",
-      "logo": "https://coreform.ro/img/og-default.jpg",
-      "description": "Independent strategic marketing consulting by Mădălina Sorescu",
-      "founder": {
-        "@type": "Person",
-        "name": "Mădălina Sorescu",
-        "jobTitle": "Marketing Consultant"
-      },
-      "areaServed": [
-        { "@type": "City", "name": "Cluj-Napoca", "addressCountry": "RO" },
-        { "@type": "City", "name": "Deva", "addressCountry": "RO" },
-        { "@type": "City", "name": "Timișoara", "addressCountry": "RO" },
-        { "@type": "City", "name": "Arad", "addressCountry": "RO" },
-        { "@type": "City", "name": "Oradea", "addressCountry": "RO" },
-        { "@type": "City", "name": "Hunedoara", "addressCountry": "RO" },
-        { "@type": "City", "name": "Baia Mare", "addressCountry": "RO" },
-        { "@type": "City", "name": "Târgu Mureș", "addressCountry": "RO" },
-        { "@type": "City", "name": "Iași", "addressCountry": "RO" },
-        { "@type": "City", "name": "București", "addressCountry": "RO" },
-        { "@type": "City", "name": "Brașov", "addressCountry": "RO" },
-        { "@type": "Country", "name": "Romania" }
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Cluj-Napoca",
-        "addressCountry": "RO"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+40731644613",
-        "contactType": "Customer Service",
-        "email": "contact@coreform.ro"
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://coreform.ro/#organization",
+            "name": "CoreForm",
+            "legalName": "CORE FORM S.R.L.",
+            "url": "https://coreform.ro/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://coreform.ro/img/logo-green.png",
+              "width": 512,
+              "height": 566
+            },
+            "image": "https://coreform.ro/img/og-default.jpg",
+            "description": "Strategic marketing and professional 3D printing, delivered across Romania.",
+            "email": "contact@coreform.ro",
+            "telephone": "+40731644613",
+            "vatID": "RO53575751",
+            "identifier": {
+              "@type": "PropertyValue",
+              "propertyID": "Nr. Reg. Com.",
+              "value": "J2026005970005"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Nr. 16",
+              "addressLocality": "Cârjiți",
+              "addressRegion": "Hunedoara",
+              "addressCountry": "RO"
+            },
+            "areaServed": [
+              {
+                "@type": "Country",
+                "name": "România"
+              },
+              {
+                "@type": "City",
+                "name": "Cluj-Napoca"
+              },
+              {
+                "@type": "City",
+                "name": "București"
+              },
+              {
+                "@type": "City",
+                "name": "Timișoara"
+              },
+              {
+                "@type": "City",
+                "name": "Iași"
+              },
+              {
+                "@type": "City",
+                "name": "Brașov"
+              },
+              {
+                "@type": "City",
+                "name": "Oradea"
+              },
+              {
+                "@type": "City",
+                "name": "Arad"
+              },
+              {
+                "@type": "City",
+                "name": "Târgu Mureș"
+              },
+              {
+                "@type": "City",
+                "name": "Baia Mare"
+              },
+              {
+                "@type": "City",
+                "name": "Deva"
+              },
+              {
+                "@type": "City",
+                "name": "Hunedoara"
+              }
+            ],
+            "founder": {
+              "@id": "https://coreform.ro/#madalina-sorescu"
+            },
+            "brand": [
+              {
+                "@type": "Brand",
+                "name": "CoreForm Marketing"
+              },
+              {
+                "@type": "Brand",
+                "name": "CoreForm Prints"
+              }
+            ],
+            "contactPoint": [
+              {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "telephone": "+40731644613",
+                "email": "contact@coreform.ro",
+                "areaServed": "RO",
+                "availableLanguage": [
+                  "ro",
+                  "en"
+                ]
+              }
+            ],
+            "knowsAbout": [
+              "strategic marketing",
+              "branding",
+              "social media marketing",
+              "3D printing",
+              "rapid prototyping"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://coreform.ro/#madalina-sorescu",
+            "name": "Mădălina Sorescu",
+            "jobTitle": "Marketing Consultant",
+            "worksFor": {
+              "@id": "https://coreform.ro/#organization"
+            },
+            "url": "https://coreform.ro/despre-noi-en",
+            "image": "https://coreform.ro/img/mada-philosophy.jpg",
+            "knowsAbout": [
+              "strategic marketing",
+              "social media",
+              "B2B marketing",
+              "branding",
+              "community management"
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://coreform.ro/marketing-en#webpage",
+            "url": "https://coreform.ro/marketing-en",
+            "name": "CoreForm Marketing",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://coreform.ro/#website"
+            },
+            "about": {
+              "@id": "https://coreform.ro/#organization"
+            },
+            "breadcrumb": {
+              "@id": "https://coreform.ro/marketing-en#breadcrumb"
+            },
+            "mainEntity": {
+              "@id": "https://coreform.ro/marketing-en#service"
+            }
+          },
+          {
+            "@type": "Service",
+            "@id": "https://coreform.ro/marketing-en#service",
+            "name": "Strategic marketing consulting",
+            "serviceType": "Marketing",
+            "description": "Strategic marketing, branding and social media management for businesses across Romania, with measurable results and transparent reporting.",
+            "url": "https://coreform.ro/marketing-en",
+            "inLanguage": "en",
+            "provider": [
+              {
+                "@id": "https://coreform.ro/#organization"
+              },
+              {
+                "@id": "https://coreform.ro/#madalina-sorescu"
+              }
+            ],
+            "areaServed": {
+              "@type": "Country",
+              "name": "România"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Marketing services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "One-off marketing services"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Monthly service packages"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Custom marketing services"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://coreform.ro/marketing-en#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://coreform.ro/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "CoreForm Marketing",
+                "item": "https://coreform.ro/marketing-en"
+              }
+            ]
+          }
+        ]
       }
-    }
     </script>
     <!-- Social sharing -->
     <meta property="og:site_name" content="CoreForm">
@@ -75,7 +258,7 @@
     <link rel="alternate" hreflang="en" href="https://coreform.ro/marketing-en">
     <link rel="alternate" hreflang="x-default" href="https://coreform.ro/marketing">
     <!-- Cookie consent + Google Analytics 4 (Consent Mode v2) -->
-    <script src="js/consent.js?v=3" defer></script>
+    <script src="js/consent.js?v=4" defer></script>
     <script src="js/attribution.js?v=1" defer></script>
 </head>
 <body>
@@ -97,8 +280,8 @@
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#performance">Performance</a></li>
                 <li><a href="#pricing-packages">Services</a></li>
-                <li><a href="/despre-noi.html">About Me</a></li>
-                <li><a href="/personalizeaza-en.html" class="nav-cta">Contact Me</a></li>
+                <li><a href="/despre-noi">About Me</a></li>
+                <li><a href="/personalizeaza-en" class="nav-cta">Contact Me</a></li>
             </ul>
             <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
                 <div></div>
@@ -146,7 +329,7 @@
 
             <div class="case-studies-grid">
                 <!-- Case Study 1: Nexus Gaming -->
-                <a href="/despre-noi.html#nexus" class="case-card" data-category="gaming">
+                <a href="/despre-noi#nexus" class="case-card" data-category="gaming">
                     <h3 class="case-title">Nexus Gaming</h3>
                     <p class="case-description">I built a viral growth strategy that generated 300,000+ views and managed an active community of 100,000+ followers across multiple platforms.</p>
                     <div class="case-metrics">
@@ -163,7 +346,7 @@
                 </a>
 
                 <!-- Case Study 2: Bosch -->
-                <a href="/despre-noi.html#bosch" class="case-card" data-category="b2b">
+                <a href="/despre-noi#bosch" class="case-card" data-category="b2b">
                     <h3 class="case-title">Bosch EMEA</h3>
                     <p class="case-description">I transformed B2B marketing for the technical security division, quadrupling engagement from 1% to 4% in highly specialized industrial markets.</p>
                     <div class="case-metrics">
@@ -180,7 +363,7 @@
                 </a>
 
                 <!-- Case Study 3: Nație prin Educație -->
-                <a href="/despre-noi.html#natie" class="case-card" data-category="social">
+                <a href="/despre-noi#natie" class="case-card" data-category="social">
                     <h3 class="case-title">Nație prin Educație</h3>
                     <p class="case-description">I scaled our Instagram and TikTok presence to over 10,000 followers in record time and orchestrated multiple visibility campaigns for the program at the World Championship in Houston, with national media coverage (Digi24, ProTV).</p>
                     <div class="case-metrics">
@@ -197,7 +380,7 @@
                 </a>
 
                 <!-- Case Study 4: The Student Life -->
-                <a href="/despre-noi-en.html#student-life" class="case-card" data-category="community">
+                <a href="/despre-noi-en#student-life" class="case-card" data-category="community">
 
                     <h3 class="case-title">The Student Life</h3>
                     <p class="case-description">From managing 60+ international student communities worldwide to the customer experience within student networks, I coordinate event promotion and dedicated email support for thousands of students who choose The Student Life experience.</p>
@@ -371,7 +554,7 @@
         <div class="contact-container">
             <h2 class="contact-title">Ready to Perform?</h2>
             <p class="contact-description">Let's discuss how I can take your brand to the next level.</p>
-            <a href="/personalizeaza-en.html" class="btn-primary-large">Schedule a Meeting</a>
+            <a href="/personalizeaza-en" class="btn-primary-large">Schedule a Meeting</a>
         </div>
     </section>
 
@@ -391,17 +574,17 @@
                 <a href="/">Home</a>
                 <a href="#performance">Performance</a>
                 <a href="#pricing-packages">Services</a>
-                <a href="/despre-noi-en.html">About Me</a>
-                <a href="/contact-en.html">Contact</a>
-                <a href="/termeni-si-conditii.html">Terms &amp; Conditions</a>
-                <a href="/politica-confidentialitate.html">Privacy Policy</a>
-                <a href="/politica-cookies.html">Cookie Policy</a>
+                <a href="/despre-noi-en">About Me</a>
+                <a href="/contact-en">Contact</a>
+                <a href="/termeni-si-conditii">Terms &amp; Conditions</a>
+                <a href="/politica-confidentialitate">Privacy Policy</a>
+                <a href="/politica-cookies">Cookie Policy</a>
                 <button type="button" class="footer-cookie-btn" data-cookie-settings>Cookie settings</button>
             </div>
         </div>
     </footer>
 
-    <script src="js/marketing.js?v=3"></script>
+    <script src="js/marketing.js?v=4"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
   AOS.init({

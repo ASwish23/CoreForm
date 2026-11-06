@@ -58,6 +58,29 @@
     altul:        'Altul'
   };
 
+  // Online shop orders (comenzi). Card: Așteaptă plata → Plătită;
+  // ramburs starts as Confirmată and is paid on delivery.
+  const ORDER_STATUSES = [
+    { id: 'in_asteptare', label: 'Așteaptă plata' },
+    { id: 'platit',       label: 'Plătită' },
+    { id: 'confirmat',    label: 'Confirmată' },
+    { id: 'in_productie', label: 'În producție' },
+    { id: 'expediat',     label: 'Expediată' },
+    { id: 'livrat',       label: 'Livrată' },
+    { id: 'anulat',       label: 'Anulată' }
+  ];
+  const ORDER_STATUS_LABEL = Object.fromEntries(ORDER_STATUSES.map(s => [s.id, s.label]));
+  const ORDER_TODO = ['platit', 'confirmat', 'in_productie'];
+  const ORDER_FILTERS = [
+    { id: 'all',      label: 'Toate',     match: () => true },
+    { id: 'unpaid',   label: 'De plată',  match: (o) => o.status === 'in_asteptare' },
+    { id: 'todo',     label: 'De făcut',  match: (o) => ORDER_TODO.includes(o.status) },
+    { id: 'shipped',  label: 'Expediate', match: (o) => o.status === 'expediat' },
+    { id: 'done',     label: 'Livrate',   match: (o) => o.status === 'livrat' },
+    { id: 'canceled', label: 'Anulate',   match: (o) => o.status === 'anulat' }
+  ];
+  const PAYMENT_LABEL = { card: 'Card', ramburs: 'Ramburs' };
+
   // WhatsApp templates (drawer → WhatsApp menu).
   // {salut} → "Bună, Andrei!" (or "Bună ziua!" when the lead has no person name)
   // {eu}    → the logged-in admin's display name
@@ -70,6 +93,14 @@
       text: '{salut} Vești bune: comanda ta este gata. Când ți-ar fi comod să o ridici sau să stabilim livrarea? {eu}, CoreForm' },
     { label: 'Mesaj gol', text: '' }
   ];
+  // Order drawer → WhatsApp menu. {nr} = order number, {awb} = tracking number
+  const ORDER_WA_TEMPLATES = [
+    { label: 'Comandă confirmată',
+      text: '{salut} Am primit comanda ta CoreForm #{nr} și ne-am apucat de ea. Te anunțăm imediat ce pleacă spre tine. {eu}, CoreForm' },
+    { label: 'Comandă expediată', needsAwb: true,
+      text: '{salut} Comanda ta CoreForm #{nr} a fost expediată. Numărul AWB este {awb}. Îți mulțumim! {eu}, CoreForm' },
+    { label: 'Mesaj gol', text: '' }
+  ];
 
   // ── State ───────────────────────────────────────────────────────────────
   const state = {
@@ -77,6 +108,12 @@
     admins: new Map(),         // user_id → display_name (owner picker, history)
     userId: null,
     mine: readPref('cf-leads-mine') === '1', // Kanban filter "Ale mele"
+    orders: new Map(),         // comenzi — loaded when the Orders view opens
+    ordersLoaded: false,
+    ordersRequested: false,
+    orderFilter: readPref('cf-orders-filter') || 'all',
+    orderDrawerId: null,
+    freshOrderIds: new Set(),
     loaded: false,
     leadsRequested: false,
     briefing: null,            // result of get_briefing() — powers Home
@@ -144,6 +181,12 @@
 
   const numFmt = new Intl.NumberFormat('ro-RO');
   const formatLei = (n) => `${numFmt.format(Math.round(Number(n) || 0))} lei`;
+  // Exact amounts (orders): 149,50 lei · 120 lei
+  const moneyFmt = new Intl.NumberFormat('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatMoney = (n) => {
+    const v = Number(n) || 0;
+    return `${Number.isInteger(v) ? numFmt.format(v) : moneyFmt.format(v)} lei`;
+  };
   const shortDateFmt = new Intl.DateTimeFormat('ro-RO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
   const dayFmt = new Intl.DateTimeFormat('ro-RO', { day: 'numeric', month: 'short' });
   const longDayFmt = new Intl.DateTimeFormat('ro-RO', { weekday: 'long', day: 'numeric', month: 'short' });
@@ -351,6 +394,7 @@
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'lead_activity' }, (payload) => {
         addHistoryEntry(payload.new);
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'comenzi' }, onOrderChange)
       .subscribe((status) => {
         $('live-indicator').classList.toggle('is-off', status !== 'SUBSCRIBED');
         health.realtime = status;
@@ -406,16 +450,19 @@
   }
 
   // ── Routing ─────────────────────────────────────────────────────────────
+  const VIEW_TITLES = { overview: 'Home', leads: 'Leads', orders: 'Comenzi' };
+
   function route() {
-    state.view = location.hash.startsWith('#/leads') ? 'leads' : 'overview';
+    const hash = location.hash;
+    state.view = hash.startsWith('#/leads') ? 'leads' : hash.startsWith('#/orders') ? 'orders' : 'overview';
     document.querySelectorAll('.nav-link').forEach(link => {
       if (link.dataset.view === state.view) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
-    $('view-overview').hidden = state.view !== 'overview';
-    $('view-leads').hidden = state.view !== 'leads';
-    document.title = (state.view === 'leads' ? 'Leads' : 'Home') + ' – CoreForm Admin';
+    for (const view of Object.keys(VIEW_TITLES)) $(`view-${view}`).hidden = state.view !== view;
+    document.title = `${VIEW_TITLES[state.view]} – CoreForm Admin`;
     if (state.view === 'leads') ensureLeads();
+    if (state.view === 'orders') ensureOrders();
     chartKey = ''; // view was hidden → chart must re-measure
     closeNav();
     render();
@@ -428,8 +475,10 @@
     renderBadge();
     renderHealth();
     if (state.view === 'overview') renderBriefing();
-    else renderBoard();
+    else if (state.view === 'leads') renderBoard();
+    else renderOrders();
     state.freshIds.clear();
+    state.freshOrderIds.clear();
   }
 
   let appBadgeCount = -1;
@@ -441,6 +490,15 @@
     badge.hidden = count === 0;
     badge.textContent = count;
     badge.setAttribute('aria-label', `${count} lead-uri noi`);
+
+    // Orders waiting to be made or shipped
+    const todo = state.ordersLoaded
+      ? [...state.orders.values()].filter(o => ORDER_TODO.includes(o.status)).length
+      : state.briefing?.kpis?.orders_todo ?? 0;
+    const ordersBadge = $('orders-badge');
+    ordersBadge.hidden = todo === 0;
+    ordersBadge.textContent = todo;
+    ordersBadge.setAttribute('aria-label', `${todo} comenzi de pregătit`);
 
     // Installed app: show the "Nou" count on the home-screen / dock icon
     if ('setAppBadge' in navigator && count !== appBadgeCount) {
@@ -455,7 +513,9 @@
     { id: 'new',   label: 'Lead-uri noi' },
     { id: 'won',   label: 'Câștigate' },
     { id: 'conv',  label: 'Rată de conversie' },
-    { id: 'pipeline', label: 'Valoare pipeline' }
+    { id: 'pipeline', label: 'Valoare pipeline' },
+    { id: 'revenue',  label: 'Încasări luna aceasta',
+      hint: 'Comenzi plătite + lead-uri câștigate în luna curentă, față de aceeași perioadă a lunii trecute' }
   ];
 
   function renderBriefing() {
@@ -523,7 +583,7 @@
   function kpiShell(def) {
     return el('article', { className: 'kpi', dataset: { kpi: def.id } },
       el('div', { className: 'kpi-top' },
-        el('span', { className: 'kpi-label', text: def.label })),
+        el('span', { className: 'kpi-label', text: def.label, title: def.hint || null })),
       el('div', { className: 'kpi-value-row' },
         el('div', { className: 'kpi-value', id: `kpi-${def.id}-value`, text: '0' }),
         def.id === 'new' && el('div', { className: 'segmented', role: 'group', 'aria-label': 'Perioadă' },
@@ -568,6 +628,16 @@
       foot = [k.pipeline_count
         ? `${plural(k.pipeline_count, 'lead deschis', 'lead-uri deschise')} cu valoare`
         : 'Adaugă valoarea în lead-uri'];
+    } else if (id === 'revenue') {
+      // Paid orders + won leads this month vs the same days last month
+      const orders = k.revenue_orders == null ? null : Number(k.revenue_orders);
+      value = orders == null ? null : Math.round(orders + Number(k.revenue_leads || 0));
+      suffix = ' lei';
+      const prev = Math.round(Number(k.revenue_orders_prev || 0) + Number(k.revenue_leads_prev || 0));
+      foot = value == null ? ['—'] : [
+        trendChip(value - prev),
+        `${plural(k.revenue_orders_count || 0, 'comandă', 'comenzi')} · ${plural(k.revenue_leads_count || 0, 'lead', 'lead-uri')}`
+      ];
     } else {
       value = k.total ? Math.round((k.won / k.total) * 100) : null;
       suffix = '%';
@@ -765,15 +835,22 @@
     if (!items.length) {
       list.replaceChildren(el('li', { className: 'all-clear' },
         el('strong', { text: 'Totul e la zi' }),
-        'Nimic urgent azi. Pașii restanți, lead-urile vechi necontactate și ofertele fără răspuns apar aici.'));
+        'Nimic urgent azi. Pașii restanți, lead-urile necontactate, ofertele fără răspuns și comenzile întârziate apar aici.'));
       return;
     }
 
     list.replaceChildren(...items.map(lead => {
       const days = Math.max(1, Math.floor((Date.now() - new Date(lead.since).getTime()) / 86400000));
       const wa = waNumber(lead.phone);
+      const isOrder = lead.kind === 'order';
+      const title = isOrder ? `Comanda #${lead.id} · ${lead.name}` : lead.name;
       let chip, sub;
-      if (lead.reason === 'followup_due') {
+      if (isOrder) {
+        const unshipped = lead.reason === 'order_unshipped';
+        chip = el('span', { className: 'chip ' + (unshipped ? 'is-stale' : 'is-waiting') },
+          `${unshipped ? 'Neexpediată' : 'Nelivrată'} · ${plural(days, 'zi', 'zile')}`);
+        sub = formatMoney(lead.total);
+      } else if (lead.reason === 'followup_due') {
         const late = -daysUntil(lead.next_step_due);
         chip = el('span', { className: 'chip ' + (late > 0 ? 'is-stale' : 'is-waiting') },
           late > 0 ? `Pas restant · ${plural(late, 'zi', 'zile')}` : 'Pas pentru azi');
@@ -786,8 +863,8 @@
       }
       return el('li', null,
         el('div', { className: 'attn-row' },
-          el('button', { type: 'button', className: 'attn-open', onclick: () => openDrawer(lead.id), 'aria-label': `Deschide ${lead.name}` },
-            el('span', { className: 'attn-name', text: lead.name }),
+          el('button', { type: 'button', className: 'attn-open', onclick: () => (isOrder ? openOrder(lead.id) : openDrawer(lead.id)), 'aria-label': `Deschide ${title}` },
+            el('span', { className: 'attn-name', text: title }),
             el('span', { className: 'attn-meta' },
               chip,
               sub && el('span', { className: 'attn-company', text: sub }))),
@@ -960,6 +1037,349 @@
     });
   }
 
+  // ── Orders (online shop) ────────────────────────────────────────────────
+  function ensureOrders() {
+    if (state.ordersRequested) return;
+    state.ordersRequested = true;
+    loadOrders();
+  }
+
+  async function loadOrders() {
+    render();
+    const { data, error } = await sb.from('comenzi').select('*').order('created_at', { ascending: false });
+    if (error) {
+      console.error('[Comenzi] Eroare la încărcare:', error);
+      state.ordersRequested = false;
+      toast('Nu am putut încărca comenzile.', 'error');
+      return;
+    }
+    state.orders = new Map(data.map(o => [o.id, o]));
+    state.ordersLoaded = true;
+    render();
+  }
+
+  function onOrderChange(payload) {
+    if (payload.eventType === 'DELETE') {
+      state.orders.delete(payload.old.id);
+    } else {
+      const order = payload.new;
+      const before = state.orders.get(order.id);
+      if (state.ordersLoaded || before) state.orders.set(order.id, order);
+      if (payload.eventType === 'INSERT') {
+        state.freshOrderIds.add(order.id);
+        toast(`Comandă nouă #${order.id} · ${formatMoney(order.total)}`);
+      } else if (before && before.status !== 'platit' && order.status === 'platit') {
+        toast(`Plată confirmată · comanda #${order.id}`);
+      }
+    }
+    render();
+    refreshBriefingSoon();
+  }
+
+  // Products are a jsonb array; orders saved before Phase 6 hold a JSON string
+  function orderItems(order) {
+    let items = order.produse;
+    if (typeof items === 'string') {
+      try { items = JSON.parse(items); } catch { items = []; }
+    }
+    return Array.isArray(items) ? items : [];
+  }
+
+  function itemsSummary(order) {
+    const items = orderItems(order);
+    if (!items.length) return '—';
+    const first = `${items[0].name || 'Produs'}${Number(items[0].quantity) > 1 ? ` ×${items[0].quantity}` : ''}`;
+    return items.length > 1 ? `${first} + încă ${items.length - 1}` : first;
+  }
+
+  function orderMatches(order) {
+    if (!state.query) return true;
+    const hay = [`#${order.id}`, order.nume_client, order.email, order.telefon, order.oras, order.adresa,
+      order.awb, order.admin_notes, ...orderItems(order).map(i => i.name)]
+      .filter(Boolean).join(' ').toLowerCase();
+    return state.query.split(/\s+/).every(term => hay.includes(term));
+  }
+
+  function visibleOrders() {
+    const filter = ORDER_FILTERS.find(f => f.id === state.orderFilter) || ORDER_FILTERS[0];
+    return [...state.orders.values()]
+      .sort((a, b) => b.created_at.localeCompare(a.created_at))
+      .filter(o => orderMatches(o) && filter.match(o));
+  }
+
+  function setOrderFilter(id) {
+    state.orderFilter = id;
+    writePref('cf-orders-filter', id);
+    render();
+  }
+
+  function renderOrders() {
+    const searched = [...state.orders.values()].filter(orderMatches);
+    const active = ORDER_FILTERS.find(f => f.id === state.orderFilter) || ORDER_FILTERS[0];
+
+    $('order-filters').replaceChildren(...ORDER_FILTERS.map(f => el('button', {
+      type: 'button', className: 'filter-chip', 'aria-pressed': String(f.id === active.id), onclick: () => setOrderFilter(f.id)
+    }, f.label, el('span', { className: 'filter-count', text: state.ordersLoaded ? String(searched.filter(f.match).length) : '–' }))));
+
+    const visible = visibleOrders();
+    const hint = $('orders-hint');
+    hint.hidden = !state.query;
+    if (state.query) {
+      hint.replaceChildren(
+        `${visible.length} ${visible.length === 1 ? 'rezultat' : 'rezultate'} pentru „${state.query}”`,
+        el('button', { type: 'button', text: 'Șterge filtrul', onclick: clearSearch }));
+    }
+
+    const list = $('orders-list');
+    if (!state.ordersLoaded) {
+      list.replaceChildren(...Array.from({ length: 4 }, () => el('li', null, el('div', { className: 'skeleton is-row' }))));
+      return;
+    }
+    if (!visible.length) {
+      list.replaceChildren(el('li', { className: 'empty-state' },
+        el('strong', { text: state.orders.size ? 'Nicio comandă aici' : 'Încă nu există comenzi' }),
+        state.orders.size ? 'Schimbă filtrul sau căutarea.' : 'Comenzile din magazinul online apar aici automat.'));
+      return;
+    }
+    list.replaceChildren(...visible.map(orderRow));
+  }
+
+  function orderRow(order) {
+    const select = el('select', {
+      className: 'status-select', dataset: { ostatus: order.status },
+      'aria-label': `Status comanda #${order.id}`,
+      onchange: (e) => updateOrderStatus(order.id, e.target.value)
+    }, ORDER_STATUSES.map(s => el('option', { value: s.id, text: s.label, selected: s.id === order.status })));
+
+    return el('li', { className: 'order-row' + (state.freshOrderIds.has(order.id) ? ' is-new' : '') },
+      el('button', { type: 'button', className: 'order-open', onclick: () => openOrder(order.id), 'aria-label': `Deschide comanda #${order.id}` },
+        el('strong', { className: 'order-nr', text: `#${order.id}` }),
+        el('time', { className: 'order-date', datetime: order.created_at, title: dateFmt.format(new Date(order.created_at)), text: timeAgo(order.created_at) })),
+      el('span', { className: 'order-client' },
+        el('span', { className: 'order-name', text: order.nume_client }),
+        el('span', { className: 'order-city', text: order.oras || '' })),
+      el('span', { className: 'order-products', text: itemsSummary(order) }),
+      el('span', { className: 'order-total', text: formatMoney(order.total) }),
+      el('span', { className: 'order-pay' }, el('span', { className: 'chip chip-source', text: PAYMENT_LABEL[order.metoda_plata] || order.metoda_plata })),
+      el('div', { className: 'order-status' }, select));
+  }
+
+  async function updateOrderStatus(id, status) {
+    const order = state.orders.get(id);
+    if (!order || order.status === status) return;
+
+    // "Expediată" needs a tracking number: open the order with the AWB field ready
+    if (status === 'expediat' && !order.awb) {
+      render();
+      await openOrder(id, { status, focusAwb: true });
+      toast('Adaugă AWB-ul, apoi salvează ca „Expediată”.');
+      return;
+    }
+
+    state.orders.set(id, { ...order, status });
+    render();
+    const { data, error } = await sb.from('comenzi').update({ status }).eq('id', id).select().single();
+    if (error) {
+      console.error('[Comenzi] Eroare la actualizare status:', error);
+      const current = state.orders.get(id);
+      if (current) state.orders.set(id, { ...current, status: order.status });
+      render();
+      toast('Nu s-a putut salva statusul comenzii.', 'error');
+      return;
+    }
+    state.orders.set(id, data);
+    render();
+    toast(`Comanda #${id}: „${ORDER_STATUS_LABEL[status]}”`);
+    refreshBriefingSoon();
+  }
+
+  // ── Order drawer ──
+  const orderForm = $('order-form');
+  const orderDrawer = $('order-drawer');
+  let orderLastFocus = null;
+
+  async function openOrder(id, opts = {}) {
+    let order = state.orders.get(id);
+    if (!order) {
+      // Opened from Home before the orders list was loaded
+      const { data, error } = await sb.from('comenzi').select('*').eq('id', id).maybeSingle();
+      if (error || !data) {
+        toast('Nu am putut deschide comanda.', 'error');
+        return;
+      }
+      order = data;
+      state.orders.set(id, order);
+    }
+    state.orderDrawerId = id;
+    orderLastFocus = document.activeElement;
+
+    $('order-title').textContent = `Comanda #${order.id}`;
+    $('order-meta').textContent = `Plasată ${timeAgo(order.created_at)} · ${dateFmt.format(new Date(order.created_at))}`;
+
+    const wa = waNumber(order.telefon);
+    $('order-quick').replaceChildren(...[
+      wa && waMenu({ name: order.nume_client }, wa, ORDER_WA_TEMPLATES, { nr: order.id, awb: order.awb }),
+      order.telefon && el('a', { className: 'btn btn-secondary', href: `tel:${order.telefon.replace(/[^\d+]/g, '')}`, text: 'Sună' }),
+      order.email && el('a', { className: 'btn btn-secondary', href: `mailto:${order.email}?subject=${encodeURIComponent(`Comanda CoreForm #${order.id}`)}`, text: 'Email' })
+    ].filter(Boolean));
+
+    const fact = (label, value) => [el('dt', { text: label }), el('dd', { text: value || '—' })];
+    $('order-client').replaceChildren(
+      ...fact('Nume', order.nume_client),
+      ...fact('Telefon', order.telefon),
+      ...fact('Email', order.email),
+      ...fact('Adresă', [order.adresa, order.oras].filter(Boolean).join(', ')));
+
+    const items = orderItems(order);
+    const subtotal = items.reduce((s, i) => s + Number(i.price || 0) * Number(i.quantity || 1), 0);
+    // Shipping = total − products; orders saved before Phase 6 can carry a few
+    // bani of browser rounding, which is not a shipping fee
+    const diff = Number(order.total) - subtotal;
+    const shipping = diff >= 0.5 ? diff : 0;
+    $('order-items').replaceChildren(...(items.length ? items.map(i => el('li', { className: 'order-item' },
+      /^https:\/\//.test(i.image || '')
+        ? el('img', { src: i.image, alt: '', width: '44', height: '44', loading: 'lazy', decoding: 'async' })
+        : el('span', { className: 'order-item-ph', 'aria-hidden': 'true' }),
+      el('span', { className: 'order-item-main' },
+        el('span', { className: 'order-item-name', text: i.name || 'Produs' }),
+        el('span', { className: 'order-item-sub', text: [i.color && i.color !== '—' ? `Culoare: ${i.color}` : null, `${i.quantity || 1} × ${formatMoney(i.price)}`].filter(Boolean).join(' · ') })),
+      el('span', { className: 'order-item-total', text: formatMoney(Number(i.price || 0) * Number(i.quantity || 1)) })))
+      : [el('li', { className: 'order-item-empty', text: 'Lista de produse nu este disponibilă.' })]));
+    $('order-totals').replaceChildren(
+      ...fact('Subtotal', formatMoney(subtotal)),
+      ...fact('Transport', shipping ? formatMoney(shipping) : 'Gratuit'),
+      el('dt', { className: 'is-total', text: 'Total' }), el('dd', { className: 'is-total', text: formatMoney(order.total) }));
+
+    const lastPayment = Array.isArray(order.payment_log) && order.payment_log.length ? order.payment_log[order.payment_log.length - 1] : null;
+    $('order-payment').replaceChildren(
+      ...fact('Metodă', order.metoda_plata === 'card' ? 'Card online (Netopia)' : 'Ramburs (la livrare)'),
+      ...fact('Încasată', order.paid_at ? dateFmt.format(new Date(order.paid_at)) : order.metoda_plata === 'ramburs' ? 'La livrare' : 'Încă nu'),
+      ...(order.netopia_ref ? fact('Referință Netopia', order.netopia_ref) : []),
+      ...(lastPayment ? fact('Ultima notificare', `${PAYMENT_OUTCOME[lastPayment.outcome] || lastPayment.outcome} · ${timeAgo(lastPayment.at)}`) : []));
+
+    fillSelect(orderForm.status, ORDER_STATUSES.map(s => [s.id, s.label]));
+    orderForm.status.value = opts.status || order.status;
+    orderForm.awb.value = order.awb || '';
+    orderForm.admin_notes.value = order.admin_notes || '';
+
+    orderDrawer.querySelector('.drawer-body').scrollTop = 0;
+    orderDrawer.classList.add('is-open');
+    $('order-backdrop').classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => (opts.focusAwb ? orderForm.awb : $('order-close')).focus(), 50);
+  }
+
+  const PAYMENT_OUTCOME = {
+    paid: 'Plată confirmată',
+    refunded: 'Plată returnată',
+    amount_mismatch: 'Sumă diferită de total — verifică în Netopia',
+    already_platit: 'Plată deja confirmată'
+  };
+
+  function closeOrder() {
+    if (!state.orderDrawerId) return;
+    state.orderDrawerId = null;
+    closeWaMenu();
+    orderDrawer.classList.remove('is-open');
+    $('order-backdrop').classList.remove('is-open');
+    document.body.style.overflow = '';
+    orderLastFocus?.focus?.();
+  }
+
+  $('order-close').addEventListener('click', closeOrder);
+  $('order-cancel').addEventListener('click', closeOrder);
+  $('order-backdrop').addEventListener('click', closeOrder);
+
+  orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = state.orderDrawerId;
+    const row = {
+      status: orderForm.status.value,
+      awb: orderForm.awb.value.trim() || null,
+      admin_notes: orderForm.admin_notes.value.trim() || null
+    };
+    if (row.status === 'expediat' && !row.awb) {
+      orderForm.awb.focus();
+      toast('Completează AWB-ul pentru „Expediată”.', 'error');
+      return;
+    }
+
+    const saveBtn = $('order-save');
+    saveBtn.disabled = true;
+    const { data, error } = await sb.from('comenzi').update(row).eq('id', id).select().single();
+    saveBtn.disabled = false;
+    if (error) {
+      console.error('[Comenzi] Eroare la salvare:', error);
+      toast(/AWB/.test(error.message || '') ? 'Completează AWB-ul pentru „Expediată”.' : 'Nu s-a putut salva comanda.', 'error');
+      return;
+    }
+    state.orders.set(id, data);
+    closeOrder();
+    render();
+    toast('Comanda a fost salvată');
+    refreshBriefingSoon();
+  });
+
+  // ── CSV export (Excel RO: ";" separator, UTF-8 BOM, comma decimals) ─────
+  // Cells that start with = + - @ are prefixed with ' so a value typed into a
+  // public form can never run as a spreadsheet formula. Phone numbers are
+  // wrapped as ="…" to keep the leading 0 / + exactly as typed.
+  function csvCell(value) {
+    if (value == null) return '';
+    let s = String(value);
+    if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
+    return /[";\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+  const csvPhone = (p) => (p ? `="${String(p).replace(/"/g, '')}"` : '');
+  const csvNum = (n) => (n == null || n === '' ? '' : String(Number(n)).replace('.', ','));
+  function csvDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  }
+
+  function downloadCsv(filename, headers, rows) {
+    const lines = [headers.map(csvCell), ...rows.map(r => r.map(c => (c && c.raw != null ? c.raw : csvCell(c))))];
+    const blob = new Blob(['﻿' + lines.map(r => r.join(';')).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = el('a', { href: url, download: filename });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function today() {
+    const d = new Date();
+    return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+  }
+
+  $('leads-csv-btn').addEventListener('click', () => {
+    if (!state.loaded) { toast('Lead-urile se încarcă încă. Încearcă din nou.'); return; }
+    const rows = sortedLeads().filter(matches);
+    downloadCsv(`CoreForm_Leaduri_${today()}.csv`,
+      ['Data', 'Nume', 'Firmă', 'Telefon', 'Email', 'Sursă', 'Canal', 'Campanie', 'Serviciu', 'Status', 'Motiv pierdere',
+       'Responsabil', 'Valoare (lei)', 'Următorul pas', 'Termen', 'Mesaj', 'Notițe'],
+      rows.map(l => [csvDate(l.created_at), l.name, l.company, { raw: csvPhone(l.phone) }, l.email,
+        SOURCES[l.source] || l.source, CHANNELS[l.channel] || l.channel, l.campaign, l.service,
+        STATUS_LABEL[l.status] || l.status, LOST_REASONS[l.lost_reason] || l.lost_reason,
+        ownerName(l.owner_id), { raw: csvNum(l.value_lei) }, l.next_step, l.next_step_due, l.message, l.notes]));
+    toast(`Export: ${plural(rows.length, 'lead', 'lead-uri')}`);
+  });
+
+  $('orders-csv-btn').addEventListener('click', () => {
+    if (!state.ordersLoaded) { toast('Comenzile se încarcă încă. Încearcă din nou.'); return; }
+    const rows = visibleOrders();
+    downloadCsv(`CoreForm_Comenzi_${today()}.csv`,
+      ['Nr', 'Data', 'Client', 'Telefon', 'Email', 'Adresă', 'Oraș', 'Produse', 'Total (lei)', 'Plată', 'Status',
+       'Încasată la', 'Expediată la', 'AWB', 'Livrată la', 'Canal', 'Notițe'],
+      rows.map(o => [o.id, csvDate(o.created_at), o.nume_client, { raw: csvPhone(o.telefon) }, o.email, o.adresa, o.oras,
+        orderItems(o).map(i => `${i.name} ×${i.quantity || 1}${i.color && i.color !== '—' ? ` (${i.color})` : ''}`).join('; '),
+        { raw: csvNum(o.total) }, PAYMENT_LABEL[o.metoda_plata] || o.metoda_plata, ORDER_STATUS_LABEL[o.status] || o.status,
+        csvDate(o.paid_at), csvDate(o.shipped_at), o.awb, csvDate(o.delivered_at), CHANNELS[o.channel] || o.channel, o.admin_notes]));
+    toast(`Export: ${plural(rows.length, 'comandă', 'comenzi')}`);
+  });
+
   // ── Search ──────────────────────────────────────────────────────────────
   const searchInput = $('search-input');
   let searchTimer;
@@ -1110,20 +1530,22 @@
   }
 
   // ── WhatsApp templates ──
-  function fillTemplate(text, lead) {
-    const name = (lead.name || '').trim();
-    const person = name && name !== lead.company && name !== 'Fără nume' ? name.split(/\s+/)[0] : '';
+  // who = { name, company }; vars fill {nr} / {awb} in order templates
+  function fillTemplate(text, who, vars = {}) {
+    const name = (who.name || '').trim();
+    const person = name && name !== who.company && name !== 'Fără nume' ? name.split(/\s+/)[0] : '';
     return text
       .replace('{salut}', person ? `Bună, ${person}!` : 'Bună ziua!')
-      .replace(/\{eu\}/g, state.userName || 'echipa CoreForm');
+      .replace(/\{eu\}/g, state.userName || 'echipa CoreForm')
+      .replace(/\{(nr|awb)\}/g, (_, key) => vars[key] ?? '');
   }
 
-  function waMenu(lead, wa) {
+  function waMenu(who, wa, templates = WA_TEMPLATES, vars = {}) {
     const menu = el('div', { className: 'wa-menu', role: 'menu', hidden: true },
-      WA_TEMPLATES.map(t => el('a', {
+      templates.filter(t => !t.needsAwb || vars.awb).map(t => el('a', {
         className: 'wa-item', role: 'menuitem', target: '_blank', rel: 'noopener',
-        href: `https://wa.me/${wa}` + (t.text ? `?text=${encodeURIComponent(fillTemplate(t.text, lead))}` : ''),
-        title: t.text ? fillTemplate(t.text, lead) : 'Deschide conversația fără text',
+        href: `https://wa.me/${wa}` + (t.text ? `?text=${encodeURIComponent(fillTemplate(t.text, who, vars))}` : ''),
+        title: t.text ? fillTemplate(t.text, who, vars) : 'Deschide conversația fără text',
         text: t.label,
         onclick: closeWaMenu
       })));
@@ -1225,6 +1647,7 @@
     resetDeleteBtn();
     $('save-btn').textContent = isNew ? 'Adaugă lead' : 'Salvează';
 
+    drawer.querySelector('.drawer-body').scrollTop = 0;
     drawer.classList.add('is-open');
     $('drawer-backdrop').classList.add('is-open');
     document.body.style.overflow = 'hidden';
@@ -1484,6 +1907,33 @@
             el('td', null, el('span', { className: 'r-chip', dataset: { status: l.status }, text: STATUS_LABEL[l.status] || l.status }))))))
       : el('div', { className: 'r-empty', text: 'Nicio cerere în această lună.' });
 
+    // Revenue (Phase 6): paid orders + won leads, and the month's paid orders
+    const revenue = data.revenue;
+    const revenueTotal = revenue ? Number(revenue.orders || 0) + Number(revenue.leads || 0) : 0;
+    const orders = data.orders || [];
+    const revenueBlock = revenue && el('div', { className: 'r-block' },
+      el('h2', { className: 'r-h2' }, 'Încasări', el('span', { text: formatLei(revenueTotal) })),
+      el('table', { className: 'r-breakdown r-revenue' }, el('tbody', null,
+        el('tr', null,
+          el('td', { className: 'r-name-cell', text: 'Comenzi plătite' }),
+          el('td', { className: 'r-muted', text: plural(Number(revenue.orders_count || 0), 'comandă', 'comenzi') }),
+          el('td', { text: formatMoney(revenue.orders) })),
+        el('tr', null,
+          el('td', { className: 'r-name-cell', text: 'Lead-uri câștigate' }),
+          el('td', { className: 'r-muted', text: plural(Number(revenue.leads_count || 0), 'lead cu valoare', 'lead-uri cu valoare') }),
+          el('td', { text: formatMoney(revenue.leads) })))),
+      orders.length
+        ? el('table', { className: 'r-table r-orders' },
+            el('thead', null, el('tr', null, ['Încasată', 'Nr', 'Client', 'Oraș', 'Plată', 'Total'].map(h => el('th', { text: h })))),
+            el('tbody', null, orders.map(o => el('tr', null,
+              el('td', { className: 'r-muted', text: shortDT.format(new Date(o.paid_at)) }),
+              el('td', { text: `#${o.id}` }),
+              el('td', { text: o.nume_client }),
+              el('td', { className: 'r-muted', text: o.oras || '—' }),
+              el('td', { text: PAYMENT_LABEL[o.metoda_plata] || o.metoda_plata }),
+              el('td', { className: 'r-num', text: formatMoney(o.total) })))))
+        : el('div', { className: 'r-empty', text: 'Nicio comandă plătită în această lună.' }));
+
     return el('div', { className: 'report' },
       el('div', { className: 'r-head' },
         el('img', { src: 'img/logo-green-320.png', alt: '', width: '38', height: '42' }),
@@ -1494,12 +1944,14 @@
       el('p', { className: 'r-sub', text: k.total
         ? `${capital(plural(k.total, 'lead primit', 'lead-uri primite'))}, ${plural(k.won, 'câștigat', 'câștigate')}. Comparație cu ${prevName}.`
         : 'Nicio cerere înregistrată în această lună.' }),
-      el('div', { className: 'r-kpis' },
+      el('div', { className: 'r-kpis' + (revenue ? ' has-revenue' : '') },
         kpi('Lead-uri', numFmt.format(k.total), delta(k.total - p.total)),
         kpi('Câștigate', numFmt.format(k.won), delta(k.won - p.won)),
         kpi('Rată de conversie', conv == null ? '—' : `${conv}%`, delta(conv == null || prevConv == null ? null : conv - prevConv, ' pp')),
-        kpi('În lucru', numFmt.format(k.in_progress), delta(k.in_progress - p.in_progress))),
+        kpi('În lucru', numFmt.format(k.in_progress), delta(k.in_progress - p.in_progress)),
+        revenue && kpi('Încasări', formatLei(revenueTotal), delta(Math.round(revenueTotal - Number(revenue.prev_total || 0)), ' lei'))),
       chart,
+      revenue && revenueBlock,
       el('div', { className: 'r-block r-split' },
         breakdown('După status', data.by_status, r => STATUS_LABEL[r.status] || r.status, true),
         breakdown('După sursă', data.by_source, r => SOURCES[r.source] || r.source, false)),
@@ -1736,14 +2188,15 @@
       if ($('lost-dialog').open) return; // the <dialog> closes itself
       const openMenu = document.querySelector('.wa-menu:not([hidden])');
       if (openMenu) { closeWaMenu(); openMenu.previousElementSibling?.focus(); return; }
-      if (state.drawerId) closeDrawer();
+      if (state.orderDrawerId) closeOrder();
+      else if (state.drawerId) closeDrawer();
       else if (!$('install-pop').hidden) closeInstallPop();
       else if (document.body.classList.contains('nav-open')) closeNav();
       else if (document.activeElement === searchInput) { clearSearch(); searchInput.blur(); }
       return;
     }
     const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName);
-    if (e.key === '/' && !typing && !state.drawerId) {
+    if (e.key === '/' && !typing && !state.drawerId && !state.orderDrawerId) {
       e.preventDefault();
       document.body.classList.add('search-open');
       searchInput.focus();
@@ -1752,7 +2205,8 @@
 
   // Keep "acum 5 minute" labels fresh
   setInterval(() => {
-    const busy = state.drawerId || $('lost-dialog').open || document.activeElement?.closest?.('#board, #recent-list, #attention-list, #kpis');
+    const busy = state.drawerId || state.orderDrawerId || $('lost-dialog').open
+      || document.activeElement?.closest?.('#board, #recent-list, #attention-list, #kpis, #orders-list');
     if (!busy) render();
   }, 60 * 1000);
 
