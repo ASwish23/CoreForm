@@ -147,32 +147,36 @@ function renderProducts(data) {
                 }
             }
 
-            // --- CONSTRUIREA STRUCTURII HTML ---
-            // Folosim flexbox pentru a forța imaginea sus și textul jos
-            const cardHTML = `
-                <li class="carousel-card" style="display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 320px; cursor: pointer;">
-                  <a href="/produs.html?id=${product.id}" style="display: flex; flex-direction: column; height: 100%; text-decoration: none;">
+            // --- CONSTRUIREA STRUCTURII (DOM, nu HTML) ---
+            // Folosim flexbox pentru a forța imaginea sus și textul jos.
+            // Valorile din baza de date intră doar prin textContent / atribute,
+            // deci un nume de produs nu poate deveni cod.
+            const node = (tag, style, props) => {
+                const n = Object.assign(document.createElement(tag), props);
+                if (style) n.style.cssText = style;
+                return n;
+            };
 
-                    <div class="carousel-card-image" style="flex: 0 0 75%; overflow: hidden; background-color: #f5f5f5;">
-                      ${imagineSrc
-                          ? `<img src="${imagineSrc}" alt="${product.nume}" style="width: 100%; height: 100%; object-fit: cover; display: block;">`
-                          : `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888;">Fără imagine</div>`
-                      }
-                    </div>
+            const li = node('li', 'display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 320px; cursor: pointer;', { className: 'carousel-card' });
+            const link = node('a', 'display: flex; flex-direction: column; height: 100%; text-decoration: none;');
+            link.href = '/produs.html?id=' + encodeURIComponent(product.id);
 
-                    <div class="carousel-card-body" style="flex: 0 0 25%; background-color: #FADADA; padding: 10px 14px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;">
-                      <h3 style="margin: 0 0 2px 0; font-size: 1rem; color: #2C4A3B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                          ${product.nume}
-                      </h3>
-                      ${product.pret != null ? `<p style="margin: 0; font-size: 0.85rem; font-weight: 700; color: #2C4A3B;">${product.pret} RON</p>` : ''}
-                    </div>
+            const imageDiv = node('div', 'flex: 0 0 75%; overflow: hidden; background-color: #f5f5f5;', { className: 'carousel-card-image' });
+            imageDiv.appendChild(imagineSrc
+                ? node('img', 'width: 100%; height: 100%; object-fit: cover; display: block;', { src: imagineSrc, alt: product.nume || '' })
+                : node('div', 'width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #888;', { textContent: 'Fără imagine' }));
 
-                  </a>
-                </li>
-            `;
+            const body = node('div', 'flex: 0 0 25%; background-color: #FADADA; padding: 10px 14px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;', { className: 'carousel-card-body' });
+            body.appendChild(node('h3', 'margin: 0 0 2px 0; font-size: 1rem; color: #2C4A3B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;', { textContent: product.nume || '' }));
+            if (product.pret != null) {
+                body.appendChild(node('p', 'margin: 0; font-size: 0.85rem; font-weight: 700; color: #2C4A3B;', { textContent: product.pret + ' RON' }));
+            }
+
+            link.append(imageDiv, body);
+            li.appendChild(link);
 
             // Adăugăm cardul creat în slider-ul categoriei
-            track.innerHTML += cardHTML;
+            track.appendChild(li);
         });
     });
 

@@ -89,8 +89,16 @@
     };
   }
 
+  // Cart values end up in innerHTML: escape them so a product name can't become markup.
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
   function buildRow(item, idx) {
     var n = normalizeItem(item);
+    n = Object.assign({}, n, { name: esc(n.name), color: esc(n.color), image: n.image && esc(n.image) });
     var thumb = n.image
       ? '<img class="cart-item-thumb" src="' + n.image + '" alt="' + n.name + '" loading="lazy">'
       : '<div class="cart-item-thumb-placeholder">Fără img</div>';

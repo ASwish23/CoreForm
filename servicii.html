@@ -591,13 +591,16 @@
     async function uploadStlFile(file) {
       const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
       const path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '-' + safeName;
-      const { error } = await stlSupabase.storage.from(STL_BUCKET).upload(path, file);
+      // The bucket is private and only accepts model/stl, so send the file with
+      // that type (browsers often report STL as '' or application/octet-stream).
+      const body = new Blob([file], { type: 'model/stl' });
+      const { error } = await stlSupabase.storage.from(STL_BUCKET).upload(path, body, { contentType: 'model/stl' });
       if (error) {
         console.error('[Supabase Storage] Eroare la încărcare STL:', error);
         return null;
       }
-      const { data } = stlSupabase.storage.from(STL_BUCKET).getPublicUrl(path);
-      return data ? data.publicUrl : null;
+      // No public link: admins open the file from the dashboard (signed URL).
+      return STL_BUCKET + '/' + path;
     }
 
     // ── EmailJS: send service request notification ─────────
@@ -647,7 +650,7 @@
         'Termen preferat: ' + (termen.value ? termen.options[termen.selectedIndex].text : 'Nespecificat')
       ];
       if (selectedFile && stlUrl) {
-        detaliiLines.push('', 'Fișier STL: ' + stlUrl);
+        detaliiLines.push('', 'Fișier STL: ' + stlUrl + ' (se deschide din panoul de administrare)');
       } else if (selectedFile && !stlUrl) {
         detaliiLines.push('', 'Fișier STL: eroare la încărcare — clientul va trimite fișierul separat.');
       } else {

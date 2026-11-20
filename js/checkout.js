@@ -10,6 +10,12 @@
   const EDGE_FN_URL = supabaseUrl + '/functions/v1/netopia-payment';
 
   /* ── Helpers ────────────────────────────────────────────────── */
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
   function fmt(val) {
     return val.toFixed(2).replace('.', ',') + '\u00a0RON';
   }
@@ -64,6 +70,8 @@
   function buildSummaryItems(cart) {
     return cart.map(function (item) {
       var n = normalizeItem(item);
+      // Escape for innerHTML here only — the raw values still go to create_order.
+      n = Object.assign({}, n, { name: esc(n.name), color: esc(n.color), image: n.image && esc(n.image) });
       var thumb = n.image
         ? '<img class="summary-item-thumb" src="' + n.image + '" alt="' + n.name + '" loading="lazy">'
         : '<div class="summary-item-thumb-placeholder">—</div>';

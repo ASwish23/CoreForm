@@ -34,6 +34,11 @@ RewriteRule ^(produs\.js|produse\.css)$ - [R=404,L]
 # still on the server and answered 200. Its topic (choosing a 3D-printing
 # material) now lives in the materials section of /prints.
 RewriteRule ^consultanta(\.html)?/?$ /prints? [R=301,L]
+# Its script shipped a Gemini API key to every visitor; never serve the
+# leftover assets, even if a copy is still on the server.
+RewriteRule ^consultanta\.(js|css)$ - [F,L]
+# Other leftovers from manual uploads (internal notes, an old Netopia demo).
+RewriteRule ^(netopia-payment-frontend-example\.js|Ro-En\sswitch\.txt)$ - [F,L]
 RewriteRule ^archive(/|$) - [F,L]
 
 # Images moved into /img — keep old public URLs (social share previews,
@@ -140,6 +145,13 @@ ErrorDocument 404 /404.html
   # forces it. includeSubDomains is left off on purpose until every other
   # subdomain (mail., cpanel., …) is known to have a valid certificate.
   Header always set Strict-Transport-Security "max-age=31536000"
+  # Content-Security-Policy: scripts, styles, fonts and API calls only from
+  # the hosts the site really uses. 'unsafe-inline' stays because every page
+  # has inline <script>/style=""; the policy still blocks scripts from any
+  # other domain, plugins, <base> hijacking, foreign form targets and data
+  # exfiltration to unknown hosts. Adding a CDN or API? Add it here too —
+  # tests/security/10-csp.test.mjs fails if a page loads something not listed.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://gvqgmivhqfsdswrtaxyl.supabase.co wss://gvqgmivhqfsdswrtaxyl.supabase.co https://api.emailjs.com https://api.uptimerobot.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com; worker-src 'self' blob:; manifest-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
   Header unset X-Powered-By
 </IfModule>
 

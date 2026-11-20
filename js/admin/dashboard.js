@@ -1616,6 +1616,22 @@
       $('channel-info').replaceChildren(el('span', { className: 'channel-label', text: 'Canal' }), el('span', { text: channelInfo(lead) }));
     }
 
+    // Attached STL (private bucket) → short-lived signed download link.
+    // Matches the new "proiecte-stl/<path>" reference and old public URLs.
+    const stl = $('stl-file');
+    const stlPath = /proiecte-stl\/([^\s?#]+\.stl)\b/i.exec(lead?.message || '')?.[1];
+    stl.hidden = !stlPath;
+    if (stlPath) {
+      stl.replaceChildren(el('button', {
+        type: 'button', className: 'link-btn', text: 'Descarcă fișierul STL',
+        onclick: async () => {
+          const { data, error } = await sb.storage.from('proiecte-stl').createSignedUrl(decodeURIComponent(stlPath), 600, { download: true });
+          if (error || !data?.signedUrl) return toast('Nu am putut deschide fișierul STL.', 'error');
+          el('a', { href: data.signedUrl }).click();
+        }
+      }));
+    }
+
     // Possible duplicate → link to the original lead
     const dup = $('dup-banner');
     const original = lead?.duplicate_of && findLead(lead.duplicate_of);
